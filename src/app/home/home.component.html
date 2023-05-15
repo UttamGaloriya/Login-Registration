@@ -1,0 +1,11 @@
+<mat-toolbar color="primary" class="home">
+    <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
+        <mat-icon>menu</mat-icon>
+    </button>
+    <span>Welcom to ..........{{data}}</span>
+    <span class="example-spacer"></span>
+    <a routerLink="/home/table" class="link">table</a>
+    <button mat-flat-button color="primary" type="submit" (click)="logout()" class="lg-btn">logout</button>
+</mat-toolbar>
+
+<router-outlet></router-outlet>

@@ -1,0 +1,11 @@
+/* You can add global styles to this file, and also import other style files */
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+.container{max-width: 1460px ;padding: 25px;margin: 0 auto;}
+.form-container{margin: 0 auto;text-align: center;}
+.max-100{width: 100%;}
+table.mat-table{width: 100%;}
+.home .lg-btn{margin-left: auto;}
+.home .link{ color: #ffffff;margin-left: 25px;text-decoration: none;}
+.error.mat-snack-bar-container{background: #cc0000;color:#ffffff ;}
+.success.mat-snack-bar-container{background: #47f8ab;color:#ffffff ;}
+.info.mat-snack-bar-container{background: #fff690;color:#000000 ;}

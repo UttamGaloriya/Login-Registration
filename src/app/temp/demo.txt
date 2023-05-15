@@ -1,0 +1,29 @@
+  <div formArrayName="aliases">
+                <h2>Aliases</h2>
+                <button type="button" (click)="addAlias()">+ Add another alias</button>
+                <div *ngFor="let alias of aliases.controls; let i=index">
+                    <button class="col btn btn-outline-danger" (click)="removealis(i)">
+                        remove </button>
+                    <!-- The repeated alias template -->
+                    <mat-form-field class="max-100" appearance="outline">
+                        <mat-label>Address {{i}}</mat-label>
+                        <textarea matInput [formControlName]="i" required></textarea>
+                    </mat-form-field>
+                    <!-- <label for="alias-{{ i }}">Alias:</label>
+                    <input id="alias-{{ i }}" type="text" [formControlName]="i"> -->
+                </div>
+            </div>
+
+
+
+
+            <div *ngFor="let data of dataAdress ; let i=index ">
+                <!-- <div *ngFor="let data of aliases ; let i=index "> -->
+                <!-- <h1>{{data}}</h1> -->
+                <button class="col btn btn-outline-danger" (click)="removealis(i)">remove </button>
+                <!-- The repeated alias template -->
+                <mat-form-field class="max-100" appearance="outline">
+                    <mat-label>Address{{i}}</mat-label>
+                    <textarea matInput required value={{data}}></textarea>
+                </mat-form-field>
+            </div>

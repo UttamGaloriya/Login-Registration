@@ -1,0 +1,28 @@
+import { Injectable } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { SnakbarComponent } from '../dailogbox/snakbar/snakbar.component';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class AlertService {
+
+  constructor(private snackbar: MatSnackBar) { }
+  showNotification(displayMessage: string, buttonText: string, messageType: 'error' | 'success' | 'info') {
+    this.snackbar.open(displayMessage, buttonText, {
+      duration: 2000, horizontalPosition: 'center', verticalPosition: 'top', panelClass: messageType
+    })
+  }
+  // showNotification(messageType: string, displayMessage: string, buttonText: string) {
+  //   this.snackbar.openFromComponent(SnakbarComponent, {
+  //     data: {
+  //       type: messageType,
+  //       message: displayMessage,
+  //       btnTex: buttonText
+
+
+  //     },
+  //     duration: 2000, horizontalPosition: 'center', verticalPosition: 'top'
+  //   })
+  // }
+}

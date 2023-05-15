@@ -1,0 +1,45 @@
+<div class="container">
+    <div class="form-container">
+        <h2>Login</h2>
+
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <!-- user name  -->
+
+            <!-- user email  -->
+            <mat-form-field appearance="outline" class="max-100">
+                <mat-label>Email</mat-label>
+                <input matInput required type="email" formControlName="userEmail">
+                <mat-error *ngIf="f.userEmail.errors">
+                    <mat-error *ngIf="f.userEmail.errors.required">Enter your Email Address</mat-error>
+                    <mat-error *ngIf="f.userEmail.errors.pattern">Enter a Valid Email Address</mat-error>
+                </mat-error>
+            </mat-form-field>
+            <!-- user type  -->
+
+            <!-- number  -->
+
+            <!-- password -->
+            <mat-form-field appearance="outline" class="max-100">
+                <mat-label>password</mat-label>
+                <input matInput [type]="hide ? 'password' : 'text'" formControlName="userPassword">
+                <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                    [attr.aria-pressed]="hide">
+                    <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
+                <mat-error *ngIf="f.userPassword.errors">
+                    <mat-error *ngIf="f.userPassword.errors.required">Enter your Password</mat-error>
+                    <mat-error *ngIf="f.userPassword.errors.minlength">Minmum leangth 6 Digit</mat-error>
+                </mat-error>
+            </mat-form-field>
+
+            <!-- submit button  -->
+            <button mat-flat-button color="primary" type="submit" [disabled]="!form.valid">Login</button>
+            <a mat-flat-button routerLink="/register" color="accent">Register</a>
+
+        </form>
+    </div>
+    <p></p>
+
+
+    <!-- [disabled]="!RegFormdata.valid" -->
+</div>
