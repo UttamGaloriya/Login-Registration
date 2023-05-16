@@ -1,99 +1,97 @@
 <div class="container">
-    <div class="form-container">
-        <h2>Registration</h2>
+    <mat-card class="register-card">
+        <div class="form-container">
+            <mat-toolbar color="primary" class="sub-heading">
+                <h2>Registration</h2>
+            </mat-toolbar>
 
-        <form [formGroup]="form" (ngSubmit)="onSubmit()">
-            <!-- user name  -->
-            <mat-form-field appearance="outline" class="max-100">
-                <mat-label>Name</mat-label>
-                <input matInput formControlName="userName">
-                <mat-error *ngIf="f.userName.errors">
-                    <mat-error *ngIf="f.userName.errors.required">Enter Your Name</mat-error>
-                    <mat-error *ngIf="f.userName.errors.pattern">Enter Your valid Name & Not a use number and space
-                        char</mat-error>
-                </mat-error>
-            </mat-form-field>
-            <!-- user email  -->
-            <mat-form-field appearance="outline" class="max-100">
-                <mat-label>Email</mat-label>
-                <input matInput required type="email" formControlName="userEmail">
-                <mat-error *ngIf="f.userEmail.errors">
-                    <mat-error *ngIf="f.userEmail.errors.required">Enter your Email Address</mat-error>
-                    <mat-error *ngIf="f.userEmail.errors.pattern">Enter a Valid Email Address</mat-error>
-                </mat-error>
-            </mat-form-field>
-            <!-- user type  -->
-            <mat-form-field appearance="outline" class="max-100">
-                <mat-label>User Type</mat-label>
-                <mat-select formControlName="userType">
-                    <mat-option value="admin">ADMIN</mat-option>
-                    <mat-option value="user">USER</mat-option>
-                    <mat-option value="author">AUTHOR</mat-option>
-                </mat-select>
-            </mat-form-field>
-            <!-- number  -->
-            <mat-form-field appearance="outline" class="max-100">
-                <mat-label>Phone Number</mat-label>
-                <input matInput type="tel" formControlName="userNumber" maxlength="10" minlength="10">
-                <mat-error *ngIf="f.userNumber.errors">
-                    <mat-error *ngIf="f.userNumber.errors.required">10 Digit phone Number</mat-error>
-                    <mat-error *ngIf="f.userNumber.errors.minlength">10 Digit phone Number</mat-error>
-                    <mat-error *ngIf="f.userNumber.errors.pattern">Only Number</mat-error>
+            <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                <!-- user name  -->
+                <mat-form-field appearance="outline" class="max-100">
+                    <mat-label>Name</mat-label>
+                    <input matInput formControlName="userName">
+                    <mat-error *ngIf="f.userName.errors">
+                        <mat-error *ngIf="f.userName.errors.required">Enter Your Name</mat-error>
+                        <mat-error *ngIf="f.userName.hasError('spacesOnly')">Error: Only spaces are not
+                            allowed</mat-error>
+                        <mat-error *ngIf="f.userName.hasError('invalidInput')">Note use Number and Special
+                            char</mat-error>
 
-                </mat-error>
-            </mat-form-field>
-            <!-- password -->
-            <mat-form-field appearance="outline" class="max-100">
-                <mat-label>password</mat-label>
-                <input matInput [type]="hide ? 'password' : 'text'" formControlName="userPassword">
-                <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
-                    [attr.aria-pressed]="hide">
-                    <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-                </button>
-                <mat-error *ngIf="f.userPassword.errors">
-                    <mat-error *ngIf="f.userPassword.errors.required">Enter your Password</mat-error>
-                    <mat-error *ngIf="f.userPassword.errors.minlength">Minmum leangth 8 Digit</mat-error>
-                    <mat-error *ngIf="f.userPassword.errors.maxlength">Max leangth 40 Digit</mat-error>
-                    <mat-error *ngIf="f.userPassword.errors.pattern">password must be minimum 8 digit lowercase
-                        ,uppercase,number and
-                        Special
-                        characters
                     </mat-error>
-                </mat-error>
-            </mat-form-field>
-            <!-- <mat-form-field class="max-100" appearance="outline">
-                <mat-label>Address</mat-label>
-                <textarea matInput formControlName="userAdrees"></textarea>
-            </mat-form-field> -->
-            <!-- try to another way to store address  -->
+                </mat-form-field>
+                <!-- user email  -->
+                <mat-form-field appearance="outline" class="max-100">
+                    <mat-label>Email</mat-label>
+                    <input matInput required type="email" formControlName="userEmail">
+                    <mat-error *ngIf="f.userEmail.errors">
+                        <mat-error *ngIf="f.userEmail.errors.required">Enter your Email Address</mat-error>
+                        <mat-error *ngIf="f.userEmail.errors.pattern">Enter a Valid Email Address</mat-error>
+                    </mat-error>
+                </mat-form-field>
+                <!-- user type  -->
+                <mat-form-field appearance="outline" class="max-100">
+                    <mat-label>User Type</mat-label>
+                    <mat-select formControlName="userType">
+                        <mat-option value="admin">ADMIN</mat-option>
+                        <mat-option value="user">USER</mat-option>
+                        <mat-option value="author">AUTHOR</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <!-- number  -->
+                <mat-form-field appearance="outline" class="max-100">
+                    <mat-label>Phone Number</mat-label>
+                    <input matInput type="tel" formControlName="userNumber" maxlength="10" minlength="10">
+                    <mat-error *ngIf="f.userNumber.errors">
+                        <mat-error *ngIf="f.userNumber.errors.required">10 Digit phone Number</mat-error>
+                        <mat-error *ngIf="f.userNumber.errors.minlength">10 Digit phone Number</mat-error>
+                        <mat-error *ngIf="f.userNumber.errors.pattern">Only Number</mat-error>
 
-            <div formArrayName="address">
-                <div *ngFor="let addres of address.controls; let i=index">
+                    </mat-error>
+                </mat-form-field>
+                <!-- password -->
+                <mat-form-field appearance="outline" class="max-100">
+                    <mat-label>password</mat-label>
+                    <input matInput [type]="hide ? 'password' : 'text'" formControlName="userPassword">
+                    <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                        [attr.aria-pressed]="hide">
+                        <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </button>
+                    <mat-error *ngIf="f.userPassword.errors">
+                        <mat-error *ngIf="f.userPassword.errors.required">Enter your Password</mat-error>
+                        <mat-error *ngIf="f.userPassword.errors.minlength">Minmum leangth 8 Digit</mat-error>
+                        <mat-error *ngIf="f.userPassword.errors.maxlength">Max leangth 40 Digit</mat-error>
+                        <mat-error *ngIf="f.userPassword.errors.pattern">password must be minimum 8 digit
+                            lowercase,uppercase,number andSpecial characters</mat-error>
+                    </mat-error>
+                </mat-form-field>
+                <!-- user address  -->
+                <div formArrayName="address">
+                    <div *ngFor="let addres of address.controls; let i=index">
 
 
-                    <div [formGroupName]="i">
-                        <mat-form-field class="max-100" appearance="outline">
-                            <mat-label>Address {{i}}</mat-label>
-                            <textarea matInput formControlName="as" required></textarea>
-                        </mat-form-field>
-                        <button type="button" (click)="removeas(i)" *ngIf="i>0">remove this address</button>
+                        <div [formGroupName]="i">
+                            <mat-form-field class="max-100" appearance="outline">
+                                <mat-label>Address {{i+1}}</mat-label>
+                                <textarea matInput formControlName="as" required></textarea>
+                            </mat-form-field>
+                            <button mat-flat-button color="warn" (click)="removeas(i)" *ngIf="i>0">Remove This
+                                address</button>
+                        </div>
                     </div>
+                    <button type="button" (click)="addAS()" mat-flat-button color="primary">Add address</button>
                 </div>
-                <button type="button" (click)="addAS()">Add address</button>
-            </div>
+
+                <!-- button  -->
+                <div class="button-div">
+                    <button mat-flat-button color="primary" type="submit" [disabled]="!form.valid">Register</button>
+                    <p>Alreday Account ? <a routerLink="/login" color="accent">Login</a></p>
+                </div>
 
 
-            <!-- arry of address  -->
+            </form>
+        </div>
 
-            <!-- submit button  -->
-            <button mat-flat-button color="primary" type="submit" [disabled]="!form.valid">Register</button>
-            <a mat-flat-button routerLink="/login" color="accent">Login</a>
-            <!-- <button type="submit" class="btn btn-primary">Register</button>
-            <button type="button" (click)="onReset()" class="btn btn-warning float-right">Reset</button> -->
-        </form>
-    </div>
-    <!-- <a >Login</a> -->
+    </mat-card>
 
 
-    <!-- [disabled]="!RegFormdata.valid" -->
 </div>

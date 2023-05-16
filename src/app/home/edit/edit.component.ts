@@ -37,7 +37,7 @@ export class EditComponent implements OnInit {
     console.log(this.savedata);
 
     this.form = this.fb.group({
-      userName: [this.savedata.userName, [Validators.required, Validators.pattern(this.nameRegx)]],
+      userName: [this.savedata.userName, [Validators.required, this.validateInput, Validators.pattern(this.nameRegx)]],
       userEmail: [
         this.savedata.userEmail,
         [Validators.required, Validators.pattern(this.emailRegx)],
@@ -73,7 +73,26 @@ export class EditComponent implements OnInit {
     }
 
   }
+  //name valdation
+  validateInput(control: FormControl) {
+    const trimmedValue = control.value.trim();
 
+    if (trimmedValue === '') {
+      return { spacesOnly: true };
+    }
+
+    if (!/^[a-zA-Z]+$/.test(trimmedValue)) {
+      return { invalidInput: true };
+    }
+
+    if (trimmedValue !== control.value) {
+      control.setValue(trimmedValue);
+    }
+
+    return null;
+  }
+
+  //address form
   get adreessLength() { return this.address.length }
 
   get address() {
@@ -101,13 +120,13 @@ export class EditComponent implements OnInit {
     if (this.address.length > 1) { this.address.removeAt(i) }
 
   }
-
+  //fromcontrol
   get f(): { [key: string]: AbstractControl } {
     return this.form.controls;
   }
 
 
-
+  //upadate
   onSubmit() {
 
     console.log(this.form.value)

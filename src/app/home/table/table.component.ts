@@ -11,8 +11,9 @@ import { userobj } from 'src/app/user';
 })
 export class TableComponent implements OnInit {
   savedata?: userobj
-  tablsub?: number
+  tablsub: number = 0
   userlist: any
+  showAll: boolean = false;
   constructor(private ac: AcountService, private ds: DailogService) { this.userlist = []; }
 
   ngOnInit(): void {
@@ -25,10 +26,16 @@ export class TableComponent implements OnInit {
   displayedColumns: string[] = ['No', 'Name', 'Email', 'Type', 'Number', 'Password', 'Address', 'Action'];
   // dataSource = this.userlist;
 
+  toggleshow(id: number) {
+    // this.showAll = !this.showAll
+    if (this.tablsub === id) {
+      this.tablsub = 0
+    } else { this.tablsub = id }
+  }
   gettablesubvalue(id: number) {
 
     if (this.tablsub === id) {
-      this.tablsub = undefined
+      this.tablsub = 0
     } else { this.tablsub = id }
   }
 

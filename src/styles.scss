@@ -1,7 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
 @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+body{ background: #F4FBFF}
 .container{max-width: 1460px ;padding: 25px;margin: 0 auto;}
-.form-container{margin: 0 auto;text-align: center;}
+// .form-container{margin: 0 auto;text-align: center;}
 .max-100{width: 100%;}
 table.mat-table{width: 100%;}
 .home .lg-btn{margin-left: auto;}
@@ -9,3 +10,27 @@ table.mat-table{width: 100%;}
 .error.mat-snack-bar-container{background: #cc0000;color:#ffffff ;}
 .success.mat-snack-bar-container{background: #47f8ab;color:#ffffff ;}
 .info.mat-snack-bar-container{background: #fff690;color:#000000 ;}
+.register-card{margin: auto;max-width: 900px;}
+.button-div{padding: 20px 0px;}
+.mat-flat-button.mat-warn, .mat-raised-button.mat-warn, .mat-fab.mat-warn, .mat-mini-fab.mat-warn {
+    background-color: #f44336;
+    height: 35px;
+    margin: 10px 0px;
+}
+.button-div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.button-div .mat-flat-button{min-width:140px;}
+.sub-heading{margin-bottom: 30px;}
+h2{text-align: center;width: 100%;}
+.user-name{font-size: 20px;}
+.user-profile:hover{border: 1px solid rgb(255, 255, 255);}
+.user-profile{margin-left: auto;margin-right: 20px;text-transform: capitalize;}
+a:hover ,a:focus{text-decoration: underline;color: #000000;}
+.mat-toolbar a:hover ,.mat-toolbar a:focus{text-decoration: underline;color: #f36f6f;}
+.table-container{margin: 20px;}
+.table-container .mat-header-cell {font-size: 17px;}
+li{list-style: none;}
+

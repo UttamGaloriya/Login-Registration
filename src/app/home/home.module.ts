@@ -8,6 +8,7 @@ import { MatmodualsModule } from '../matmoduals/matmoduals.module';
 import { EditComponent } from './edit/edit.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MyCustomPipe } from '../my-custom-pipe';
+import { MyIdPipe } from '../my-id-pipe';
 
 
 
@@ -17,6 +18,7 @@ import { MyCustomPipe } from '../my-custom-pipe';
     TableComponent,
     EditComponent,
     MyCustomPipe,
+    MyIdPipe
 
 
   ],

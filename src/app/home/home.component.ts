@@ -15,7 +15,6 @@ export class HomeComponent implements OnInit {
     console.log("yes i am working Home coponent working")
     this.user = this.ac.userValue;
     this.data = this.user?.userName;
-    console.log(this.user)
   }
 
   ngOnInit(): void {

@@ -12,6 +12,9 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatCardModule } from '@angular/material/card';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatMenuModule } from '@angular/material/menu';
+
+
 
 
 
@@ -26,7 +29,8 @@ const data = [
   MatDialogModule,
   MatToolbarModule,
   MatCardModule,
-  MatSnackBarModule
+  MatSnackBarModule,
+  MatMenuModule
 ];
 
 @NgModule({

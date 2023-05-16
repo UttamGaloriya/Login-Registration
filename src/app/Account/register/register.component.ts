@@ -31,7 +31,8 @@ export class RegisterComponent implements OnInit {
   savedata: any;
 
 
-  nameRegx = /^[a-zA-Z]+$/;
+  nameRegx = /^[A-Za-z\s]+$/;
+  // Validators.pattern(this.nameRegx)
   emailRegx =
     /^(([^<>+()\[\]\\.,;:\s@"-#$%&=]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,3}))$/;
   hide = true;
@@ -40,8 +41,9 @@ export class RegisterComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
     this.form = this.fb.group({
-      userName: ['', [Validators.required, Validators.pattern(this.nameRegx),]],
+      userName: ['', [Validators.required, this.validateInput, Validators.pattern(this.nameRegx)]],
       userEmail: [
         '',
         [Validators.required, Validators.pattern(this.emailRegx)],
@@ -57,7 +59,6 @@ export class RegisterComponent implements OnInit {
         ],
       ],
       userPassword: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(40), Validators.pattern(/^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/)],],
-      // userAdrees: ['', Validators.required],
       address: this.fb.array([this.fb.group({ as: [''] })
 
       ]),
@@ -66,74 +67,56 @@ export class RegisterComponent implements OnInit {
     });
 
   }
-  // get nameControl() {
-  //   // return this.form.get('userName');
-  //   return this.form.controls["userName'"]
-  // }
 
-  // onNameChange() {
-  //   const value = this.nameControl.value;
-  //   const trimmedValue = value.trim();
-  //   this.nameControl.setValue(trimmedValue, { emitEvent: false });
-  // }
-  /*try address*/
+  validateInput(control: FormControl) {
+    const trimmedValue = control.value.trim();
+
+    if (trimmedValue === '') {
+      return { spacesOnly: true };
+    }
+
+    if (!/^[a-zA-Z]+$/.test(trimmedValue)) {
+      return { invalidInput: true };
+    }
+
+    if (trimmedValue !== control.value) {
+      control.setValue(trimmedValue);
+    }
+
+    return null;
+  }
+
+
+
+
+
   addressForm = this.fb.group({
     as: new FormControl('', [Validators.required]),
 
   });
 
-  get address() {
-    return this.form.controls["address"] as FormArray
-  }
 
-  addAS() {
-    this.address.push(
-      this.fb.group({
-        as: ['']
-        // as: new FormControl('', [Validators.required]),
+  get address() { return this.form.controls["address"] as FormArray }
 
-      })
-
-    );
-  }
+  addAS() { this.address.push(this.fb.group({ as: [''] })); }
 
   get adreessLength() { return this.address.length }
-  removeas(i: number) {
-    if (this.address.length > 1) { this.address.removeAt(i) }
 
-  }
 
-  get f(): { [key: string]: AbstractControl } {
-    return this.form.controls;
-  }
+  removeas(i: number) { if (this.address.length > 1) { this.address.removeAt(i) } }
+
+  get f(): { [key: string]: AbstractControl } { return this.form.controls; }
+
+
 
   onSubmit() {
-    this.submitted = true;
-
-    if (this.form.invalid) {
-      return;
-    }
-
-    console.log(this.form.value)
-    let data = this.form.value
     const truvalue = this.ac.getemail(this.form.value.userEmail)
-
-
-
     if (truvalue >= 0) {
       this.notfication.showNotification("This email id alreday register", "ok", "info");
-
     }
     else {
       this.ac.savedata(this.form.value)
-
     }
-
-
   }
-  onReset(): void {
-    console.log('hi i am working');
-    this.submitted = false;
-    this.form.reset();
-  }
+
 }
