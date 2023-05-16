@@ -13,16 +13,4 @@ export class AlertService {
       duration: 2000, horizontalPosition: 'center', verticalPosition: 'top', panelClass: messageType
     })
   }
-  // showNotification(messageType: string, displayMessage: string, buttonText: string) {
-  //   this.snackbar.openFromComponent(SnakbarComponent, {
-  //     data: {
-  //       type: messageType,
-  //       message: displayMessage,
-  //       btnTex: buttonText
-
-
-  //     },
-  //     duration: 2000, horizontalPosition: 'center', verticalPosition: 'top'
-  //   })
-  // }
 }

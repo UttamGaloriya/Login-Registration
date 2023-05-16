@@ -8,16 +8,9 @@ import { userobj } from './user';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'Login-Auth';
-  user?: userobj | null;
-  constructor(private ac: AcountService) {
-    this.user = this.ac.userValue;
+
+  constructor() {
+
   }
-  ondata() {
-    // console.log(this.user)
-    console.log(this.ac.userValue)
-  }
-  onappdata() {
-    console.log(this.user)
-  }
+
 }

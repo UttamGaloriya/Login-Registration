@@ -67,44 +67,30 @@ export class RegisterComponent implements OnInit {
     });
 
   }
-
+  //text valdtion
   validateInput(control: FormControl) {
     const trimmedValue = control.value.trim();
-
     if (trimmedValue === '') {
       return { spacesOnly: true };
     }
-
     if (!/^[a-zA-Z]+$/.test(trimmedValue)) {
       return { invalidInput: true };
     }
-
     if (trimmedValue !== control.value) {
       control.setValue(trimmedValue);
     }
-
     return null;
   }
 
 
 
+  //address from
 
-
-  addressForm = this.fb.group({
-    as: new FormControl('', [Validators.required]),
-
-  });
-
-
+  addressForm = this.fb.group({ as: new FormControl('', [Validators.required]), });
   get address() { return this.form.controls["address"] as FormArray }
-
-  addAS() { this.address.push(this.fb.group({ as: [''] })); }
-
+  addAddress() { this.address.push(this.fb.group({ as: [''] })); }
   get adreessLength() { return this.address.length }
-
-
   removeas(i: number) { if (this.address.length > 1) { this.address.removeAt(i) } }
-
   get f(): { [key: string]: AbstractControl } { return this.form.controls; }
 
 

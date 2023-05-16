@@ -63,8 +63,6 @@ export class AcountService {
 
   //delete data 
   delete(id: number) {
-    console.log(id)
-    console.log('i am working')
     const oldRecords = localStorage.getItem('userList');
     if (oldRecords !== null) {
       const userList = JSON.parse(oldRecords);
@@ -73,6 +71,7 @@ export class AcountService {
         1
       );
       localStorage.setItem('userList', JSON.stringify(userList));
+      this.notfication.showNotification("Delete", "ok", "success");
     } else {
       alert('database is empty')
     }

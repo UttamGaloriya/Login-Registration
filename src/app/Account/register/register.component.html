@@ -74,11 +74,11 @@
                                 <mat-label>Address {{i+1}}</mat-label>
                                 <textarea matInput formControlName="as" required></textarea>
                             </mat-form-field>
-                            <button mat-flat-button color="warn" (click)="removeas(i)" *ngIf="i>0">Remove This
-                                address</button>
+                            <button mat-flat-button color="warn" (click)="removeas(i)" *ngIf="adreessLength>1">Remove
+                                address {{i+1}}</button>
                         </div>
                     </div>
-                    <button type="button" (click)="addAS()" mat-flat-button color="primary">Add address</button>
+                    <button type="button" (click)=" addAddress()" mat-flat-button color="primary">Add address</button>
                 </div>
 
                 <!-- button  -->
