@@ -1,0 +1,17 @@
+<mat-toolbar color="primary" class="home">
+    <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
+        <mat-icon>menu</mat-icon>
+    </button>
+    <span class="example-spacer"></span>
+    <a routerLink="/home/table" class="link">Table</a>
+    <a routerLink="/home" class="link">Home</a>
+    <div class="user-profile">
+        <button mat-button [matMenuTriggerFor]="menu"><span class="user-name">{{ user?.userName |
+                myCustomPipe}}</span></button>
+        <mat-menu #menu="matMenu">
+            <button mat-menu-item [routerLink]="['/home/edit',user?.userId]">Edit</button>
+            <button mat-menu-item (click)="logout()" color="warn">Logout</button>
+        </mat-menu>
+    </div>
+</mat-toolbar>
+<router-outlet></router-outlet>

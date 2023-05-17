@@ -1,5 +1,5 @@
 <div>
-    <div class="table-container">
+    <div class="table-container ">
         <table mat-table [dataSource]="userlist" class="mat-elevation-z8">
 
             <!--- Note that these columns can be defined in any order.
@@ -14,7 +14,7 @@
             <!-- Name Column -->
             <ng-container matColumnDef="Name">
                 <th mat-header-cell *matHeaderCellDef> Name </th>
-                <td mat-cell *matCellDef="let element"> {{element.userName}} </td>
+                <td mat-cell *matCellDef="let element"> {{element.userName | myCustomPipe}} </td>
             </ng-container>
 
             <!-- Weight Column -->
@@ -41,11 +41,15 @@
                 <th mat-header-cell *matHeaderCellDef>Address</th>
                 <td mat-cell *matCellDef="let element">
 
-                    <li *ngFor="let ads of element.address  | myId: tablsub : element.userId ">
-                        {{ads.as}}
+                    <li *ngFor="let ads of element.address | myId: tablsub : element.userId ,let i=index">
+                        {{ads.as | myFullAddress : addressMore : ads.as[i] }}
+                        <br>
+                        <a (click)="togglAddress(ads.as[i])" *ngIf="ads.as.length >20" class="a-btn">
+                            {{ (addressMore===ads.as[i])? 'less' : 'more ' }}
+                        </a>
                     </li>
-                    <a (click)="toggleshow(element.userId)" *ngIf="element.address.length >1">
-                        {{ (tablsub===element.userId)? 'Hide' : 'Show ' }}
+                    <a (click)="toggleshow(element.userId)" *ngIf="element.address.length >1" class="a-btn">
+                        {{ (tablsub===element.userId)? 'Hide Address' : 'Show Address' }}
                     </a>
                 </td>
             </ng-container>

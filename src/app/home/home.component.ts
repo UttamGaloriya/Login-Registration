@@ -9,12 +9,11 @@ import { AcountService } from '../services/acount.service';
 })
 export class HomeComponent implements OnInit {
   user?: userobj | null;
-  @Input() data = this.user?.userName;
+
   constructor(private ac: AcountService) {
 
-    console.log("yes i am working Home coponent working")
     this.user = this.ac.userValue;
-    this.data = this.user?.userName;
+
   }
 
   ngOnInit(): void {

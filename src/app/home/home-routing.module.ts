@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home.component';
 import { TableComponent } from './table/table.component';
 import { EditComponent } from './edit/edit.component';
+import { NavbarComponent } from './navbar/navbar.component';
 
 
 
@@ -13,8 +14,6 @@ const routes: Routes = [
       { path: 'table', component: TableComponent },
       { path: 'edit/:id', component: EditComponent }
     ]
-
-
   },
 
 ];

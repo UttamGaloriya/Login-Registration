@@ -12,6 +12,7 @@ import { userobj } from 'src/app/user';
 export class TableComponent implements OnInit {
   savedata?: userobj
   tablsub: number = 0
+  addressMore: number = -1
   userlist: any
   showAll: boolean = false;
   constructor(private ac: AcountService, private ds: DailogService) { this.userlist = []; }
@@ -25,9 +26,13 @@ export class TableComponent implements OnInit {
   }
   displayedColumns: string[] = ['No', 'Name', 'Email', 'Type', 'Number', 'Password', 'Address', 'Action'];
   // dataSource = this.userlist;
-
+  togglAddress(id: number) {
+    if (this.addressMore === id) {
+      this.addressMore = -1
+    } else { this.addressMore = id }
+  }
   toggleshow(id: number) {
-    // this.showAll = !this.showAll
+
     if (this.tablsub === id) {
       this.tablsub = 0
     } else { this.tablsub = id }

@@ -4,7 +4,7 @@ body{ background: #F4FBFF}
 .container{max-width: 1460px ;padding: 25px;margin: 0 auto;}
 // .form-container{margin: 0 auto;text-align: center;}
 .max-100{width: 100%;}
-table.mat-table{width: 100%;}
+
 .home .lg-btn{margin-left: auto;}
 .home .link{ color: #ffffff;margin-left: 25px;text-decoration: none;}
 .error.mat-snack-bar-container{background: #cc0000;color:#ffffff ;}
@@ -27,11 +27,34 @@ table.mat-table{width: 100%;}
 h2{text-align: center;width: 100%;}
 .user-name{font-size: 20px;}
 .user-profile:hover{border: 1px solid rgb(255, 255, 255);}
-.user-profile{margin-left: auto;margin-right: 20px;text-transform: capitalize;}
+.user-profile{margin-left: auto;text-transform: capitalize;}
 a:hover ,a:focus{text-decoration: underline;color: #000000;}
 .mat-toolbar a:hover ,.mat-toolbar a:focus{text-decoration: underline;color: #f36f6f;}
-.table-container{margin: 20px;}
-.table-container .mat-header-cell {font-size: 17px;}
+
+
 li{list-style: none;}
 .confirm-dailog .close-ic{width: 100%;margin-left: auto;}
 .confirm-dailog .daliog-btn{width: 100%;    display: flex;justify-content: space-between;align-items: center;}
+
+//table
+.table-container{
+    th.mat-header-cell, td.mat-cell, td.mat-footer-cell {padding: 0px 20px;}
+}
+.table-container .mat-header-cell {font-size: 17px;}
+.table-container{margin: 10px 0px;}
+table.mat-table{width: 100%;}
+@media (max-width:900px) {
+    .table-container{overflow-x: auto;}
+    table.mat-table{width: 1400px;}
+    
+}
+.a-btn{color: peru;}
+@media  (max-width:575px) {
+    .container{padding: 8px;}
+    .home .link {margin-left: 8px;font-size: 16px;}
+    .table-container{
+        th.mat-header-cell, td.mat-cell, td.mat-footer-cell {padding: 0px 10px;}
+    }
+    .ng-star-inserted .mat-toolbar-row, .ng-star-inserted .mat-toolbar-single-row {padding: 0;}
+   
+}

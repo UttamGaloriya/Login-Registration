@@ -55,11 +55,11 @@ export class RegisterComponent implements OnInit {
           Validators.required,
           Validators.minLength(10),
           Validators.maxLength(10),
-          Validators.pattern('[0-9]*')
+          Validators.pattern('[0-9]*'),
         ],
       ],
       userPassword: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(40), Validators.pattern(/^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/)],],
-      address: this.fb.array([this.fb.group({ as: [''] })
+      address: this.fb.array([this.fb.group({ as: ['', Validators.required] })
 
       ]),
 
@@ -81,16 +81,36 @@ export class RegisterComponent implements OnInit {
     }
     return null;
   }
+  //number valdtion
+  validateInputNum(control: FormControl) {
+    const trimmedValue = control.value.trim();
+
+    if (trimmedValue === '') {
+      return { spacesOnly: true };
+    }
+    if (/[0-9]*/.test(trimmedValue)) {
+      return { invalidInput: true };
+    }
+    if (trimmedValue !== control.value) {
+      control.setValue(trimmedValue);
+    }
+    return null;
+  }
 
 
 
   //address from
 
   addressForm = this.fb.group({ as: new FormControl('', [Validators.required]), });
+
   get address() { return this.form.controls["address"] as FormArray }
-  addAddress() { this.address.push(this.fb.group({ as: [''] })); }
+
+  addAddress() { this.address.push(this.fb.group({ as: ['', Validators.required] })); }
+
   get adreessLength() { return this.address.length }
+
   removeas(i: number) { if (this.address.length > 1) { this.address.removeAt(i) } }
+
   get f(): { [key: string]: AbstractControl } { return this.form.controls; }
 
 

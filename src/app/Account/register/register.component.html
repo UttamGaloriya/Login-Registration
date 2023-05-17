@@ -10,14 +10,11 @@
                 <mat-form-field appearance="outline" class="max-100">
                     <mat-label>Name</mat-label>
                     <input matInput formControlName="userName">
-                    <mat-error *ngIf="f.userName.errors">
-                        <mat-error *ngIf="f.userName.errors.required">Enter Your Name</mat-error>
-                        <mat-error *ngIf="f.userName.hasError('spacesOnly')">Error: Only spaces are not
-                            allowed</mat-error>
-                        <mat-error *ngIf="f.userName.hasError('invalidInput')">Note use Number and Special
-                            char</mat-error>
-
-                    </mat-error>
+                    <mat-error *ngIf="f.userName.touched && f.userName.errors?.required">Enter Your Name</mat-error>
+                    <mat-error *ngIf="f.userName.errors?.spacesOnly && !f.userName.errors?.required ">Error: Only spaces
+                        are not allowed</mat-error>
+                    <mat-error *ngIf="f.userName.errors?.invalidInput">Note: Use letters, numbers, and special
+                        characters</mat-error>
                 </mat-form-field>
                 <!-- user email  -->
                 <mat-form-field appearance="outline" class="max-100">
@@ -42,10 +39,12 @@
                     <mat-label>Phone Number</mat-label>
                     <input matInput type="tel" formControlName="userNumber" maxlength="10" minlength="10">
                     <mat-error *ngIf="f.userNumber.errors">
-                        <mat-error *ngIf="f.userNumber.errors.required">10 Digit phone Number</mat-error>
-                        <mat-error *ngIf="f.userNumber.errors.minlength">10 Digit phone Number</mat-error>
+                        <mat-error *ngIf="f.userNumber.errors.required ">10 Digit phone Number</mat-error>
+                        <mat-error *ngIf="f.userNumber.errors?.spacesOnly && !f.userNumber.errors?.required ">Error:Only
+                            spacesare not allowed</mat-error>
+                        <mat-error *ngIf="f.userNumber.errors.minlength &&  !f.userNumber.errors.pattern">10 Digit
+                            phone Number</mat-error>
                         <mat-error *ngIf="f.userNumber.errors.pattern">Only Number</mat-error>
-
                     </mat-error>
                 </mat-form-field>
                 <!-- password -->
@@ -58,6 +57,9 @@
                     </button>
                     <mat-error *ngIf="f.userPassword.errors">
                         <mat-error *ngIf="f.userPassword.errors.required">Enter your Password</mat-error>
+                        <mat-error *ngIf="f.userPassword.errors?.spacesOnly && !f.userPassword.errors?.required ">Error:
+                            Only spaces
+                            are not allowed</mat-error>
                         <mat-error *ngIf="f.userPassword.errors.minlength">Minmum leangth 8 Digit</mat-error>
                         <mat-error *ngIf="f.userPassword.errors.maxlength">Max leangth 40 Digit</mat-error>
                         <mat-error *ngIf="f.userPassword.errors.pattern">password must be minimum 8 digit
@@ -67,12 +69,11 @@
                 <!-- user address  -->
                 <div formArrayName="address">
                     <div *ngFor="let addres of address.controls; let i=index">
-
-
                         <div [formGroupName]="i">
                             <mat-form-field class="max-100" appearance="outline">
                                 <mat-label>Address {{i+1}}</mat-label>
                                 <textarea matInput formControlName="as" required></textarea>
+
                             </mat-form-field>
                             <button mat-flat-button color="warn" (click)="removeas(i)" *ngIf="adreessLength>1">Remove
                                 address {{i+1}}</button>

@@ -9,6 +9,8 @@ import { EditComponent } from './edit/edit.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MyCustomPipe } from '../my-custom-pipe';
 import { MyIdPipe } from '../my-id-pipe';
+import { myFullAddress } from '../my-full-address-pipe';
+import { NavbarComponent } from './navbar/navbar.component';
 
 
 
@@ -18,7 +20,9 @@ import { MyIdPipe } from '../my-id-pipe';
     TableComponent,
     EditComponent,
     MyCustomPipe,
-    MyIdPipe
+    MyIdPipe,
+    myFullAddress,
+    NavbarComponent
 
 
   ],
