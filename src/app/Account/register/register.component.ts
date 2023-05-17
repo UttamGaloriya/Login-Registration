@@ -15,6 +15,7 @@ import {
 import { ErrorStateMatcher } from '@angular/material/core';
 import { AcountService } from 'src/app/services/acount.service';
 import { AlertService } from 'src/app/services/alert.service';
+import { UserService } from 'src/app/services/user.service';
 
 
 @Component({
@@ -36,7 +37,7 @@ export class RegisterComponent implements OnInit {
   emailRegx =
     /^(([^<>+()\[\]\\.,;:\s@"-#$%&=]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,3}))$/;
   hide = true;
-  constructor(private fb: FormBuilder, private ac: AcountService, private notfication: AlertService) {
+  constructor(private fb: FormBuilder, private ac: AcountService, private notfication: AlertService, private userService: UserService) {
 
   }
 
@@ -116,6 +117,10 @@ export class RegisterComponent implements OnInit {
 
 
   onSubmit() {
+    this.userService.postData(this.form.value)
+      .subscribe(response => {
+        console.log(response)
+      })
     const truvalue = this.ac.getemail(this.form.value.userEmail)
     if (truvalue >= 0) {
       this.notfication.showNotification("This email id alreday register", "ok", "info");

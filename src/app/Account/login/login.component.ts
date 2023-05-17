@@ -26,6 +26,7 @@ export class LoginComponent implements OnInit {
     return this.form.controls;
   }
   onSubmit() {
+
     this.ac.login(this.form.value.userEmail, this.form.value.userPassword)
   }
 }

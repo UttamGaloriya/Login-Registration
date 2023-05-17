@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DailogService } from 'src/app/dailogbox/dailog.service';
 import { AcountService } from 'src/app/services/acount.service';
+import { UserService } from 'src/app/services/user.service';
 import { userobj } from 'src/app/user';
 
 @Component({
@@ -11,11 +12,12 @@ import { userobj } from 'src/app/user';
 })
 export class TableComponent implements OnInit {
   savedata?: userobj
+  apiarry: any
   tablsub: number = 0
   addressMore: number = -1
   userlist: any
   showAll: boolean = false;
-  constructor(private ac: AcountService, private ds: DailogService) { this.userlist = []; }
+  constructor(private ac: AcountService, private ds: DailogService, private userService: UserService) { this.userlist = []; this.apiarry = [] }
 
   ngOnInit(): void {
     const records = localStorage.getItem('userList');
@@ -23,6 +25,10 @@ export class TableComponent implements OnInit {
       this.userlist = JSON.parse(records);
       console.log(this.userlist)
     }
+    this.userService.getAllData()
+      .subscribe(data => {
+        this.apiarry = data
+      })
   }
   displayedColumns: string[] = ['No', 'Name', 'Email', 'Type', 'Number', 'Password', 'Address', 'Action'];
   // dataSource = this.userlist;
