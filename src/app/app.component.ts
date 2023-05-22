@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AcountService } from './services/acount.service';
 import { userobj } from './user';
+import { UserService } from './services/user.service';
 
 @Component({
   selector: 'app-root',
@@ -8,9 +9,19 @@ import { userobj } from './user';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-
-  constructor() {
+  data: userobj = {
+    userName: "uttam",
+    userEmail: "uttam@gmail.com",
+    userPassword: "fshdbfjsbdfjdsh",
+    userType: "admin",
+    userNumber: 123456,
 
   }
+  constructor(private userService: UserService) {
 
+  }
+  ngOnInit(): void {
+    this.userService.updateData(this.data, 50)
+      .subscribe((data: any) => console.log(data))
+  }
 }

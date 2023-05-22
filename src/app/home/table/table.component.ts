@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 import { DailogService } from 'src/app/dailogbox/dailog.service';
 import { AcountService } from 'src/app/services/acount.service';
 import { UserService } from 'src/app/services/user.service';
@@ -10,45 +12,46 @@ import { userobj } from 'src/app/user';
   styles: [
   ]
 })
+
 export class TableComponent implements OnInit {
   savedata?: userobj
-  apiarry: any
+  apiArry: any
   tablsub: number = 0
   addressMore: number = -1
-  userlist: any
   showAll: boolean = false;
-  constructor(private ac: AcountService, private ds: DailogService, private userService: UserService) { this.userlist = []; this.apiarry = [] }
+
+  dataSource!: MatTableDataSource<any>;
+  displayedColumns: string[] = ['No', 'Name', 'Email', 'Type', 'Number', 'Password', 'Address', 'Action'];
+
+
+  constructor(private ac: AcountService, private ds: DailogService, private userService: UserService) { }
 
   ngOnInit(): void {
     const records = localStorage.getItem('userList');
     if (records !== null) {
-      this.userlist = JSON.parse(records);
-      console.log(this.userlist)
+      const userdata = JSON.parse(records);
+      this.dataSource = new MatTableDataSource<any>(userdata);
+      console.log(userdata)
+
+
     }
-    this.userService.getAllData()
-      .subscribe(data => {
-        this.apiarry = data
-      })
   }
-  displayedColumns: string[] = ['No', 'Name', 'Email', 'Type', 'Number', 'Password', 'Address', 'Action'];
-  // dataSource = this.userlist;
+
+  //full address show
   togglAddress(id: number) {
     if (this.addressMore === id) {
       this.addressMore = -1
     } else { this.addressMore = id }
   }
+
+  //mutlipal addreess show
   toggleshow(id: number) {
-
     if (this.tablsub === id) {
       this.tablsub = 0
     } else { this.tablsub = id }
   }
-  gettablesubvalue(id: number) {
 
-    if (this.tablsub === id) {
-      this.tablsub = 0
-    } else { this.tablsub = id }
-  }
+
 
 
   delete(id: number) {
@@ -62,8 +65,8 @@ export class TableComponent implements OnInit {
           this.ac.delete(id);
           const records = localStorage.getItem('userList');
           if (records !== null) {
-            this.userlist = JSON.parse(records);
-            console.log(this.userlist)
+            this.dataSource = JSON.parse(records);
+            console.log(this.dataSource)
           }
         }
       });

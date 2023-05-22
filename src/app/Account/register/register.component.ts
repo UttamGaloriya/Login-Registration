@@ -121,6 +121,13 @@ export class RegisterComponent implements OnInit {
       .subscribe(response => {
         console.log(response)
       })
+
+    this.userService.getAllData()
+      .subscribe(data => {
+        console.log(data)
+      })
+
+
     const truvalue = this.ac.getemail(this.form.value.userEmail)
     if (truvalue >= 0) {
       this.notfication.showNotification("This email id alreday register", "ok", "info");

@@ -11,6 +11,7 @@ import { MyCustomPipe } from '../my-custom-pipe';
 import { MyIdPipe } from '../my-id-pipe';
 import { myFullAddress } from '../my-full-address-pipe';
 import { NavbarComponent } from './navbar/navbar.component';
+import { ApiTableComponent } from './api-table/api-table.component';
 
 
 
@@ -22,7 +23,8 @@ import { NavbarComponent } from './navbar/navbar.component';
     MyCustomPipe,
     MyIdPipe,
     myFullAddress,
-    NavbarComponent
+    NavbarComponent,
+    ApiTableComponent
 
 
   ],

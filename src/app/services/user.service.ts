@@ -14,8 +14,11 @@ export class UserService {
   getAllData(): Observable<any> {
     return this.http.get(`${this.baseURL}/posts`)
   }
+  getUserData(id: number): Observable<any> {
+    return this.http.get(`${this.baseURL}/posts/${id}`)
+  }
   //post data
-  postData(data: any): Observable<any> {
+  postData(data: userobj): Observable<any> {
     return this.http.post(`${this.baseURL}/posts`, data)
   }
   //update a data
