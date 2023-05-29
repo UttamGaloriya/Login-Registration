@@ -11,6 +11,7 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent, canActivate: [AuthGuard] },
   { path: 'home', loadChildren: () => import('./home/home.module').then(m => m.HomeModule), canLoad: [AuthGuard] },
+  { path: 'product', loadChildren: () => import('./product/product.module').then(m => m.ProductModule) },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
 
 ];
