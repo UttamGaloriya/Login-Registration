@@ -14,18 +14,21 @@ export class ArrayEditComponent implements OnInit {
   productForm!: FormGroup
   formValid: boolean = false
   Options: string[] = ['SmartPhone', 'Tv', 'Ac']
-  Id!: number
+  Id: number = -1
   data: any
 
   constructor(private fb: FormBuilder, private products: ProductService, private alert: AlertService, private route: ActivatedRoute,) {
     this.route.params.subscribe((res) => {
       this.Id = res['id'];
     });
+    console.log("cons" + this.Id)
   }
 
   ngOnInit(): void {
-    this.data = this.products.getMydata(1)
+    this.data = this.products.getMydata(this.Id)
+    console.log("ngon" + this.Id)
     console.log("my edit data" + this.data.product)
+
     this.productForm = this.fb.group({
       product: this.fb.array([])
     })
@@ -64,7 +67,7 @@ export class ArrayEditComponent implements OnInit {
   ///submit
   addProduct() {
     console.log(this.productForm.valid)
-    if (this.productForm.valid) { this.products.productDetailsAdd(this.productForm.value), this.alert.showNotification("data add suceessful", "ok", "success") }
+    if (this.productForm.valid) { this.products.updateMydata(this.productForm.value, this.Id), this.alert.showNotification("data Update suceessful", "ok", "success") }
     else { console.log("sorry") }
   }
 

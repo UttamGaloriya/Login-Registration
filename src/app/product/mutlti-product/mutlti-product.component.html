@@ -12,7 +12,7 @@
                             <mat-form-field class="full-width" appearance="outline">
                                 <mat-label>Product Name</mat-label>
                                 <input matInput formControlName="name">
-                                <mat-error *ngIf="">
+                                <mat-error *ngIf="item.get('name')?.invalid && item.get('name')?.touched">
                                     <span>Enter a Product Name</span>
                                 </mat-error>
                             </mat-form-field>
@@ -20,13 +20,17 @@
                             <mat-form-field class="full-width" appearance="outline">
                                 <mat-label>Price</mat-label>
                                 <input matInput type="number" formControlName="price">
-                                <mat-error *ngIf=""></mat-error>
+                                <mat-error *ngIf="item.get('price')?.invalid && item.get('price')?.touched">
+                                    <span>Enter a product prices</span>
+                                </mat-error>
                             </mat-form-field>
 
                             <mat-form-field class="full-width" appearance="outline">
                                 <mat-label>Product Id</mat-label>
                                 <input matInput type="number" formControlName="productId">
-                                <mat-error *ngIf=""></mat-error>
+                                <mat-error *ngIf="item.get('productId')?.invalid && item.get('productId')?.touched">
+                                    <span>Enter a Product ID</span>
+                                </mat-error>
                             </mat-form-field>
 
                             <mat-form-field class="full-width" appearance="outline">
@@ -35,11 +39,16 @@
                                     <mat-option [value]="item" *ngFor="let item  of Options">{{item}}</mat-option>
                                 </mat-select>
                                 <mat-hint align="start">Here's the dropdown arrow ^</mat-hint>
-
+                                <mat-error *ngIf="item.get('category')?.invalid && item.get('category')?.touched">
+                                    <span>Enter Category Select</span>
+                                </mat-error>
                             </mat-form-field>
                             <mat-form-field class="full-width" appearance="outline">
-                                <mat-label>Textarea</mat-label>
+                                <mat-label>Description</mat-label>
                                 <textarea matInput formControlName="description"></textarea>
+                                <mat-error *ngIf="item.get('description')?.invalid && item.get('description')?.touched">
+                                    <span>Enter Description </span>
+                                </mat-error>
                             </mat-form-field>
                             <div class="radio-group">
                                 <label for="example-radio-group-label">Stock Available</label>
@@ -47,6 +56,9 @@
                                     formControlName="available">
                                     <mat-radio-button value=true color="primary">Yes</mat-radio-button>
                                     <mat-radio-button value=false color="warn">No</mat-radio-button>
+                                    <mat-error *ngIf="item.get('available')?.invalid && item.get('available')?.touched">
+                                        <span>Enter Stock </span>
+                                    </mat-error>
                                 </mat-radio-group>
                             </div>
                             <div class="add-remove">

@@ -16,17 +16,18 @@ export class ProductEditComponent implements OnInit {
   constructor(private fb: FormBuilder, private products: ProductService, private route: ActivatedRoute,) {
     this.route.params.subscribe((res) => {
       this.Id = res['id'];
+      console.log("cons" + this.Id)
     });
 
   }
 
   ngOnInit(): void {
     this.getupadteData(this.products.getMydata(this.Id))
+    console.log("ng" + this.Id)
   }
 
   getupadteData(data: any) {
     this.productForm = this.fb.group({
-
       product: this.fb.group({
         name: [data.product.name, [Validators.required,]],
         productId: [data.product.productId, [Validators.required]],

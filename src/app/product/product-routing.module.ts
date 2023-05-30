@@ -13,13 +13,13 @@ const routes: Routes = [
   {
     path: '', component: LayersComponent,
     children: [
-      { path: 'add', component: ProductAddComponent },
+      { path: 'addx', component: ProductAddComponent },
       { path: 'view', component: ProductViewComponent },
-      { path: 'edit/:id', component: ProductEditComponent },
-      { path: 'table', component: ProductTableComponent },
-      { path: 'array-add', component: MutltiProductComponent },
-      { path: 'array-table', component: ArraytableComponent },
-      { path: 'array-edit', component: ArrayEditComponent },
+      { path: 'editx/:id', component: ProductEditComponent },
+      { path: 'tablex', component: ProductTableComponent },
+      { path: 'add', component: MutltiProductComponent },
+      { path: 'table', component: ArraytableComponent },
+      { path: 'edit/:id', component: ArrayEditComponent },
     ]
 
   }

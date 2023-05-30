@@ -11,9 +11,10 @@ export class ProductService {
 
   constructor(private alert: AlertService, private router: Router) { }
   newId() {
-    if (this.myproduct !== null) {
+    const myproduct = localStorage.getItem('product')
+    if (myproduct !== null) {
       let highId: number = -1;
-      const list = JSON.parse(this.myproduct)
+      const list = JSON.parse(myproduct)
       list.forEach((res: myProduct) => {
         if (res.id > highId) {
           highId = res.id
@@ -26,10 +27,11 @@ export class ProductService {
   }
 
   productDetailsAdd(productData: myProduct) {
+    const myproduct = localStorage.getItem('product')
     const id = this.newId()
     productData.id = id
-    if (this.myproduct != null) {
-      const list = JSON.parse(this.myproduct)
+    if (myproduct != null) {
+      const list = JSON.parse(myproduct)
       list.push(productData)
       localStorage.setItem('product', JSON.stringify(list))
     } else {
@@ -79,23 +81,32 @@ export class ProductService {
     }
   }
 
-  updateMydata(Data: myProduct, id: any) {
-    if (this.myproduct != null) {
-      const list = JSON.parse(this.myproduct)
-      list.splice(
-        list.findIndex((res: any) => Data.id), 1
-      )
-      Data.id = id
-      list.push(Data);
-      localStorage.setItem('product', JSON.stringify(list));
-      this.alert.showNotification("Data upadte successfuly", "ok", "success")
-      this.router.navigateByUrl('/product/table');
+  updateMydata(Data: myProduct, id: number) {
+    const myproduct = localStorage.getItem('product')
+
+    if (myproduct != null) {
+      const list = JSON.parse(myproduct)
+      const index = list.findIndex((res: myProduct) => res.id == id);
+
+
+      // 
+      if (index !== -1) {
+        console.log(" working")
+        Data.id = id; // Assign the ID from the parameter to the updated data
+        console.log(Data.id)
+        list.splice(index, 1, Data); // Replace the element at the specified index with the updated data
+        localStorage.setItem('product', JSON.stringify(list));
+        this.alert.showNotification("Data updated successfully", "ok", "success");
+        this.router.navigateByUrl('/product/table');
+      } else {
+        this.alert.showNotification("Data not found", "ok", "info");
+      }
     }
     else {
       this.alert.showNotification("Data Not found", "ok", "info")
     }
 
   }
-  //try
+
 
 }
