@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlertService } from 'src/app/services/alert.service';
 import { ProductService } from 'src/app/services/product.service';
 
 @Component({
-  selector: 'app-product-add',
-  templateUrl: './product-add.component.html',
-  styleUrls: ['./product-add.component.scss']
+  selector: 'app-mutlti-product',
+  templateUrl: './mutlti-product.component.html',
+  styleUrls: ['./mutlti-product.component.scss']
 })
-export class ProductAddComponent implements OnInit {
+export class MutltiProductComponent implements OnInit {
 
   productForm!: FormGroup
   formValid: boolean = false
@@ -17,24 +17,16 @@ export class ProductAddComponent implements OnInit {
 
   ngOnInit(): void {
     this.productForm = this.fb.group({
-
-      product: this.fb.group({
+      product: this.fb.array([this.fb.group({
         name: ['', [Validators.required,]],
         productId: ['', [Validators.required]],
         price: ['', [Validators.required,]],
         description: ['', [Validators.required,]],
         category: ['', [Validators.required,]],
         available: ['', [Validators.required,]],
-      })
-      // product: this.fb.array([this.fb.group({
-      //   name: ['', [Validators.required,]],
-      //   productId: ['', [Validators.required]],
-      //   price: ['', [Validators.required,]],
-      //   description: ['', [Validators.required,]],
-      //   category: ['', [Validators.required,]],
-      //   available: ['', [Validators.required,]],
-      // })])
+      })])
     })
+    this.chekdata()
   }
 
 
@@ -65,10 +57,17 @@ export class ProductAddComponent implements OnInit {
     category: ['', [Validators.required,]],
     available: ['', [Validators.required,]],
   })
-
+  get productLenght() { return this.productx.length }
   // get f(): { [key: string]: AbstractControl } { return this.productForm.controls.product.; }
   get allproduct() {
 
     return 1
+  }
+  chekdata() {
+    const data = localStorage.getItem('pdArry')
+    if (data != null) {
+      let list = JSON.parse(data)
+      console.log(list[0].product)
+    }
   }
 }

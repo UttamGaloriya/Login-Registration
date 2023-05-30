@@ -12,7 +12,7 @@ export class ProductEditComponent implements OnInit {
   productForm!: FormGroup
   formValid: boolean = false
   Options: string[] = ['SmartPhone', 'Tv', 'Ac']
-  Id?: number;
+  Id!: number;
   constructor(private fb: FormBuilder, private products: ProductService, private route: ActivatedRoute,) {
     this.route.params.subscribe((res) => {
       this.Id = res['id'];
@@ -21,20 +21,22 @@ export class ProductEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.products.allProductData[2].product)
-    this.getupadteData(this.products.allProductData[2].product[0])
+    this.getupadteData(this.products.getMydata(this.Id))
   }
 
   getupadteData(data: any) {
     this.productForm = this.fb.group({
-      product: this.fb.array([this.fb.group({
-        name: [data.name, [Validators.required,]],
-        price: [data.price, [Validators.required,]],
-        description: [data.description, [Validators.required,]],
-        category: [data.category, [Validators.required,]],
-        available: [data.available, [Validators.required,]],
-      })])
+
+      product: this.fb.group({
+        name: [data.product.name, [Validators.required,]],
+        productId: [data.product.productId, [Validators.required]],
+        price: [data.product.price, [Validators.required,]],
+        description: [data.product.description, [Validators.required,]],
+        category: [data.product.category, [Validators.required,]],
+        available: [data.product.available, [Validators.required,]],
+      })
     })
+
   }
 
   get productx() {
@@ -50,8 +52,8 @@ export class ProductEditComponent implements OnInit {
 
   ///submit
   addProduct() {
-    console.log(this.productForm.valid)
-    if (this.productForm.valid) { this.products.productDetailsAdd(this.productForm.value) }
+
+    if (this.productForm.valid) { this.products.updateMydata(this.productForm.value, this.Id) }
     else { console.log("sorry") }
   }
 

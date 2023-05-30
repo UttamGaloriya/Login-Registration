@@ -11,6 +11,9 @@ import { ProductViewComponent } from './product-view/product-view.component';
 import { MatmodualsModule } from '../matmoduals/matmoduals.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MutltiProductComponent } from './mutlti-product/mutlti-product.component';
+import { ArraytableComponent } from './arraytable/arraytable.component';
+import { ArrayEditComponent } from './array-edit/array-edit.component';
 
 
 @NgModule({
@@ -20,7 +23,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     ProductAddComponent,
     ProductEditComponent,
     ProductTableComponent,
-    ProductViewComponent
+    ProductViewComponent,
+    MutltiProductComponent,
+    ArraytableComponent,
+    ArrayEditComponent
   ],
   imports: [
     CommonModule,

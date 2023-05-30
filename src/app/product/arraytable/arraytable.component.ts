@@ -1,15 +1,19 @@
-import { AfterViewInit, Component, DoCheck, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { DailogService } from 'src/app/dailogbox/dailog.service';
+import { AcountService } from 'src/app/services/acount.service';
 import { ProductService } from 'src/app/services/product.service';
+import { UserService } from 'src/app/services/user.service';
+import { userobj } from 'src/app/user';
 
 @Component({
-  selector: 'app-product-table',
-  templateUrl: './product-table.component.html',
-  styleUrls: ['./product-table.component.scss']
+  selector: 'app-arraytable',
+  templateUrl: './arraytable.component.html',
+  styleUrls: ['./arraytable.component.scss']
 })
-export class ProductTableComponent implements OnInit, AfterViewInit {
+export class ArraytableComponent implements OnInit {
+
   dataSource!: MatTableDataSource<any>;
   data: any
   displayedColumns: string[] = ['name', 'price', 'description', 'category', 'available', 'Action'];
@@ -21,15 +25,11 @@ export class ProductTableComponent implements OnInit, AfterViewInit {
     this.myTableData()
   }
 
-  // ngDoCheck() {
-  //   console.log(this.products.allProductData)
-  //   this.myTableData()
-  // }
-
   myTableData() {
     let myProduct = localStorage.getItem('product')
 
     if (myProduct !== null) {
+      this.data = JSON.parse(myProduct)
       this.dataSource = new MatTableDataSource(JSON.parse(myProduct));
       this.dataSource.paginator = this.paginator;
     }

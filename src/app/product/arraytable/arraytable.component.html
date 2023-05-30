@@ -2,42 +2,47 @@
     <div class="table-container product-table">
         <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
-            <!--- Note that these columns can be defined in any order.
-        The actual rendered columns are set as a property on the row definition" -->
 
-            <!-- Position Column -->
             <ng-container matColumnDef="name">
                 <th mat-header-cell *matHeaderCellDef> Product name </th>
-                <td mat-cell *matCellDef="let element"> {{element.product.name | titlecase}} </td>
+                <td mat-cell *matCellDef="let element">
+                    <li *ngFor="let item of element.product">{{item.name | titlecase}}</li>
+                </td>
             </ng-container>
             <ng-container matColumnDef="category">
                 <th mat-header-cell *matHeaderCellDef> category </th>
-                <td mat-cell *matCellDef="let element"> {{element.product.category}} </td>
+                <td mat-cell *matCellDef="let element">
+                    <li *ngFor="let item of element.product">{{item.category}}</li>
+
+                </td>
             </ng-container>
 
-            <!-- Name Column -->
 
             <ng-container matColumnDef="price">
                 <th mat-header-cell *matHeaderCellDef>price </th>
-                <td mat-cell *matCellDef="let element"> {{element.product.price}} </td>
+                <td mat-cell *matCellDef="let element">
+                    <li *ngFor="let item of element.product">{{item.price}}</li>
+                </td>
             </ng-container>
 
-            <!-- Weight Column -->
+
             <ng-container matColumnDef="description">
                 <th mat-header-cell *matHeaderCellDef> description </th>
-                <td mat-cell *matCellDef="let element"> {{element.product.description}} </td>
+                <td mat-cell *matCellDef="let element">
+                    <li *ngFor="let item of element.product">{{item.description}}</li>
+                </td>
             </ng-container>
 
 
             <ng-container matColumnDef="available">
                 <th mat-header-cell *matHeaderCellDef> available </th>
-                <td mat-cell *matCellDef="let element"
-                    [ngClass]="element.product.available =='true'?'success' :'danger'">
-                    {{element.product.available }}
+                <td mat-cell *matCellDef="let element">
+                    <li *ngFor="let item of element.product" [ngClass]="item.available =='true'?'success' :'danger'">
+                        {{item.available}}</li>
                 </td>
             </ng-container>
 
-            <!-- Symbol Column -->
+
             <ng-container matColumnDef="Action">
                 <th mat-header-cell *matHeaderCellDef>Action</th>
                 <td mat-cell *matCellDef="let element">
