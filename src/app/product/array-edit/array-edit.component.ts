@@ -28,13 +28,11 @@ export class ArrayEditComponent implements OnInit {
   ngOnInit(): void {
     this.data = this.products.getMydata(this.Id)
     this.productForm = this.fb.group({
-      product: this.fb.array([])
+      product: this.fb.array([
+      ])
     })
     this.addMamualProductData()
   }
-
-
-
 
   addMamualProductData() {
     this.data.product.forEach((element: any) => {
@@ -69,7 +67,6 @@ export class ArrayEditComponent implements OnInit {
     else { console.log("sorry") }
   }
 
-
   myproduct = this.fb.group({
     name: ['', [Validators.required, this.validateInput]],
     price: ['', [Validators.required, Validators.min(0)]],
@@ -78,11 +75,9 @@ export class ArrayEditComponent implements OnInit {
     category: ['', [Validators.required,]],
     available: ['', [Validators.required,]],
   })
-  get productLenght() { return this.productx.length }
-  get allproduct() {
 
-    return 1
-  }
+  get productLenght() { return this.productx.length }
+
   validateInput(control: AbstractControl) {
     const trimmedValue = control.value.trim();
     if (trimmedValue === '') {

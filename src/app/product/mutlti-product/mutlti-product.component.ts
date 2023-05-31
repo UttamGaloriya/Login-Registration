@@ -31,8 +31,38 @@ export class MutltiProductComponent implements OnInit {
   addProductForm() {
     this.productx.push(this.createProductForm())
   }
+
+
+
   removeProductForm(i: number) {
     this.productx.removeAt(i)
+  }
+
+
+
+  createProductForm() {
+    return this.fb.group({
+      name: ['', [Validators.required, this.validateInput]],
+      price: ['', [Validators.required, Validators.min(0)]],
+      productId: ['', [Validators.required, Validators.min(0), Validators.max(999999),]],
+      category: ['', Validators.required],
+      description: ['', [Validators.required, this.validateInput]],
+      available: ['', Validators.required]
+    });
+  }
+
+
+
+  get productLenght() { return this.productx.length }
+
+
+  //valdtion
+  validateInput(control: AbstractControl) {
+    const trimmedValue = control.value.trim();
+    if (trimmedValue === '') {
+      return { spacesOnly: true };
+    }
+    return null
   }
 
   ///submit
@@ -43,41 +73,5 @@ export class MutltiProductComponent implements OnInit {
         this.alert.showNotification("data add suceessful", "ok", "success")
     }
   }
-
-  createProductForm() {
-    return this.fb.group({
-      name: ['', [Validators.required, this.validateInput]],
-      price: ['', [Validators.required, Validators.min(0)]],
-      productId: ['', [Validators.required, Validators.min(0), Validators.max(999999),]],
-      category: ['', Validators.required],
-      description: ['', [Validators.required, this.validateInput]],
-      available: [true, Validators.required]
-    });
-  }
-
-
-  get productLenght() { return this.productx.length }
-  // get f(): { [key: string]: AbstractControl } { return this.productForm.controls.product.; }
-  get allproduct() {
-
-    return 1
-  }
-  chekdata() {
-    const data = localStorage.getItem('pdArry')
-    if (data != null) {
-      let list = JSON.parse(data)
-      console.log(list[0].product)
-    }
-  }
-  //valdtion
-  validateInput(control: AbstractControl) {
-    const trimmedValue = control.value.trim();
-    if (trimmedValue === '') {
-      return { spacesOnly: true };
-    }
-    return null
-  }
-
-
 
 }

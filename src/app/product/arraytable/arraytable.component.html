@@ -6,7 +6,7 @@
             <ng-container matColumnDef="name">
                 <th mat-header-cell *matHeaderCellDef> Product name </th>
                 <td mat-cell *matCellDef="let element">
-                    <li *ngFor="let item of element.product">{{item.name | titlecase}}</li>
+                    <li *ngFor="let item of element.product">{{item.name | ProductName:15 }}</li>
                 </td>
             </ng-container>
             <ng-container matColumnDef="category">
@@ -29,7 +29,7 @@
             <ng-container matColumnDef="description">
                 <th mat-header-cell *matHeaderCellDef> description </th>
                 <td mat-cell *matCellDef="let element">
-                    <li *ngFor="let item of element.product">{{item.description}}</li>
+                    <li *ngFor="let item of element.product">{{item.description | ProductName:100}}</li>
                 </td>
             </ng-container>
 
@@ -67,6 +67,7 @@
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
-        <mat-paginator [pageSizeOptions]="[2,5, 50, 20]" showFirstLastButtons></mat-paginator>
+
     </div>
 </div>
+<mat-paginator [pageSizeOptions]="[2,5, 50, 20]" showFirstLastButtons></mat-paginator>
