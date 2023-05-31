@@ -13,28 +13,34 @@ export class ProductEditComponent implements OnInit {
   formValid: boolean = false
   Options: string[] = ['SmartPhone', 'Tv', 'Ac']
   Id!: number;
+  objId!: number
   constructor(private fb: FormBuilder, private products: ProductService, private route: ActivatedRoute,) {
     this.route.params.subscribe((res) => {
-      this.Id = res['id'];
-      console.log("cons" + this.Id)
+      this.Id = parseInt(res['id'], 10);
+      console.log("id" + this.Id)
+    });
+    this.route.params.subscribe((res) => {
+      this.objId = parseInt(res['objId'], 10);
+      console.log("objId" + this.objId)
     });
 
   }
 
   ngOnInit(): void {
-    this.getupadteData(this.products.getMydata(this.Id))
-    console.log("ng" + this.Id)
+
+
+    this.getupadteData(this.products.getMyDataObj(this.Id, this.objId))
   }
 
   getupadteData(data: any) {
     this.productForm = this.fb.group({
       product: this.fb.group({
-        name: [data.product.name, [Validators.required,]],
-        productId: [data.product.productId, [Validators.required]],
-        price: [data.product.price, [Validators.required,]],
-        description: [data.product.description, [Validators.required,]],
-        category: [data.product.category, [Validators.required,]],
-        available: [data.product.available, [Validators.required,]],
+        name: [data.name, [Validators.required,]],
+        productId: [data.productId, [Validators.required]],
+        price: [data.price, [Validators.required,]],
+        description: [data.description, [Validators.required,]],
+        category: [data.category, [Validators.required,]],
+        available: [data.available, [Validators.required,]],
       })
     })
 
@@ -54,7 +60,7 @@ export class ProductEditComponent implements OnInit {
   ///submit
   addProduct() {
 
-    if (this.productForm.valid) { this.products.updateMydata(this.productForm.value, this.Id) }
+    if (this.productForm.valid) { this.products.updateObjId(this.productForm.value, this.Id, this.objId) }
     else { console.log("sorry") }
   }
 

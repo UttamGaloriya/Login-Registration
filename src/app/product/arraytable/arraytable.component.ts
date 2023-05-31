@@ -16,7 +16,7 @@ export class ArraytableComponent implements OnInit {
 
   dataSource!: MatTableDataSource<any>;
   data: any
-  displayedColumns: string[] = ['name', 'price', 'description', 'category', 'available', 'Action'];
+  displayedColumns: string[] = ['name', 'price', 'description', 'category', 'available', 'obj', 'Action'];
   @ViewChild(MatPaginator) paginator: MatPaginator | null = null;
 
   constructor(private products: ProductService, private ds: DailogService) { }

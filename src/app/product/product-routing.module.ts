@@ -15,7 +15,8 @@ const routes: Routes = [
     children: [
       { path: 'addx', component: ProductAddComponent },
       { path: 'view', component: ProductViewComponent },
-      { path: 'editx/:id', component: ProductEditComponent },
+      // { path: 'editx/:id', component: ProductEditComponent },
+      { path: 'pro/:id/:objId', component: ProductEditComponent },
       { path: 'tablex', component: ProductTableComponent },
       { path: 'add', component: MutltiProductComponent },
       { path: 'table', component: ArraytableComponent },

@@ -21,7 +21,6 @@ export class ProductService {
         }
       });
       return highId + 1
-
     }
     else return 1;
   }
@@ -130,4 +129,37 @@ export class ProductService {
     }
   }
 
+
+  updateObjId(Data: myProduct, id: number, objId: number) {
+
+    const myproduct = localStorage.getItem('product')
+    if (myproduct != null) {
+      const list = JSON.parse(myproduct)
+      const index = list.findIndex((res: myProduct) => res.id == id)
+      if (index !== -1) {
+        const newData = list[index]
+        newData.product[objId] = Data.product
+        console.log(newData.product[objId])
+        // Replace the element at the specified index with the updated data
+        localStorage.setItem('product', JSON.stringify(list));
+        this.alert.showNotification("Data updated successfully", "ok", "success");
+        this.router.navigateByUrl('/product/table');
+      } else {
+        this.alert.showNotification("Data not found", "ok", "info");
+      }
+
+    }
+
+  }
+
+  getMyDataObj(index: number, id: number) {
+    const myproduct = localStorage.getItem('product')
+    if (myproduct != null) {
+      const list = JSON.parse(myproduct)
+      const newIndex = list.findIndex((res: myProduct) => res.id == index);
+      console.log(list[newIndex].product)
+      const newData = list[newIndex].product[id]
+      return newData
+    }
+  }
 }
