@@ -51,14 +51,14 @@ export class ProductService {
   }
 
   getMydata(id: number) {
-    if (this.myproduct != null) {
-      let data: any
-      const list = JSON.parse(this.myproduct)
-      list.forEach((res: any) => {
-        if (res.id == id) { data = res }
-      })
-      return data
-    } else { console.log("data not found") }
+
+    const oldRecords = localStorage.getItem('product');
+    if (oldRecords !== null) {
+      const userList = JSON.parse(oldRecords);
+      const newid = userList.findIndex((a: any) => a.id == id)
+      return userList[newid]
+    }
+    else return null
   }
 
 
@@ -108,5 +108,26 @@ export class ProductService {
 
   }
 
+  deleteObjId(index: number, objId: number) {
+    const myproduct = localStorage.getItem('product')
+    if (myproduct != null) {
+      const list = JSON.parse(myproduct)
+      const newIndex = list.findIndex((res: myProduct) => res.id == index);
+      console.log(list[newIndex].product)
+      const newData = list[newIndex]
+      if (newData.product.length == 1) {
+        list.splice(newIndex, 1)
+      }
+      else {
+        newData.product.splice(objId, 1)
+        list.splice(newIndex, 1, newData);
+      }
+
+      localStorage.setItem('product', JSON.stringify(list));
+      this.alert.showNotification("Data delete successfuly", "ok", "success")
+    } else {
+      this.alert.showNotification("Data Not found", "ok", "success")
+    }
+  }
 
 }
