@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { myProduct } from 'src/app/myProduct';
 import { AlertService } from 'src/app/services/alert.service';
 import { ProductService } from 'src/app/services/product.service';
 
@@ -18,24 +19,31 @@ export class ArrayEditComponent implements OnInit {
   data: any
   obj: any
 
-  constructor(private fb: FormBuilder, private products: ProductService, private alert: AlertService, private route: ActivatedRoute,) {
+  constructor(private fb: FormBuilder, private products: ProductService, private alerts: AlertService, private route: ActivatedRoute,) {
     this.route.params.subscribe((res) => {
       this.Id = parseInt(res['id'], 10);
     });
+
     console.log("cons" + this.Id)
+
+
   }
 
   ngOnInit(): void {
-    this.data = this.products.getMydata(this.Id)
+    // this.data = this.products.getMydata(this.Id)
+    console.log(this.data)
     this.productForm = this.fb.group({
-      product: this.fb.array([
-      ])
+      product: this.fb.array([])
     })
-    this.addMamualProductData()
+    this.addMamualProductData(this.products.getMydata(this.Id))
+
   }
 
-  addMamualProductData() {
-    this.data.product.forEach((element: any) => {
+  addMamualProductData(res: myProduct) {
+    console.log("working")
+
+    res.product.forEach((element: any) => {
+      console.log("foreach working")
       this.productx.push(
         this.fb.group({
           name: [element.name, [Validators.required, this.validateInput]],
@@ -63,7 +71,7 @@ export class ArrayEditComponent implements OnInit {
   ///submit
   addProduct() {
     console.log(this.productForm.valid)
-    if (this.productForm.valid) { this.products.updateMydata(this.productForm.value, this.Id), this.alert.showNotification("data Update suceessful", "ok", "success") }
+    if (this.productForm.valid) { this.products.updateMydata(this.productForm.value, this.Id), this.alerts.showNotification("data Update suceessful", "ok", "success") }
     else { console.log("sorry") }
   }
 

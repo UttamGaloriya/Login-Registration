@@ -73,11 +73,11 @@
                                 </mat-radio-group>
                             </div>
                             <div class="add-remove">
-                                <button mat-mini-fab color="primary" (click)="addProductForm()">
+                                <button mat-mini-fab color="primary" (click)="addProductForm()" type="button">
                                     <mat-icon>add</mat-icon>
                                 </button>
                                 <button mat-mini-fab color="primary" (click)="removeProductForm(i)"
-                                    *ngIf="productLenght>1">
+                                    *ngIf="productLenght>1" type="button">
                                     <mat-icon>remove</mat-icon>
                                 </button>
                             </div>

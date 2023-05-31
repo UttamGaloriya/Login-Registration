@@ -83,9 +83,15 @@ margin: 10px 0px;}
     padding: 15px 0px;
 
 }
-.success{background: #48e9c8; padding: 10px;letter-spacing: 1px;}
+.success{
+
+    width: 105px;
+    display: flex;
+    justify-content: center;
+    background: #48e9c8; padding: 5px;letter-spacing: 1px;
+}
 .danger{background: hsl(0, 74%, 62%);color: #FFF;
-    padding: 10px;letter-spacing: 1px;}
+    padding: 5px;letter-spacing: 1px;width: 105px;}
 .product-table  .mat-header-cell {
     background: #f2f887;
     font-size: 20px;
@@ -95,4 +101,21 @@ margin: 10px 0px;}
 }
 .product-tab .mat-cell, .mat-footer-cell {
     font-size: 17px;
+}
+
+//table
+tr.mat-row, tr.mat-footer-row {
+    height: 100%;
+}
+.table-container th.mat-header-cell, .table-container td.mat-cell, .table-container td.mat-footer-cell {
+    padding: 10px 20px;
+}
+.table-container li {
+    list-style: none;
+    padding: 4px 0px;
+    margin: 5px 0px;
+}
+.mat-cell, .mat-footer-cell {
+    font-size: 16px;
+    text-transform: capitalize;
 }

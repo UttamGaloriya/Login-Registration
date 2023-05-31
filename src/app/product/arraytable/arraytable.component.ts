@@ -56,4 +56,8 @@ export class ArraytableComponent implements OnInit {
       });
     this.myTableData()
   }
+  deleteObj(index: number, objId: number) {
+    this.products.deleteObjId(index, objId)
+    this.myTableData()
+  }
 }
