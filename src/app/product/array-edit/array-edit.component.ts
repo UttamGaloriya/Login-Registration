@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertService } from 'src/app/services/alert.service';
 import { ProductService } from 'src/app/services/product.service';
@@ -16,25 +16,23 @@ export class ArrayEditComponent implements OnInit {
   Options: string[] = ['SmartPhone', 'Tv', 'Ac']
   Id: number = -1
   data: any
+  obj: any
 
   constructor(private fb: FormBuilder, private products: ProductService, private alert: AlertService, private route: ActivatedRoute,) {
     this.route.params.subscribe((res) => {
-      this.Id = res['id'];
+      this.Id = parseInt(res['id'], 10);
     });
     console.log("cons" + this.Id)
   }
 
   ngOnInit(): void {
     this.data = this.products.getMydata(this.Id)
-    console.log("ngon" + this.Id)
-    console.log("my edit data" + this.data.product)
-
     this.productForm = this.fb.group({
       product: this.fb.array([])
     })
-
     this.addMamualProductData()
   }
+
 
 
 
@@ -42,11 +40,11 @@ export class ArrayEditComponent implements OnInit {
     this.data.product.forEach((element: any) => {
       this.productx.push(
         this.fb.group({
-          name: [element.name, [Validators.required,]],
-          price: [element.price, [Validators.required,]],
-          productId: [element.productId, [Validators.required]],
+          name: [element.name, [Validators.required, this.validateInput]],
+          price: [element.price, [Validators.required, Validators.min(0)]],
+          productId: [element.productId, [Validators.required, Validators.min(0), Validators.max(999999)]],
           description: [element.description, [Validators.required,]],
-          category: [element.category, [Validators.required,]],
+          category: [element.category, [Validators.required, this.validateInput]],
           available: [element.available, [Validators.required,]],
         })
       )
@@ -73,18 +71,23 @@ export class ArrayEditComponent implements OnInit {
 
 
   myproduct = this.fb.group({
-    name: ['', [Validators.required,]],
-    price: ['', [Validators.required,]],
-    productId: ['', [Validators.required]],
-    description: ['', [Validators.required,]],
+    name: ['', [Validators.required, this.validateInput]],
+    price: ['', [Validators.required, Validators.min(0)]],
+    productId: ['', [Validators.required, Validators.min(0), Validators.max(999999)]],
+    description: ['', [Validators.required, this.validateInput]],
     category: ['', [Validators.required,]],
     available: ['', [Validators.required,]],
   })
   get productLenght() { return this.productx.length }
-  // get f(): { [key: string]: AbstractControl } { return this.productForm.controls.product.; }
   get allproduct() {
 
     return 1
   }
-
+  validateInput(control: AbstractControl) {
+    const trimmedValue = control.value.trim();
+    if (trimmedValue === '') {
+      return { spacesOnly: true };
+    }
+    return null
+  }
 }

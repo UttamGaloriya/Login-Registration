@@ -83,8 +83,9 @@ margin: 10px 0px;}
     padding: 15px 0px;
 
 }
-.success{background: #48e9c8;}
-.danger{background: hsl(0, 74%, 62%);}
+.success{background: #48e9c8; padding: 10px;letter-spacing: 1px;}
+.danger{background: hsl(0, 74%, 62%);color: #FFF;
+    padding: 10px;letter-spacing: 1px;}
 .product-table  .mat-header-cell {
     background: #f2f887;
     font-size: 20px;

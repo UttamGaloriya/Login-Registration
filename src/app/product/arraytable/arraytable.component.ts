@@ -33,12 +33,15 @@ export class ArraytableComponent implements OnInit {
       this.dataSource = new MatTableDataSource(JSON.parse(myProduct));
       this.dataSource.paginator = this.paginator;
     }
-    else {
-      alert("data is empty")
-    }
   }
   ngAfterViewInit() {
+    let myProduct = localStorage.getItem('product')
     this.dataSource.paginator = this.paginator;
+    if (myProduct !== null) {
+      this.data = JSON.parse(myProduct)
+      this.dataSource = new MatTableDataSource(JSON.parse(myProduct));
+      this.dataSource.paginator = this.paginator;
+    }
   }
   delete(data: any, id: number) {
 

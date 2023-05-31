@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { AlertService } from 'src/app/services/alert.service';
 import { ProductService } from 'src/app/services/product.service';
 import { ValidatorsService } from 'src/app/services/validators.service';
@@ -38,17 +38,19 @@ export class MutltiProductComponent implements OnInit {
   ///submit
   addProduct() {
     console.log(this.productForm.valid)
-    if (this.productForm.valid) { this.products.productDetailsAdd(this.productForm.value), this.alert.showNotification("data add suceessful", "ok", "success") }
-    else { console.log("sorry") }
+    if (this.productForm.valid) {
+      this.products.productDetailsAdd(this.productForm.value),
+        this.alert.showNotification("data add suceessful", "ok", "success")
+    }
   }
 
   createProductForm() {
     return this.fb.group({
-      name: [null, Validators.required,],
+      name: ['', [Validators.required, this.validateInput]],
       price: ['', [Validators.required, Validators.min(0)]],
-      productId: ['', [Validators.required, Validators.min(0), Validators.minLength(6), Validators.maxLength(6)]],
+      productId: ['', [Validators.required, Validators.min(0), Validators.max(999999),]],
       category: ['', Validators.required],
-      description: ['', Validators.required],
+      description: ['', [Validators.required, this.validateInput]],
       available: [true, Validators.required]
     });
   }
@@ -68,11 +70,14 @@ export class MutltiProductComponent implements OnInit {
     }
   }
   //valdtion
-  validateInput(control: FormControl) {
+  validateInput(control: AbstractControl) {
     const trimmedValue = control.value.trim();
     if (trimmedValue === '') {
       return { spacesOnly: true };
     }
     return null
   }
+
+
+
 }

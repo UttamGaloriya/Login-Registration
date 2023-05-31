@@ -66,6 +66,7 @@ export class RegisterComponent implements OnInit {
     });
 
   }
+
   //text valdtion
   validateInput(control: FormControl) {
     const trimmedValue = control.value.trim();
@@ -80,6 +81,7 @@ export class RegisterComponent implements OnInit {
     }
     return null;
   }
+
   //number valdtion
   validateInputNum(control: FormControl) {
     const trimmedValue = control.value.trim();

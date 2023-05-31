@@ -82,6 +82,7 @@ export class ProductService {
   }
 
   updateMydata(Data: myProduct, id: number) {
+    Data.id = Number(id)
     const myproduct = localStorage.getItem('product')
 
     if (myproduct != null) {
@@ -91,8 +92,7 @@ export class ProductService {
 
       // 
       if (index !== -1) {
-        console.log(" working")
-        Data.id = id; // Assign the ID from the parameter to the updated data
+        // Assign the ID from the parameter to the updated data
         console.log(Data.id)
         list.splice(index, 1, Data); // Replace the element at the specified index with the updated data
         localStorage.setItem('product', JSON.stringify(list));
