@@ -10,12 +10,15 @@ import { selectData } from '../selectData';
 export class AddFormComponent implements OnInit {
   user!: FormGroup
   bodyRegionList: string[] = ['Extra cheese', 'Mushroom', 'Onion', 'Pepperoni', 'Sausage', 'Tomato'];
-  // typeList: string[] = ['Extra cheese', 'Mushroom', 'Onion', 'Pepperoni', 'Sausage', 'Tomato'];
+  routineList: string[] = ['day', 'sun', 'mon', 'tue', 'wed', 'fri', 'thu', 'sat']
   typeList: any = Object.keys(selectData)
   uniteList: any = selectData
+  measurementsList: string[] = ['one', 'two', 'three', 'foure']
+  compersionList: string[] = ['equal', 'less', 'gretter', 'noteqval']
   constructor(private fb: FormBuilder) { }
 
   ngOnInit(): void {
+    alert("hi")
     this.user = this.fb.group({
       assement: ['', [Validators.required]],
       bodyRegion: ['', [Validators.required]],
@@ -23,12 +26,25 @@ export class AddFormComponent implements OnInit {
       patientTime: this.fb.array([this.PatientTime()]),
       patient: this.fb.array([this.Patient()])
     })
+
+  }
+  unite(index: number, sub_index: number) {
+    const unite = this.user.value.patient[index].category[sub_index].type
+    if (1) {
+      return this.uniteList[unite]
+    } else {
+      return 1
+    }
+  }
+
+  time() {
+    return this.user.value.patientTime
   }
   //patient
   Patient() {
     return this.fb.group(
       {
-        categoryName: [''],
+        categoryName: ['', [Validators.required]],
         category: this.fb.array([this.assessment()])
       }
     )
@@ -52,10 +68,21 @@ export class AddFormComponent implements OnInit {
   assessment() {
     let assement = this.fb.group(
       {
-        assessmentName: [''],
-        type: [''],//select
-        unite: [''],//select
-        range: [''],//two number
+        assessmentName: ['', [Validators.required]],
+        type: ['', [Validators.required]],//select
+        unite: ['', [Validators.required]],//select
+        rangeMin: ['', [Validators.required]],//two number
+        rangeMax: ['', [Validators.required]],//two number
+        compersion: ['false'],
+        measurements: [''],
+        goals: this.fb.group({
+          goal1: [''],
+          goal2: [''],
+          goal3: [''],
+          goal4: ['']
+        }),
+        routine: [''],
+        times: ['']
       })
     return assement
   }
@@ -68,16 +95,11 @@ export class AddFormComponent implements OnInit {
   removeAssesment(index: number, i: number) {
     this.getAssessment(index).removeAt(i)
   }
-
-  //select unite function
-  unite(p_index: number) {
-    const unite = this.user.value.patient[p_index].category[0].type
-    if (unite != null) {
-      return this.uniteList[unite]
-    } else {
-      return 1
-    }
+  lengthAssessment(index: number) {
+    return this.getAssessment(index).length
   }
+  //select unite function
+
   //patient time
   PatientTime() {
     return this.fb.group(
@@ -100,12 +122,15 @@ export class AddFormComponent implements OnInit {
   }
   //submit button
   submit() {
+
     if (this.user.valid) {
       console.log('submit')
       console.log(this.user.value)
     }
     else {
-      alert("Please fill all the fields")
+      // alert("Please fill all the fields")
     }
+
   }
+
 }

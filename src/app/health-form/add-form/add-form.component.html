@@ -18,7 +18,6 @@
                     <mat-form-field class="max-100" appearance="fill">
                         <mat-label>BodyRegion</mat-label>
                         <mat-select formControlName="bodyRegion" multiple>
-
                             <mat-option *ngFor="let brList of bodyRegionList" [value]="brList">{{brList}}</mat-option>
                         </mat-select>
                     </mat-form-field>
@@ -57,21 +56,29 @@
             </div>
             <div formArrayName="patient">
                 <div *ngFor="let item of getPatient.controls; let i = index">
-                    <div [formGroupName]="i">
-
-                        <mat-form-field class="max-100" appearance="fill">
-                            <mat-label>category</mat-label>
-                            <input matInput placeholder="Assement" formControlName="categoryName">
-                        </mat-form-field>
-                        <button mat-icon-button color="warn" aria-label="Example icon button with a heart icon"
-                            type="button" (click)="removePatient(i)" *ngIf="lengthPatient >1 ">
-                            <mat-icon>delete</mat-icon>
-                        </button>
+                    <!-- //category group -->
+                    <div [formGroupName]="i" class="category">
+                        <!-- categoryName -->
+                        <div class="categoryName">
+                            <mat-form-field class="max-100" appearance="fill">
+                                <mat-label>category</mat-label>
+                                <input matInput placeholder="Assement" formControlName="categoryName"
+                                    value="nghfghgfhj">
+                            </mat-form-field>
+                            <button mat-flat-button color="warn" type="button" (click)="addPatient()"
+                                class="schedule">Add
+                                category</button>
+                            <button mat-icon-button color="warn" aria-label="Example icon button with a heart icon"
+                                type="button" (click)="removePatient(i)" *ngIf="lengthPatient >1 ">
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                        </div>
+                        <!-- //assement  -->
                         <div class="assessemnt">
+                            <!-- /assement name  -->
                             <div formArrayName="category">
-                                <div *ngFor="let item of getAssessment(i).controls; let j = index">
-
-                                    <div [formGroupName]="j" class="row-2">
+                                <ng-container *ngFor="let item of getAssessment(i).controls; let j = index">
+                                    <div [formGroupName]="j" class="row-2" class="assementDetails">
                                         <div class="sub-cat-row-2">
 
                                             <mat-form-field class="max-100" appearance="fill">
@@ -81,6 +88,11 @@
                                             <button mat-flat-button color="primary" type="button"
                                                 (click)="addAssesment(i)" class="schedule">Add
                                                 Assessment</button>
+                                            <button mat-icon-button color="warn"
+                                                aria-label="Example icon button with a heart icon" type="button"
+                                                (click)="removeAssesment(i,j)" *ngIf="lengthAssessment(i)>1 ">
+                                                <mat-icon>delete</mat-icon>
+                                            </button>
 
                                         </div>
                                         <div class="sub-cat-row-3">
@@ -95,30 +107,104 @@
 
                                             <mat-form-field class="max-100" appearance="fill">
                                                 <mat-label>unite</mat-label>
-                                                <mat-select formControlName="type">
-                                                    <mat-option *ngFor="let typeList of unite(0)"
-                                                        [value]="typeList">{{typeList}}</mat-option>
+                                                <mat-select formControlName="unite">
+                                                    <mat-option *ngFor="let uniteList of unite(i,j)"
+                                                        [value]="uniteList">{{uniteList}}</mat-option>
                                                 </mat-select>
                                             </mat-form-field>
-                                            <button mat-icon-button color="warn"
-                                                aria-label="Example icon button with a heart icon" type="button"
-                                                (click)="removeAssesment(i,j)" *ngIf="lengthPatient >1 ">
-                                                <mat-icon>delete</mat-icon>
-                                            </button>
+                                            <mat-checkbox formControlName="compersion" color="primary"
+                                                value="true">Yes</mat-checkbox>
+
+                                            <div class="range">
+                                                <mat-form-field class="max-100" appearance="fill">
+                                                    <mat-label>Range Min</mat-label>
+                                                    <input matInput type="number" placeholder="Assement" min="10"
+                                                        max="998" formControlName="rangeMin">
+                                                </mat-form-field>
+                                                <mat-form-field class="max-100" appearance="fill">
+                                                    <mat-label>Range Max</mat-label>
+                                                    <input matInput type="number" placeholder="Assement" max="999"
+                                                        min="11" formControlName="rangeMax">
+                                                </mat-form-field>
+                                            </div>
+
+                                            <mat-form-field class="max-100" appearance="fill">
+                                                <mat-label>measurements</mat-label>
+                                                <mat-select formControlName="measurements" multiple>
+                                                    <mat-option *ngFor="let routine of measurementsList"
+                                                        [value]="routine">
+                                                        {{routine}}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                            <div>
+                                                <h3>Goals</h3>
+                                                <div formGroupName="goals" class="goals">
+                                                    <!-- <mat-form-field class="max-100" appearance="fill">
+                                                        <mat-label>measurements</mat-label>
+                                                        <mat-select formControlName="goals">
+                                                            <mat-option *ngFor="let compersion of compersionList"
+                                                                [value]="compersion">
+                                                                {{compersion}}
+                                                            </mat-option>
+                                                        </mat-select>
+                                                    </mat-form-field> -->
+
+                                                    <mat-form-field class="max-100" appearance="fill">
+                                                        <mat-label>value</mat-label>
+                                                        <input matInput type="number" placeholder="Assement" max="999"
+                                                            min="11" formControlName="goal1">
+                                                    </mat-form-field>
+                                                    <mat-form-field class="max-100" appearance="fill">
+                                                        <mat-label>value</mat-label>
+                                                        <input matInput type="number" placeholder="Assement" max="999"
+                                                            min="11" formControlName="goal2">
+                                                    </mat-form-field>
+                                                    <mat-form-field class="max-100" appearance="fill">
+                                                        <mat-label>value</mat-label>
+                                                        <input matInput type="number" placeholder="Assement" max="999"
+                                                            min="11" formControlName="goal3">
+                                                    </mat-form-field>
+                                                    <mat-form-field class="max-100" appearance="fill">
+                                                        <mat-label>value</mat-label>
+                                                        <input matInput type="number" placeholder="Assement" max="999"
+                                                            min="11" formControlName="goal4">
+                                                    </mat-form-field>
+                                                </div>
+                                            </div>
+
+                                            <mat-form-field class="max-100" appearance="fill">
+                                                <mat-label>routine</mat-label>
+                                                <mat-select formControlName="routine" multiple>
+                                                    <mat-option *ngFor="let routine of routineList" [value]="routine">
+                                                        {{routine}}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+
+                                            <mat-form-field class="max-100" appearance="fill">
+                                                <mat-label>times</mat-label>
+                                                <mat-select formControlName="times" multiple>
+                                                    <mat-option *ngFor="let times of time()"
+                                                        [value]="times">{{times.scheduleName + '' +
+                                                        times.scheduleTime}}</mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+
+
                                         </div>
                                     </div>
-                                </div>
+                                </ng-container>
 
                             </div>
                         </div>
                     </div>
 
                 </div>
-                <button mat-flat-button color="warn" type="button" (click)="addPatient()" class="schedule">Add
-                    category</button>
+
             </div>
-            <div class="button-add">
-                <button mat-flat-button color="primary" type="submit">Submit</button>
+            <div class="button-add-form">
+                <button mat-flat-button color="primary" type="submit" disabled>Submit</button>
             </div>
         </form>
     </mat-card>

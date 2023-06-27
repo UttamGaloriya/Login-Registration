@@ -14,6 +14,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSliderModule } from '@angular/material/slider';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 
 
@@ -31,7 +33,10 @@ const data = [
   MatCardModule,
   MatSnackBarModule,
   MatMenuModule,
-  MatPaginatorModule
+  MatPaginatorModule,
+  MatSliderModule,
+  MatCheckboxModule
+
 ];
 
 @NgModule({
