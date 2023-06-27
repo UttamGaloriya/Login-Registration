@@ -24,7 +24,7 @@ export class MutltiProductComponent implements OnInit {
   }
 
 
-  get productx() {
+  get productx(): FormArray {
     return this.productForm.get('product') as FormArray;
   }
 

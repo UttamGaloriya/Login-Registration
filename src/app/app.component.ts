@@ -21,7 +21,6 @@ export class AppComponent {
 
   }
   ngOnInit(): void {
-    this.userService.updateData(this.data, 50)
-      .subscribe((data: any) => console.log(data))
+
   }
 }

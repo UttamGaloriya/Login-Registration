@@ -11,7 +11,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LoginComponent } from './Account/login/login.component';
 import { PermisionComponent } from './dailogbox/permision/permision.component';
 import { SnakbarComponent } from './dailogbox/snakbar/snakbar.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { AuthInterceptor } from './interceptors/auth.interceptor';
 
 // import { MyCustomPipe } from './my-custom-pipe';
 // MyCustomPipe
@@ -29,7 +30,9 @@ import { HttpClientModule } from '@angular/common/http';
 
 
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule { }

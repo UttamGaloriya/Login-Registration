@@ -1,0 +1,14 @@
+<h1>content working</h1>
+
+Default:
+<!-- <ng-content></ng-content> -->
+
+Question:
+<ng-content select="[question]"></ng-content>
+<div *ngIf="logining; else loggedOut">
+    Welcome back.
+</div>
+
+<ng-template #loggedOut>
+    Please login.
+</ng-template>

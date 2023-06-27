@@ -71,7 +71,7 @@ margin: 10px 0px;}
 .button-add{
     width: 100%;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
 }
 .radio-group{margin-bottom: 10px;}
@@ -119,3 +119,18 @@ tr.mat-row, tr.mat-footer-row {
     font-size: 16px;
     text-transform: capitalize;
 }
+.mat-card-title {
+    background: cadetblue;
+    font-weight: 500;
+    padding: 10px;
+    color: #Fff;}
+ .button-add button{
+    max-width: 500px;
+    min-width: 80px;
+    width: 100%;
+    font-size: 20px;
+}
+.mat-table {
+    background: #cef1c2;
+}
+ 

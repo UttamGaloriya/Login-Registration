@@ -1,0 +1,9 @@
+<h2>address works!</h2>
+<app-contentdemo>
+    <p>hi i am using single content</p>
+    <p>if we are not use ng-content then not show data..</p>
+    <h2 question>i selected question </h2>
+</app-contentdemo>
+
+<button type="button" (click)="getData()">get my data</button>
+<div *ngIf="data">{{ data | json }}</div>
