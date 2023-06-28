@@ -13,10 +13,12 @@ export class AddFormComponent implements OnInit {
   routineList: string[] = ['day', 'sun', 'mon', 'tue', 'wed', 'fri', 'thu', 'sat']
   typeList: any = Object.keys(selectData)
   uniteList: any = selectData
-  measurementsDataList: string[] = ['one', 'two', 'three', 'foure']
+  measurementsDataList: string[] = ['simple', 'error', 'difference', 'comparsion']
   compersionList: string[] = ['equal', 'less', 'gretter', 'noteqval']
   assessmentToggle: object = { index: 0, sub_index: 0 }
   categoryIndex: number = 0
+  defaultSelect: string[] = ['simple']
+  simple = 'hi'
   constructor(private fb: FormBuilder) { }
 
   ngOnInit(): void {
@@ -29,6 +31,9 @@ export class AddFormComponent implements OnInit {
     })
 
   }
+
+
+  //function
   unite(index: number, sub_index: number) {
     const unite = this.user.value.patient[index].category[sub_index].type
     if (1) {
@@ -39,18 +44,9 @@ export class AddFormComponent implements OnInit {
   }
   measurementsList(index: number, sub_index: number) {
     const toggle = this.user.value.patient[index].category[sub_index].compersion
-
-    console.log(toggle)
     if (toggle === true) {
-      // this.user.get('patient')?.at[index].get('categoryName')?.disable()
-      // this.getPatient.at(index).get('categoryName')?.disable()
-      // this.getPatient.at(index).get('category')?.at(index)
-      // this.getAssessment(index).at(index).get('referenceRegion')?.disable()
       return this.measurementsDataList
-    } else {
-
-      return this.measurementsDataList.slice(0, 2)
-    }
+    } else { return this.measurementsDataList.slice(0, 2) }
   }
   compersion(index: number, sub_index: number) {
     const toggle = this.user.value.patient[index].category[sub_index].compersion
@@ -58,20 +54,20 @@ export class AddFormComponent implements OnInit {
     if (toggle == true) {
       this.getAssessment(index).at(sub_index).get('referenceRegion')?.enable()
       return true
-    } else {
-      return false
-    }
+    } else { return false }
   }
 
   showAssement(index: number, sub_index: number) {
     this.assessmentToggle = { index: index, sub_index: sub_index }
     this.showAssemntResult(index, sub_index)
   }
+
   showAssemntResult(index: number, sub_index: number) {
     const data: any = this.assessmentToggle
     if (data.index == index && data.sub_index == sub_index) { return true }
     else { return false; }
   }
+
   categoryShow(index: number) {
     if (index != this.categoryIndex) {
       this.categoryIndex = index;
@@ -87,8 +83,7 @@ export class AddFormComponent implements OnInit {
       {
         categoryName: ['', [Validators.required]],
         category: this.fb.array([this.assessment()])
-      }
-    )
+      })
   }
 
   get getPatient() {
@@ -108,6 +103,7 @@ export class AddFormComponent implements OnInit {
   get lengthPatient() {
     return this.getPatient.length
   }
+
   //assessment
   assessment() {
     let assement = this.fb.group(
@@ -117,16 +113,18 @@ export class AddFormComponent implements OnInit {
         unite: ['', [Validators.required]],//select
         rangeMin: ['', [Validators.required]],//two number
         rangeMax: ['', [Validators.required]],//two number
-        compersion: ['',],
-        measurements: ['', [Validators.required]],
+        compersion: [''],
+        measurements: [this.defaultSelect, [Validators.required]],
         measuringRegion: ['', [Validators.required]],
         referenceRegion: ['', [Validators.required]],
-        goals: this.fb.group({
-          goal1: [''],
-          goal2: [''],
-          goal3: [''],
-          goal4: ['']
-        }),
+        goals: this.fb.group(
+          {
+            simple: this.fb.group({ key: [''], value: [''], }),
+            error: this.fb.group({ key: [''], value: [''], }),
+            difference: this.fb.group({ key: [''], value: [''], }),
+            comparsion: this.fb.group({ key: [''], value: [''], }),
+          }
+        ),
         routine: ['', [Validators.required]],
         times: ['', [Validators.required]]
       })
@@ -135,6 +133,26 @@ export class AddFormComponent implements OnInit {
   getAssessment(index: number) {
     return this.getPatient.at(index).get('category') as FormArray
   }
+  goalsType(x: String, index: number, sub_index: number) {
+    let type: any = x
+    let getGoal: string[] = this.user.value.patient[index].category[sub_index].measurements
+
+
+
+    for (let i = 0; index < getGoal.length; index++) {
+      if (type !== getGoal[i]) {
+        this.getAssessment(index).at(sub_index).get('goals')?.get(type)?.disable()
+      }
+    }
+    // if (getGoal.length > 0) {
+
+    // }
+    return true
+  }
+
+
+
+
   addAssesment(index: number, sub_index: number) {
     this.getAssessment(index).push(this.assessment())
     this.showAssement(index, (sub_index + 1))
@@ -183,5 +201,8 @@ export class AddFormComponent implements OnInit {
       console.log("yes working")
     }
   }
+  mesurementSelect(index: number, sub_index: number) {
+    let getGoal: string[] = this.user.value.patient[index].category[sub_index].measurements
 
+  }
 }

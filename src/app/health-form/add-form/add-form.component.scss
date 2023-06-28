@@ -11,4 +11,5 @@
 .sub-cat-row-2{width: 20%;padding: 0px 16px;}
 .sub-cat-row-3{width: 80%;border: 1px solid red;margin-bottom: 16px;;}
 .range{display: flex;gap: 10px;}
-.goals{display: flex;gap: 16;}
+.goals{display: flex;gap: 16;flex-direction: column;padding: 0px 24px;}
+.goals-sub-row{background: #b4a5a5;display: flex;gap: 20px;}

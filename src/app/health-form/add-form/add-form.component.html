@@ -152,47 +152,87 @@
 
                                                 <mat-form-field class="max-100" appearance="fill">
                                                     <mat-label>measurements</mat-label>
-                                                    <mat-select formControlName="measurements" multiple>
+                                                    <mat-select formControlName="measurements" multiple
+                                                        (selectionChange)="mesurementSelect(i ,j)">
+
                                                         <mat-option *ngFor="let routine of measurementsList(i,j)"
                                                             [value]="routine">
-                                                            {{routine}}
+                                                            {{routine | titlecase}}
                                                         </mat-option>
                                                     </mat-select>
                                                 </mat-form-field>
                                                 <div>
                                                     <h3>Goals</h3>
                                                     <div formGroupName="goals" class="goals">
-                                                        <!-- <mat-form-field class="max-100" appearance="fill">
-                                                        <mat-label>measurements</mat-label>
-                                                        <mat-select formControlName="goals">
-                                                            <mat-option *ngFor="let compersion of compersionList"
-                                                                [value]="compersion">
-                                                                {{compersion}}
-                                                            </mat-option>
-                                                        </mat-select>
-                                                    </mat-form-field> -->
 
-                                                        <mat-form-field class="max-100" appearance="fill">
-                                                            <mat-label>value</mat-label>
-                                                            <input matInput type="number" placeholder="Assement"
-                                                                max="999" min="11" formControlName="goal1" [value]="20">
-                                                        </mat-form-field>
+                                                        <div class="goals-sub-row" formGroupName="simple"
+                                                            *ngIf="goalsType(measurementsDataList[0],i ,j)">
+                                                            <mat-form-field class="max-100" appearance="fill">
+                                                                <mat-label>key</mat-label>
+                                                                <mat-select formControlName="key">
+                                                                    <mat-option *ngFor="let key of compersionList"
+                                                                        [value]="key">{{key}}</mat-option>
+                                                                </mat-select>
+                                                            </mat-form-field>
+                                                            <mat-form-field class="max-100" appearance="fill">
+                                                                <mat-label>value</mat-label>
+                                                                <input matInput type="number" placeholder="Assement"
+                                                                    max="999" min="11" formControlName="value"
+                                                                    [value]="20">
+                                                            </mat-form-field>
+                                                        </div>
 
-                                                        <!-- <mat-form-field class="max-100" appearance="fill">
-                                                        <mat-label>value</mat-label>
-                                                        <input matInput type="number" placeholder="Assement" max="999"
-                                                            min="11" formControlName="goal2">
-                                                    </mat-form-field>
-                                                    <mat-form-field class="max-100" appearance="fill">
-                                                        <mat-label>value</mat-label>
-                                                        <input matInput type="number" placeholder="Assement" max="999"
-                                                            min="11" formControlName="goal3">
-                                                    </mat-form-field>
-                                                    <mat-form-field class="max-100" appearance="fill">
-                                                        <mat-label>value</mat-label>
-                                                        <input matInput type="number" placeholder="Assement" max="999"
-                                                            min="11" formControlName="goal4">
-                                                    </mat-form-field> -->
+                                                        <div class="goals-sub-row" formGroupName="error"
+                                                            *ngIf="goalsType(measurementsDataList[1],i ,j)">
+                                                            <mat-form-field class="max-100" appearance="fill">
+                                                                <mat-label>key</mat-label>
+                                                                <mat-select formControlName="key">
+                                                                    <mat-option *ngFor="let key of compersionList"
+                                                                        [value]="key">{{key}}</mat-option>
+                                                                </mat-select>
+                                                            </mat-form-field>
+                                                            <mat-form-field class="max-100" appearance="fill">
+                                                                <mat-label>value</mat-label>
+                                                                <input matInput type="number" placeholder="Assement"
+                                                                    max="999" min="11" formControlName="value"
+                                                                    [value]="20">
+                                                            </mat-form-field>
+                                                        </div>
+
+                                                        <div class="goals-sub-row" formGroupName="difference"
+                                                            *ngIf="goalsType(measurementsDataList[2],i ,j)">
+                                                            <mat-form-field class="max-100" appearance="fill">
+                                                                <mat-label>key</mat-label>
+                                                                <mat-select formControlName="key">
+                                                                    <mat-option *ngFor="let key of compersionList"
+                                                                        [value]="key">{{key}}</mat-option>
+                                                                </mat-select>
+                                                            </mat-form-field>
+                                                            <mat-form-field class="max-100" appearance="fill">
+                                                                <mat-label>value</mat-label>
+                                                                <input matInput type="number" placeholder="Assement"
+                                                                    max="999" min="11" formControlName="value"
+                                                                    [value]="20">
+                                                            </mat-form-field>
+                                                        </div>
+
+                                                        <div class="goals-sub-row" formGroupName="comparsion"
+                                                            *ngIf="goalsType(measurementsDataList[3],i ,j)">
+                                                            <mat-form-field class="max-100" appearance="fill">
+                                                                <mat-label>key</mat-label>
+                                                                <mat-select formControlName="key">
+                                                                    <mat-option *ngFor="let key of compersionList"
+                                                                        [value]="key">{{key}}</mat-option>
+                                                                </mat-select>
+                                                            </mat-form-field>
+                                                            <mat-form-field class="max-100" appearance="fill">
+                                                                <mat-label>value</mat-label>
+                                                                <input matInput type="number" placeholder="Assement"
+                                                                    max="999" min="11" formControlName="value"
+                                                                    [value]="20">
+                                                            </mat-form-field>
+                                                        </div>
+
                                                     </div>
                                                 </div>
                                             </div>
