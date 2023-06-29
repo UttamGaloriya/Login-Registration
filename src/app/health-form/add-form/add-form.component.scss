@@ -13,3 +13,10 @@
 .range{display: flex;gap: 10px;}
 .goals{display: flex;gap: 16;flex-direction: column;padding: 0px 24px;}
 .goals-sub-row{background: #b4a5a5;display: flex;gap: 20px;}
+.health-container .mat-form-field-appearance-fill.mat-form-field-disabled .mat-form-field-label {
+    color: rgb(237 0 0);
+}
+.health-containe .mat-form-field-appearance-fill.mat-form-field-disabled .mat-form-field-label {
+    color: rgb(217 0 0);
+}
+.cat-disable{background: #00000057;}

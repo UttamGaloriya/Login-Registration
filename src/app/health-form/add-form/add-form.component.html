@@ -10,41 +10,63 @@
         <form [formGroup]="user" (ngSubmit)="submit()">
             <div class="row-1">
                 <div class="sub-row-1">
+                    <!-- assement name  -->
                     <mat-form-field class="max-100" appearance="fill">
                         <mat-label>Assement</mat-label>
                         <input matInput placeholder="Assement" formControlName="assement">
+                        <mat-error *ngIf="formControl('assement').invalid && (formControl('assement').dirty || formControl('assement').touched)">
+                            <span *ngIf="formControl('assement').errors?.required">Assement is required.</span>
+                            <span *ngIf="formControl('assement').errors?.noWhitespace">Assement cannot be only
+                                spaces.</span>
+                        </mat-error>
                     </mat-form-field>
-
+                    <!-- body region  -->
                     <mat-form-field class="max-100" appearance="fill">
                         <mat-label>BodyRegion</mat-label>
                         <mat-select formControlName="bodyRegion" multiple>
                             <mat-option *ngFor="let brList of bodyRegionList" [value]="brList">{{brList}}</mat-option>
                         </mat-select>
+                        <mat-error *ngIf="formControl('bodyRegion').invalid && (formControl('bodyRegion').dirty || formControl('bodyRegion').touched)">
+                            <span *ngIf="formControl('bodyRegion').errors?.required">Body Region is required.</span>
+                        </mat-error>
                     </mat-form-field>
-
+                    <!-- description  -->
                     <mat-form-field class="max-100" appearance="fill">
                         <mat-label>description</mat-label>
-                        <textarea matInput placeholder="Ex. It makes me feel..."
-                            formControlName="description"></textarea>
+                        <textarea matInput placeholder="Ex. It makes me feel..." formControlName="description"></textarea>
+                        <mat-error *ngIf="formControl('description').invalid && (formControl('description').dirty || formControl('description').touched)">
+                            <span *ngIf="formControl('description').errors?.required">Description is required.</span>
+                            <span *ngIf="formControl('description').errors?.noWhitespace">Description cannot be only
+                                spaces.</span>
+                        </mat-error>
                     </mat-form-field>
 
                 </div>
+                <!-- patientTime  -->
                 <div formArrayName="patientTime" class="sub-row-2">
                     <div *ngFor="let item of getPatientTime.controls; let i = index">
                         <div [formGroupName]="i" class="patientTime">
-
+                            <!-- scheduleName  -->
                             <mat-form-field class="max-100" appearance="fill">
                                 <mat-label>scheduleName</mat-label>
                                 <input matInput placeholder="Assement" formControlName="scheduleName">
+                                <mat-error *ngIf="item.get('scheduleName')?.invalid && (item.get('scheduleName')?.dirty || item.get('scheduleName')?.touched)">
+                                    <span *ngIf="item.get('scheduleName')?.errors?.required">Assement is required.</span>
+                                    <span *ngIf="item.get('scheduleName')?.errors?.noWhitespace">Schedule Name cannot be only spaces.</span>
+                                </mat-error>
                             </mat-form-field>
-
+                            <!-- scheduleTime  -->
                             <mat-form-field class="max-100" appearance="fill">
                                 <mat-label>Time</mat-label>
                                 <input matInput type="time" placeholder="Assement" formControlName="scheduleTime">
+                                <mat-error *ngIf="item.get('scheduleTime')?.invalid && (item.get('scheduleTime')?.dirty || item.get('scheduleTime')?.touched)">
+                                    <span *ngIf="item.get('scheduleTime')?.errors?.required">Schedule Time is
+                                        required.</span>
+
+                                </mat-error>
                             </mat-form-field>
 
-                            <button mat-icon-button color="warn" aria-label="Example icon button with a heart icon"
-                                type="button" (click)="removePatientTime(i)" *ngIf="lengthPatientTime >1 ">
+                            <button mat-icon-button color="warn" aria-label="Example icon button with a heart icon" type="button" (click)="removePatientTime(i)" *ngIf="lengthPatientTime >1 ">
                                 <mat-icon>delete</mat-icon>
                             </button>
 
@@ -62,174 +84,197 @@
                         <div class="categoryName">
                             <mat-form-field class="max-100" appearance="fill">
                                 <mat-label>category</mat-label>
-                                <input matInput placeholder="Assement" formControlName="categoryName"
-                                    value="nghfghgfhj">
+                                <input matInput placeholder="Assement" formControlName="categoryName">
+                                <mat-error *ngIf="item.get('categoryName')?.invalid && (item.get('categoryName')?.dirty || item.get('categoryName')?.touched)">
+                                    <span *ngIf="item.get('categoryName')?.errors?.required">Category is required.</span>
+                                    <span *ngIf="item.get('categoryName')?.errors?.noWhitespace">Category Name cannot be only spaces.</span>
+                                </mat-error>
                             </mat-form-field>
-                            <button mat-flat-button color="warn" type="button" (click)="addPatient()"
-                                class="schedule">Add
-                                category</button>
-                            <button type="button" (click)="categoryShow(i)">toggle</button>
-                            <button mat-icon-button color="warn" aria-label="Example icon button with a heart icon"
-                                type="button" (click)="removePatient(i)" *ngIf="lengthPatient >1 ">
-                                <mat-icon>delete</mat-icon>
-                            </button>
+                            <div class="categoryButton" *ngIf="item.get('category')?.valid">
+                                <button mat-flat-button color="warn" type="button" (click)="addPatient()" class="schedule" [disabled]="!item.get('category')?.valid">Add
+                                    category</button>
+                                <button type="button" (click)="categoryShow(i)" mat-icon-button><mat-icon>arrow_right_alt</mat-icon></button>
+                                <button mat-icon-button color="warn" aria-label="Example icon button with a heart icon" type="button" (click)="removePatient(i)" *ngIf="lengthPatient >1 ">
+                                    <mat-icon>delete</mat-icon>
+                                </button>
+                            </div>
                         </div>
                         <!-- //assement  -->
-                        <div class="assessemnt">
+                        <div class="assessemnt" *ngIf="categoryValid(i)">
                             <!-- /assement name  -->
                             <div formArrayName="category">
                                 <ng-container *ngFor="let item of getAssessment(i).controls; let j = index">
-                                    <div [formGroupName]="j" class="row-2" class="assementDetails"
-                                        *ngIf="i==categoryIndex">
+                                    <div [formGroupName]="j" class="row-2" class="assementDetails" *ngIf="i==categoryIndex">
                                         <div class="sub-cat-row-2">
-
+                                            <!-- assement name  -->
                                             <mat-form-field class="max-100" appearance="fill">
                                                 <mat-label>assessment</mat-label>
                                                 <input matInput placeholder="Assement" formControlName="assessmentName">
+                                                <mat-error *ngIf="item.get('assessmentName')?.invalid && (item.get('assessmentName')?.dirty || item.get('assessmentName')?.touched)">
+                                                    <span *ngIf="item.get('assessmentName')?.errors?.required">Assement
+                                                        Name is
+                                                        required.</span>
+                                                    <span *ngIf="item.get('assessmentName')?.errors?.noWhitespace">Assement
+                                                        cannot be
+                                                        only spaces.</span>
+                                                </mat-error>
                                             </mat-form-field>
 
-                                            <button (click)="showAssement(i,j)" type="button">toggle</button>
-
-                                            <button mat-flat-button color="primary" type="button"
-                                                (click)="addAssesment(i,j)" class="schedule">Add
-                                                Assessment</button>
-
-                                            <button mat-icon-button color="warn"
-                                                aria-label="Example icon button with a heart icon" type="button"
-                                                (click)="removeAssesment(i,j)" *ngIf="lengthAssessment(i)>1 ">
-                                                <mat-icon>delete</mat-icon>
-
-                                            </button>
-
+                                            <div class="assementButton">
+                                                <button mat-flat-button color="primary" type="button" (click)="addAssesment(i,j)" class="schedule" [disabled]="!item.get('assement')?.valid">Add
+                                                    Assessment</button>
+                                                <button (click)="showAssement(i,j)" type="button" mat-icon-button><mat-icon>arrow_right_alt</mat-icon></button>
+                                                <button mat-icon-button color="warn" aria-label="Example icon button with a heart icon" type="button" (click)="removeAssesment(i,j)" *ngIf="lengthAssessment(i)>1 ">
+                                                    <mat-icon>delete</mat-icon>
+                                                </button>
+                                            </div>
                                         </div>
+                                        <!-- type  -->
                                         <div class="sub-cat-row-3" *ngIf="showAssemntResult(i,j)">
                                             <mat-form-field class="max-100" appearance="fill">
                                                 <mat-label>type</mat-label>
                                                 <mat-select formControlName="type">
-                                                    <mat-option *ngFor="let typeList of typeList"
-                                                        [value]="typeList">{{typeList}}</mat-option>
+                                                    <mat-option *ngFor="let typeList of typeList" [value]="typeList">{{typeList}}</mat-option>
                                                 </mat-select>
+                                                <mat-error *ngIf="item.get('type')?.invalid && (item.get('type')?.dirty ||
+                                                item.get('type')?.touched)">
+                                                    <span *ngIf="item.get('type')?.errors?.required">Type
+                                                        Name is
+                                                        required.</span>
+
+                                                </mat-error>
                                             </mat-form-field>
 
                                             <div *ngIf="unite(i,j)">
-
-
+                                                <!-- unite  -->
                                                 <mat-form-field class="max-100" appearance="fill">
                                                     <mat-label>unite</mat-label>
                                                     <mat-select formControlName="unite">
-                                                        <mat-option *ngFor="let uniteList of unite(i,j)"
-                                                            [value]="uniteList">{{uniteList}}</mat-option>
+                                                        <mat-option *ngFor="let uniteList of unite(i,j)" [value]="uniteList">{{uniteList}}</mat-option>
                                                     </mat-select>
+                                                    <mat-error *ngIf="item.get('unite')?.invalid && (item.get('unite')?.dirty || item.get('unite')?.touched)">
+                                                        <span *ngIf="item.get('unite')?.errors?.required">unite Name is required.</span>
+                                                    </mat-error>
                                                 </mat-form-field>
-                                                <mat-checkbox formControlName="compersion" color="primary"
-                                                    value="true">Yes</mat-checkbox>
+                                                <mat-checkbox formControlName="compersion" color="primary" value="true">Yes</mat-checkbox>
 
                                                 <div class="range">
                                                     <mat-form-field class="max-100" appearance="fill">
                                                         <mat-label>Range Min</mat-label>
-                                                        <input matInput type="number" placeholder="Assement" min="10"
-                                                            max="998" formControlName="rangeMin">
+                                                        <input matInput type="number" placeholder="Assement" min="10" max="998" formControlName="rangeMin">
                                                     </mat-form-field>
                                                     <mat-form-field class="max-100" appearance="fill">
                                                         <mat-label>Range Max</mat-label>
-                                                        <input matInput type="number" placeholder="Assement" max="999"
-                                                            min="11" formControlName="rangeMax">
+                                                        <input matInput type="number" placeholder="Assement" max="999" min="11" formControlName="rangeMax">
                                                     </mat-form-field>
                                                 </div>
 
                                                 <mat-form-field class="max-100" appearance="fill">
                                                     <mat-label>measuringRegion</mat-label>
-                                                    <textarea matInput placeholder="Ex. It makes me feel..."
-                                                        formControlName="measuringRegion"></textarea>
+                                                    <textarea matInput placeholder="Ex. It makes me feel..." formControlName="measuringRegion"></textarea>
+                                                    <mat-error *ngIf="item.get('measuringRegion')?.invalid && (item.get('measuringRegion')?.dirty || item.get('measuringRegion')?.touched)">
+                                                        <span *ngIf="item.get('measuringRegion')?.errors?.required">Assement is required.</span>
+                                                        <span *ngIf="item.get('measuringRegion')?.errors?.noWhitespace">Assement cannot be only spaces.</span>
+                                                    </mat-error>
                                                 </mat-form-field>
-
-                                                <mat-form-field class="max-100" appearance="fill"
-                                                    *ngIf="compersion(i,j)">
+                                                <!-- referenceRegion  -->
+                                                <mat-form-field class="max-100" appearance="fill" *ngIf="compersion(i,j)">
                                                     <mat-label>referenceRegion</mat-label>
-                                                    <textarea matInput placeholder="Ex. It makes me feel..."
-                                                        formControlName="referenceRegion"></textarea>
+                                                    <textarea matInput placeholder="Ex. It makes me feel..." formControlName="referenceRegion"></textarea>
+                                                    <mat-error *ngIf="item.get('referenceRegion')?.invalid && (item.get('referenceRegion')?.dirty || item.get('referenceRegion')?.touched)">
+                                                        <span *ngIf="item.get('referenceRegion')?.errors?.required">Assement is required.</span>
+                                                        <span *ngIf="item.get('referenceRegion')?.errors?.noWhitespace">Assement cannot be only spaces.</span>
+                                                    </mat-error>
                                                 </mat-form-field>
-
+                                                <!-- measurements  -->
                                                 <mat-form-field class="max-100" appearance="fill">
                                                     <mat-label>measurements</mat-label>
-                                                    <mat-select formControlName="measurements" multiple
-                                                        (selectionChange)="mesurementSelect(i ,j)">
-
-                                                        <mat-option *ngFor="let routine of measurementsList(i,j)"
-                                                            [value]="routine">
-                                                            {{routine | titlecase}}
-                                                        </mat-option>
+                                                    <mat-select formControlName="measurements" multiple (selectionChange)="mesurementSelect(i ,j)">
+                                                        <mat-option *ngFor="let routine of measurementsList(i,j)" [value]="routine"> {{routine | titlecase}}</mat-option>
+                                                        <mat-error *ngIf="item.get('goals')?.get('simple')?.get('key')?.invalid && (item.get('goals')?.get('simple')?.get('key')?.dirty || item.get('goals')?.get('simple')?.get('key')?.touched)">
+                                                            <span *ngIf="item.get('goals')?.get('simple')?.get('key')?.errors?.required">Schedule Time is required.</span>
+                                                        </mat-error>
                                                     </mat-select>
                                                 </mat-form-field>
                                                 <div>
                                                     <h3>Goals</h3>
-                                                    <div formGroupName="goals" class="goals">
 
-                                                        <div class="goals-sub-row" formGroupName="simple"
-                                                            *ngIf="goalsType(measurementsDataList[0],i ,j)">
+                                                    <div formGroupName="goals" class="goals" *ngIf="mygoal(i,j)">
+                                                        <!-- simple -->
+                                                        <div class="goals-sub-row" formGroupName="simple" *ngIf="goalsType(measurementsDataList[0],i ,j)">
+                                                            <p>{{measurementsDataList[0]}} i = {{i}} j ={{j}} </p>
                                                             <mat-form-field class="max-100" appearance="fill">
                                                                 <mat-label>key</mat-label>
                                                                 <mat-select formControlName="key">
-                                                                    <mat-option *ngFor="let key of compersionList"
-                                                                        [value]="key">{{key}}</mat-option>
+                                                                    <mat-option *ngFor="let key of compersionList" [value]="key">{{key}}</mat-option>
+                                                                    <mat-error *ngIf="item.get('goals')?.get('simple')?.get('key')?.invalid && (item.get('goals')?.get('simple')?.get('key')?.dirty || item.get('goals')?.get('simple')?.get('key')?.touched)">
+                                                                        <span *ngIf="item.get('goals')?.get('simple')?.get('key')?.errors?.required">Select Value</span>
+                                                                    </mat-error>
                                                                 </mat-select>
                                                             </mat-form-field>
                                                             <mat-form-field class="max-100" appearance="fill">
                                                                 <mat-label>value</mat-label>
-                                                                <input matInput type="number" placeholder="Assement"
-                                                                    max="999" min="11" formControlName="value"
-                                                                    [value]="20">
+                                                                <input matInput type="number" placeholder="Assement" max="999" min="11" formControlName="value" [value]="20">
                                                             </mat-form-field>
                                                         </div>
 
-                                                        <div class="goals-sub-row" formGroupName="error"
-                                                            *ngIf="goalsType(measurementsDataList[1],i ,j)">
+                                                        <div class="goals-sub-row" formGroupName="error" *ngIf="goalsType(measurementsDataList[1],i ,j)">
+                                                            <p>{{measurementsDataList[1]}} i = {{i}} j ={{j}} </p>
                                                             <mat-form-field class="max-100" appearance="fill">
                                                                 <mat-label>key</mat-label>
                                                                 <mat-select formControlName="key">
-                                                                    <mat-option *ngFor="let key of compersionList"
-                                                                        [value]="key">{{key}}</mat-option>
+                                                                    <mat-option *ngFor="let key of compersionList" [value]="key">{{key}}</mat-option>
+                                                                </mat-select>
+                                                                <mat-select formControlName="key">
+                                                                    <mat-option *ngFor="let key of compersionList" [value]="key">{{key}}</mat-option>
+                                                                    <mat-error *ngIf="item.get('goals')?.get('error')?.get('key')?.invalid && (item.get('goals')?.get('error')?.get('key')?.dirty || item.get('goals')?.get('error')?.get('key')?.touched)">
+                                                                        <span *ngIf="item.get('goals')?.get('error')?.get('key')?.errors?.required">Select Value</span>
+                                                                    </mat-error>
                                                                 </mat-select>
                                                             </mat-form-field>
                                                             <mat-form-field class="max-100" appearance="fill">
                                                                 <mat-label>value</mat-label>
-                                                                <input matInput type="number" placeholder="Assement"
-                                                                    max="999" min="11" formControlName="value"
-                                                                    [value]="20">
+                                                                <input matInput type="number" placeholder="Assement" max="999" min="11" formControlName="value" [value]="20">
                                                             </mat-form-field>
                                                         </div>
 
-                                                        <div class="goals-sub-row" formGroupName="difference"
-                                                            *ngIf="goalsType(measurementsDataList[2],i ,j)">
+                                                        <div class="goals-sub-row" formGroupName="difference" *ngIf="goalsType(measurementsDataList[2],i ,j)">
+                                                            <p>{{measurementsDataList[2]}} i = {{i}} j ={{j}} </p>
                                                             <mat-form-field class="max-100" appearance="fill">
                                                                 <mat-label>key</mat-label>
                                                                 <mat-select formControlName="key">
-                                                                    <mat-option *ngFor="let key of compersionList"
-                                                                        [value]="key">{{key}}</mat-option>
+                                                                    <mat-option *ngFor="let key of compersionList" [value]="key">{{key}}</mat-option>
+                                                                    <mat-select formControlName="key">
+                                                                        <mat-option *ngFor="let key of compersionList" [value]="key">{{key}}</mat-option>
+                                                                        <mat-error *ngIf="item.get('goals')?.get('difference')?.get('key')?.invalid && (item.get('goals')?.get('difference')?.get('key')?.dirty || item.get('goals')?.get('difference')?.get('key')?.touched)">
+                                                                            <span *ngIf="item.get('goals')?.get('difference')?.get('key')?.errors?.required">Select Value</span>
+                                                                        </mat-error>
+                                                                    </mat-select>
                                                                 </mat-select>
                                                             </mat-form-field>
                                                             <mat-form-field class="max-100" appearance="fill">
                                                                 <mat-label>value</mat-label>
-                                                                <input matInput type="number" placeholder="Assement"
-                                                                    max="999" min="11" formControlName="value"
-                                                                    [value]="20">
+                                                                <input matInput type="number" placeholder="Assement" max="999" min="11" formControlName="value" [value]="20">
                                                             </mat-form-field>
                                                         </div>
 
-                                                        <div class="goals-sub-row" formGroupName="comparsion"
-                                                            *ngIf="goalsType(measurementsDataList[3],i ,j)">
+                                                        <div class="goals-sub-row" formGroupName="comparsion" *ngIf="goalsType(measurementsDataList[3],i ,j)">
+                                                            <p>{{measurementsDataList[3]}} i = {{i}} j ={{j}} </p>
                                                             <mat-form-field class="max-100" appearance="fill">
                                                                 <mat-label>key</mat-label>
                                                                 <mat-select formControlName="key">
-                                                                    <mat-option *ngFor="let key of compersionList"
-                                                                        [value]="key">{{key}}</mat-option>
+                                                                    <mat-option *ngFor="let key of compersionList" [value]="key">{{key}}</mat-option>
+                                                                    <mat-select formControlName="key">
+                                                                        <mat-option *ngFor="let key of compersionList" [value]="key">{{key}}</mat-option>
+                                                                        <mat-error *ngIf="item.get('goals')?.get('comparsion')?.get('key')?.invalid && (item.get('goals')?.get('comparsion')?.get('key')?.dirty || item.get('goals')?.get('comparsion')?.get('key')?.touched)">
+                                                                            <span *ngIf="item.get('goals')?.get('simple')?.get('key')?.errors?.required">Select Value</span>
+                                                                        </mat-error>
+                                                                    </mat-select>
                                                                 </mat-select>
                                                             </mat-form-field>
                                                             <mat-form-field class="max-100" appearance="fill">
                                                                 <mat-label>value</mat-label>
-                                                                <input matInput type="number" placeholder="Assement"
-                                                                    max="999" min="11" formControlName="value"
-                                                                    [value]="20">
+                                                                <input matInput type="number" placeholder="Assement" max="999" min="11" formControlName="value" [value]="20">
                                                             </mat-form-field>
                                                         </div>
 
@@ -243,15 +288,20 @@
                                                         {{routine}}
                                                     </mat-option>
                                                 </mat-select>
+                                                <mat-error *ngIf="item.get('routine')?.invalid && (item.get('routine')?.dirty || item.get('routine')?.touched)">
+                                                    <span *ngIf="item.get('routine')?.errors?.required">Schedule Time is
+                                                        required.</span>
+                                                </mat-error>
                                             </mat-form-field>
 
                                             <mat-form-field class="max-100" appearance="fill">
                                                 <mat-label>times</mat-label>
                                                 <mat-select formControlName="times" multiple>
-                                                    <mat-option *ngFor="let times of time()"
-                                                        [value]="times">{{times.scheduleName + '' +
-                                                        times.scheduleTime}}</mat-option>
-                                                </mat-select>
+                                                    <mat-option *ngFor="let times of time()" [value]="times">{{times.scheduleName + '' +
+                                                        times.scheduleTime}}</mat-option></mat-select>
+                                                <mat-error *ngIf="item.get('times')?.invalid && (item.get('times')?.dirty || item.get('times')?.touched)">
+                                                    <span *ngIf="item.get('times')?.errors?.required">Schedule Time is required.</span>
+                                                </mat-error>
                                             </mat-form-field>
 
 
@@ -268,6 +318,7 @@
             </div>
             <div class="button-add-form">
                 <button mat-flat-button color="primary" type="submit">Submit</button>
+
             </div>
         </form>
     </mat-card>

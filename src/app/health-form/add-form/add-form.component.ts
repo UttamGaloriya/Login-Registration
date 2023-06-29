@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { selectData } from '../selectData';
+import { ValidationService } from '../services/validation.service';
 
 @Component({
   selector: 'app-add-form',
@@ -12,26 +13,28 @@ export class AddFormComponent implements OnInit {
   bodyRegionList: string[] = ['Extra cheese', 'Mushroom', 'Onion', 'Pepperoni', 'Sausage', 'Tomato'];
   routineList: string[] = ['day', 'sun', 'mon', 'tue', 'wed', 'fri', 'thu', 'sat']
   typeList: any = Object.keys(selectData)
-  uniteList: any = selectData
+  uniteList: any = selectData;
   measurementsDataList: string[] = ['simple', 'error', 'difference', 'comparsion']
   compersionList: string[] = ['equal', 'less', 'gretter', 'noteqval']
   assessmentToggle: object = { index: 0, sub_index: 0 }
   categoryIndex: number = 0
   defaultSelect: string[] = ['simple']
   simple = 'hi'
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder, private valid: ValidationService) { }
 
   ngOnInit(): void {
     this.user = this.fb.group({
-      assement: ['', [Validators.required]],
+      assement: ['', [Validators.required, ValidationService.noWhitespace]],
       bodyRegion: ['', [Validators.required]],
-      description: ['', [Validators.required]],
+      description: ['', [Validators.required, ValidationService.noWhitespace]],
       patientTime: this.fb.array([this.PatientTime()]),
       patient: this.fb.array([this.Patient()])
     })
 
   }
-
+  formControl(name: string): FormControl {
+    return this.user.get(name) as FormControl;
+  }
 
   //function
   unite(index: number, sub_index: number) {
@@ -50,11 +53,14 @@ export class AddFormComponent implements OnInit {
   }
   compersion(index: number, sub_index: number) {
     const toggle = this.user.value.patient[index].category[sub_index].compersion
-    this.getAssessment(index).at(sub_index).get('referenceRegion')?.disable()
+
     if (toggle == true) {
       this.getAssessment(index).at(sub_index).get('referenceRegion')?.enable()
       return true
-    } else { return false }
+    } else {
+      this.getAssessment(index).at(sub_index).get('referenceRegion')?.disable()
+      return false
+    }
   }
 
   showAssement(index: number, sub_index: number) {
@@ -64,8 +70,21 @@ export class AddFormComponent implements OnInit {
 
   showAssemntResult(index: number, sub_index: number) {
     const data: any = this.assessmentToggle
-    if (data.index == index && data.sub_index == sub_index) { return true }
-    else { return false; }
+    let assValid = this.getAssessment(index).at(sub_index).get('assessmentName')?.valid
+    let catValid = this.getPatient.at(index).get('categoryName')?.valid
+    if (data.index == index && data.sub_index == sub_index && assValid && catValid) {
+      this.getAssessment(index).at(sub_index).get('assessmentName')?.enable()
+      return true
+    }
+    else {
+      if (catValid) {
+        this.getAssessment(index).at(sub_index).get('assessmentName')?.enable()
+      } else {
+        this.getAssessment(index).at(sub_index).get('assessmentName')?.disable()
+      }
+
+      return false;
+    }
   }
 
   categoryShow(index: number) {
@@ -81,7 +100,7 @@ export class AddFormComponent implements OnInit {
   Patient() {
     return this.fb.group(
       {
-        categoryName: ['', [Validators.required]],
+        categoryName: ['', [Validators.required, ValidationService.noWhitespace]],
         category: this.fb.array([this.assessment()])
       })
   }
@@ -108,7 +127,7 @@ export class AddFormComponent implements OnInit {
   assessment() {
     let assement = this.fb.group(
       {
-        assessmentName: ['', [Validators.required]],
+        assessmentName: ['', [Validators.required, ValidationService.noWhitespace]],
         type: ['', [Validators.required]],//select
         unite: ['', [Validators.required]],//select
         rangeMin: ['', [Validators.required]],//two number
@@ -133,21 +152,18 @@ export class AddFormComponent implements OnInit {
   getAssessment(index: number) {
     return this.getPatient.at(index).get('category') as FormArray
   }
-  goalsType(x: String, index: number, sub_index: number) {
-    let type: any = x
+  mygoal(index: number, sub_index: number) {
     let getGoal: string[] = this.user.value.patient[index].category[sub_index].measurements
-
-
-
-    for (let i = 0; index < getGoal.length; index++) {
-      if (type !== getGoal[i]) {
-        this.getAssessment(index).at(sub_index).get('goals')?.get(type)?.disable()
-      }
-    }
-    // if (getGoal.length > 0) {
-
-    // }
     return true
+  }
+  goalsType(x: string, index: number, sub_index: number) {
+    let getGoal: string[] = this.user.value.patient[index].category[sub_index].measurements
+    // this.getAssessment(index).at(sub_index).get('goals')?.get('simple')?.enable()
+
+    for (let item of getGoal) {
+      if (x === item) { return true }
+    }
+    return false
   }
 
 
@@ -169,7 +185,7 @@ export class AddFormComponent implements OnInit {
   //patient time
   PatientTime() {
     return this.fb.group(
-      { scheduleName: ['', [Validators.required]], scheduleTime: ['', [Validators.required]] }
+      { scheduleName: ['', [Validators.required, ValidationService.noWhitespace]], scheduleTime: ['', [Validators.required]] }
     )
   }
   get getPatientTime() {
@@ -186,6 +202,26 @@ export class AddFormComponent implements OnInit {
   get lengthPatientTime() {
     return this.getPatientTime.length
   }
+  mesurementSelect(index: number, sub_index: number) {
+    let getGoal: string[] = this.user.value.patient[index].category[sub_index].measurements
+
+  }
+
+  categoryValid(index: number) {
+    let as = this.user.get('assement')?.valid;
+    let br = this.user.get('bodyRegion')?.valid;
+    let pt = this.user.get('patientTime')?.valid;
+    let ds = this.user.get('description')?.valid;
+    if (as && br && pt && ds) {
+      this.getPatient.at(index).get('categoryName')?.enable()
+      return true
+    } else {
+      console.log("false")
+      this.getPatient.at(index).get('categoryName')?.disable()
+      return false
+    }
+  }
+
   //submit button
   submit() {
 
@@ -194,15 +230,8 @@ export class AddFormComponent implements OnInit {
       console.log(this.user.value)
     }
     else {
-      // alert("Please fill all the fields")
     }
-    let user = this.user.value
-    if (user.assement) {
-      console.log("yes working")
-    }
-  }
-  mesurementSelect(index: number, sub_index: number) {
-    let getGoal: string[] = this.user.value.patient[index].category[sub_index].measurements
 
   }
+
 }
