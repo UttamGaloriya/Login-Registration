@@ -30,13 +30,12 @@ export class ValidationService {
     return null;
   }
 
-  validateMinMax() {
-    return (formGroup: FormGroup): { [key: string]: boolean } | null => {
-      const minValue = formGroup?.get('rangeMin')?.value;
-      const maxValue = formGroup?.get('rangeMax')?.value;
-      console.log(minValue + 'min value' + maxValue + 'max value')
-      if (maxValue && minValue && maxValue <= minValue) {
-        return { invalidMinMax: true };
+  static rangeValidation(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const rangeMin = control.get('rangeMin')?.value;
+      const rangeMax = control.get('rangeMax')?.value;
+      if (rangeMin !== '' && rangeMax !== '' && rangeMin >= rangeMax) {
+        return { invalidRange: true };
       }
       return null;
     };

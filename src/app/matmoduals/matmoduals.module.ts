@@ -16,7 +16,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 
 
 
@@ -35,7 +35,8 @@ const data = [
   MatMenuModule,
   MatPaginatorModule,
   MatSliderModule,
-  MatCheckboxModule
+  MatCheckboxModule,
+  NgxMaterialTimepickerModule
 
 ];
 

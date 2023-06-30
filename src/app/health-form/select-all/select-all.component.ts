@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 
 @Component({
@@ -8,28 +8,36 @@ import { MatCheckboxChange } from '@angular/material/checkbox';
   styleUrls: ['./select-all.component.scss']
 })
 export class SelectAllComponent implements OnInit {
-  @Input() model: FormControl = new FormControl;
-  @Input() values = [];
-  @Input() text = 'Select All';
-  constructor() { }
+  form!: FormGroup;
 
-  ngOnInit(): void {
-  }
-  isChecked(): boolean {
-    return this.model.value && this.values.length
-      && this.model.value.length === this.values.length;
+  constructor(private formBuilder: FormBuilder) { }
+
+  ngOnInit() {
+    this.form = this.formBuilder.group({
+      minValue: ['', [Validators.required]],
+      maxValue: ['', [Validators.required]],
+    });
+
+    // Subscribe to value changes of minValue control
+    this.form.get('minValue')?.valueChanges.subscribe(() => {
+      this.form.get('maxValue')?.updateValueAndValidity();
+    });
+
+    // Add custom validator to maxValue control
+    this.form.get('maxValue')?.setValidators([
+      Validators.required,
+      this.validateMaxValue.bind(this)
+    ]);
   }
 
-  isIndeterminate(): boolean {
-    return this.model.value && this.values.length && this.model.value.length
-      && this.model.value.length < this.values.length;
-  }
+  validateMaxValue(control: AbstractControl): ValidationErrors | null {
+    const minValue = this.form.get('minValue')?.value;
+    const maxValue = control.value;
 
-  toggleSelection(change: MatCheckboxChange): void {
-    if (change.checked) {
-      this.model.setValue(this.values);
-    } else {
-      this.model.setValue([]);
+    if (minValue !== '' && maxValue !== '' && maxValue <= minValue) {
+      return { invalidMaxValue: true };
     }
+
+    return null;
   }
 }

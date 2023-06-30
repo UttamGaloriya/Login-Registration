@@ -39,6 +39,7 @@
                             <span *ngIf="formControl('description').errors?.noWhitespace">Description cannot be only
                                 spaces.</span>
                         </mat-error>
+
                     </mat-form-field>
 
                 </div>
@@ -58,7 +59,11 @@
                             <!-- scheduleTime  -->
                             <mat-form-field class="max-100" appearance="fill">
                                 <mat-label>Time</mat-label>
-                                <input matInput type="time" placeholder="Assement" formControlName="scheduleTime">
+                                <input matInput [ngxTimepicker]="toggleTimepicker" placeholder="Assement" formControlName="scheduleTime">
+                                <span matSuffix>
+                                    <ngx-material-timepicker-toggle [for]="toggleTimepicker"></ngx-material-timepicker-toggle>
+                                    <ngx-material-timepicker #toggleTimepicker></ngx-material-timepicker>
+                                </span>
                                 <mat-error *ngIf="item.get('scheduleTime')?.invalid && (item.get('scheduleTime')?.dirty || item.get('scheduleTime')?.touched)">
                                     <span *ngIf="item.get('scheduleTime')?.errors?.required">Schedule Time is
                                         required.</span>
@@ -160,15 +165,18 @@
                                                     </mat-form-field>
                                                     <mat-form-field class="max-100" appearance="fill">
                                                         <mat-label>Range Max</mat-label>
-                                                        <input matInput type="number" placeholder="Assement" formControlName="rangeMax">
-                                                        <mat-error *ngIf="item.get('range')?.get('rangeMax')?.invalid && (item.get('range')?.get('rangeMax')?.dirty || item.get('range')?.get('rangeMax')?.touched)">
+                                                        <input matInput type="number" placeholder="000" formControlName="rangeMax">
+                                                        <!-- <mat-error *ngIf="item.get('range')?.get('rangeMax')?.invalid && (item.get('range')?.get('rangeMax')?.dirty || item.get('range')?.get('rangeMax')?.touched)">
                                                             <span *ngIf="item.get('range')?.get('rangeMax')?.errors?.required">Maximum value is required.</span>
-                                                            <!-- <span *ngIf="item.get('range')?.get('rangeMax')?.errors?.max">Maximum value is 999</span> -->
-                                                            <span *ngIf="item.get('range')?.errors?.invalidMinMax">??????????????????</span>
-                                                        </mat-error>
+                                                            <span *ngIf="item.get('range')?.get('rangeMax')?.errors?.max">Maximum value is 999</span>
+                                                            <span *ngIf="item.get('range')?.errors?.invalidRange">??????????????????</span>
+                                                        </mat-error> -->
                                                     </mat-form-field>
-                                                </div>
 
+                                                </div>
+                                                <mat-error *ngIf="maxvalue(i,j)">
+                                                    Please enter a valid value between min and max
+                                                </mat-error>
                                                 <mat-form-field class="max-100" appearance="fill">
                                                     <mat-label>measuringRegion</mat-label>
                                                     <textarea matInput placeholder="Ex. It makes me feel..." formControlName="measuringRegion"></textarea>
@@ -318,7 +326,7 @@
 
             </div>
             <div class="button-add-form">
-                <button mat-flat-button color="primary" type="submit">Submit</button>
+                <button mat-flat-button color="primary" type="submit" [disabled]="!user.valid">Submit</button>
                 <!-- <button mat-flat-button color="primary" type="submit">Submit</button> -->
 
             </div>

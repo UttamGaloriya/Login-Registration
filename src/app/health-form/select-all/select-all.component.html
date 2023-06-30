@@ -1,4 +1,20 @@
-<mat-checkbox class="mat-option" [indeterminate]="isIndeterminate()" [checked]="isChecked()"
-    (click)="$event.stopPropagation()" (change)="toggleSelection($event)">
-    {{text}}
-</mat-checkbox>
+<form [formGroup]="form">
+    <div>
+        <label for="minValue">Minimum Value:</label>
+        <input type="number" id="minValue" formControlName="minValue">
+        <div *ngIf="form.get('minValue')?.invalid && form.get('minValue')?.touched">
+            <div *ngIf="form.get('minValue')?.errors?.required">Minimum value is required.</div>
+        </div>
+    </div>
+
+    <div>
+        <label for="maxValue">Maximum Value:</label>
+        <input type="number" id="maxValue" formControlName="maxValue">
+        <div *ngIf="form.get('maxValue')?.invalid && form.get('maxValue')?.touched">
+            <div *ngIf="form.get('maxValue')?.errors?.required">Maximum value is required.</div>
+            <div *ngIf="form.errors?.invalidRange">Maximum value must be greater than the minimum value.</div>
+        </div>
+    </div>
+
+    <button type="submit" [disabled]="form.invalid">Submit</button>
+</form>

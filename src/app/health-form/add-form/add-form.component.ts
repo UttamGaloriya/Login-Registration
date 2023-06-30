@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { selectData } from '../selectData';
 import { ValidationService } from '../services/validation.service';
 
@@ -32,6 +32,21 @@ export class AddFormComponent implements OnInit {
     },)
 
   }
+  rangeValidation(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const rangeMin = control.get('rangeMin')?.value;
+      const rangeMax = control.get('rangeMax')?.value;
+      if (rangeMin !== '' && rangeMax !== '' && rangeMin >= rangeMax) {
+        console.log('work')
+        debugger;
+        return { invalidRange: true };
+      }
+      return null;
+    };
+  }
+
+
+
   Patient() {
     return this.fb.group(
       {
@@ -49,7 +64,7 @@ export class AddFormComponent implements OnInit {
         range: this.fb.group({
           rangeMin: ['', [Validators.required, ValidationService.numbersOnly]],//two number
           rangeMax: ['', [Validators.required, ValidationService.numbersOnly]],//two number
-        }, { validators: this.valid.validateMinMax() }),
+        }, { validators: ValidationService.rangeValidation() }),
         compersion: [''],
         measurements: [this.defaultSelect, [Validators.required]],
         measuringRegion: ['', [Validators.required]],
@@ -262,6 +277,16 @@ export class AddFormComponent implements OnInit {
   }
   maxCheck() {
     let min = this.user.value.patient[0].category[0].range.rangeMin
-    console.log(min)
+    let max = this.user.value.patient[0].category[0].range.rangeMax
+    this.getAssessment(0).at(0)?.get('range')?.get('rangeMax')?.errors
+  }
+  maxvalue(index: number, sub_index: number) {
+    let min = this.user.value.patient[index].category[sub_index].range.rangeMin
+    let max = this.user.value.patient[index].category[sub_index].range.rangeMax
+    if (min >= max) {
+      return true
+    } else {
+      return false
+    }
   }
 }
