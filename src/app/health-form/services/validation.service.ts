@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { AbstractControl, FormGroup, ValidationErrors, ValidatorFn, FormControl } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
@@ -28,6 +28,18 @@ export class ValidationService {
       return { 'numbersOnly': true };
     }
     return null;
+  }
+
+  validateMinMax() {
+    return (formGroup: FormGroup): { [key: string]: boolean } | null => {
+      const minValue = formGroup?.get('rangeMin')?.value;
+      const maxValue = formGroup?.get('rangeMax')?.value;
+      console.log(minValue + 'min value' + maxValue + 'max value')
+      if (maxValue && minValue && maxValue <= minValue) {
+        return { invalidMinMax: true };
+      }
+      return null;
+    };
   }
 
 }

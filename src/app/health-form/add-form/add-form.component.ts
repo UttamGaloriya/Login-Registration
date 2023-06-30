@@ -29,12 +29,51 @@ export class AddFormComponent implements OnInit {
       description: ['', [Validators.required, ValidationService.noWhitespace]],
       patientTime: this.fb.array([this.PatientTime()]),
       patient: this.fb.array([this.Patient()])
-    })
+    },)
 
   }
+  Patient() {
+    return this.fb.group(
+      {
+        categoryName: ['', [Validators.required, ValidationService.noWhitespace]],
+        category: this.fb.array([this.assessment()])
+      })
+  }
+
+  assessment() {
+    let assement = this.fb.group(
+      {
+        assessmentName: ['', [Validators.required, ValidationService.noWhitespace]],
+        type: ['', [Validators.required]],//select
+        unite: ['', [Validators.required]],//select
+        range: this.fb.group({
+          rangeMin: ['', [Validators.required, ValidationService.numbersOnly]],//two number
+          rangeMax: ['', [Validators.required, ValidationService.numbersOnly]],//two number
+        }, { validators: this.valid.validateMinMax() }),
+        compersion: [''],
+        measurements: [this.defaultSelect, [Validators.required]],
+        measuringRegion: ['', [Validators.required]],
+        referenceRegion: ['', [Validators.required]],
+        goals: this.fb.group(
+          {
+            simple: this.fb.group({ key: [''], value: [''], }),
+            error: this.fb.group({ key: [''], value: [''], }),
+            difference: this.fb.group({ key: [''], value: [''], }),
+            comparsion: this.fb.group({ key: [''], value: [''], }),
+          }
+        ),
+        routine: ['', [Validators.required]],
+        times: ['', [Validators.required]]
+      },)
+    return assement
+  }
+
   formControl(name: string): FormControl {
     return this.user.get(name) as FormControl;
   }
+
+
+
 
   //function
   unite(index: number, sub_index: number) {
@@ -97,13 +136,7 @@ export class AddFormComponent implements OnInit {
     return this.user.value.patientTime
   }
   //patient
-  Patient() {
-    return this.fb.group(
-      {
-        categoryName: ['', [Validators.required, ValidationService.noWhitespace]],
-        category: this.fb.array([this.assessment()])
-      })
-  }
+
 
   get getPatient() {
     return this.user.controls['patient'] as FormArray
@@ -124,31 +157,7 @@ export class AddFormComponent implements OnInit {
   }
 
   //assessment
-  assessment() {
-    let assement = this.fb.group(
-      {
-        assessmentName: ['', [Validators.required, ValidationService.noWhitespace]],
-        type: ['', [Validators.required]],//select
-        unite: ['', [Validators.required]],//select
-        rangeMin: ['', [Validators.required]],//two number
-        rangeMax: ['', [Validators.required]],//two number
-        compersion: [''],
-        measurements: [this.defaultSelect, [Validators.required]],
-        measuringRegion: ['', [Validators.required]],
-        referenceRegion: ['', [Validators.required]],
-        goals: this.fb.group(
-          {
-            simple: this.fb.group({ key: [''], value: [''], }),
-            error: this.fb.group({ key: [''], value: [''], }),
-            difference: this.fb.group({ key: [''], value: [''], }),
-            comparsion: this.fb.group({ key: [''], value: [''], }),
-          }
-        ),
-        routine: ['', [Validators.required]],
-        times: ['', [Validators.required]]
-      })
-    return assement
-  }
+
   getAssessment(index: number) {
     return this.getPatient.at(index).get('category') as FormArray
   }
@@ -212,16 +221,34 @@ export class AddFormComponent implements OnInit {
     let br = this.user.get('bodyRegion')?.valid;
     let pt = this.user.get('patientTime')?.valid;
     let ds = this.user.get('description')?.valid;
+    let asArr = this.getPatient.at(index).get('categoryName')?.valid
     if (as && br && pt && ds) {
       this.getPatient.at(index).get('categoryName')?.enable()
+    } else {
+      this.getPatient.at(index).get('categoryName')?.disable()
+    }
+    if (asArr) {
+      return true
+    }
+    return false
+
+  }
+  assmentValid(index: number, sub_index: number) {
+    let ass = this.getPatient.at(index).get('category')?.valid
+    if (ass) {
       return true
     } else {
-      console.log("false")
-      this.getPatient.at(index).get('categoryName')?.disable()
       return false
     }
   }
-
+  numbersMax(control: FormControl) {
+    // const min = this.user.value.patient[0].category[0].rangeMin
+    // const max = this.user.value.patient[0].category[0].rangeMax
+    if (1) {
+      return { invalidMinMax: true }
+    }
+    return null;
+  }
   //submit button
   submit() {
 
@@ -233,5 +260,8 @@ export class AddFormComponent implements OnInit {
     }
 
   }
-
+  maxCheck() {
+    let min = this.user.value.patient[0].category[0].range.rangeMin
+    console.log(min)
+  }
 }
