@@ -84,20 +84,20 @@
                         <div class="categoryName">
                             <mat-form-field class="max-100" appearance="fill">
                                 <mat-label>category</mat-label>
-                                <input matInput placeholder="Assement" formControlName="categoryName">
+                                <input matInput placeholder="categoryName" formControlName="categoryName">
+                                <button mat-icon-button type="button" matSuffix><mat-icon color="primary">edit</mat-icon></button>
+                                <button matSuffix type="button" (click)="categoryShow(i)" mat-icon-button><mat-icon>arrow_right_alt</mat-icon></button>
+                                <button matSuffix mat-icon-button color="warn" aria-label="Example icon button with a heart icon" type="button" (click)="removePatient(i)" *ngIf="lengthPatient >1 ">
+                                    <mat-icon>delete</mat-icon>
+                                </button>
                                 <mat-error *ngIf="item.get('categoryName')?.invalid && (item.get('categoryName')?.dirty || item.get('categoryName')?.touched)">
                                     <span *ngIf="item.get('categoryName')?.errors?.required">Category is required.</span>
                                     <span *ngIf="item.get('categoryName')?.errors?.noWhitespace">Category Name cannot be only spaces.</span>
                                 </mat-error>
                             </mat-form-field>
-                            <div class="categoryButton" *ngIf="item.get('category')?.valid">
-                                <button mat-flat-button color="warn" type="button" (click)="addPatient()" class="schedule" [disabled]="!item.get('category')?.valid">Add
-                                    category</button>
-                                <button type="button" (click)="categoryShow(i)" mat-icon-button><mat-icon>arrow_right_alt</mat-icon></button>
-                                <button mat-icon-button color="warn" aria-label="Example icon button with a heart icon" type="button" (click)="removePatient(i)" *ngIf="lengthPatient >1 ">
-                                    <mat-icon>delete</mat-icon>
-                                </button>
-                            </div>
+
+                            <button mat-flat-button color="warn" type="button" (click)="addPatient()" class="schedule" [disabled]="!item.get('category')?.valid" *ngIf="lengthPatient==(i+1)">Add
+                                category</button>
                         </div>
                         <!-- //assement  -->
                         <div class="assessemnt" *ngIf="categoryValid(i)">
@@ -110,24 +110,15 @@
                                             <mat-form-field class="max-100" appearance="fill">
                                                 <mat-label>assessment</mat-label>
                                                 <input matInput placeholder="Assement" formControlName="assessmentName">
+
+                                                <button matSuffix type="button" (click)="showAssement(i,j)" mat-icon-button><mat-icon>arrow_right_alt</mat-icon></button>
+                                                <button matSuffix mat-icon-button color="warn" aria-label="Example icon button with a heart icon" type="button" (click)="removeAssesment(i,j)" *ngIf="lengthAssessment(i)>1 "><mat-icon>delete</mat-icon></button>
                                                 <mat-error *ngIf="item.get('assessmentName')?.invalid && (item.get('assessmentName')?.dirty || item.get('assessmentName')?.touched)">
-                                                    <span *ngIf="item.get('assessmentName')?.errors?.required">Assement
-                                                        Name is
-                                                        required.</span>
-                                                    <span *ngIf="item.get('assessmentName')?.errors?.noWhitespace">Assement
-                                                        cannot be
-                                                        only spaces.</span>
+                                                    <span *ngIf="item.get('assessmentName')?.errors?.required">Assement Name isrequired.</span>
+                                                    <span *ngIf="item.get('assessmentName')?.errors?.noWhitespace">Assement cannot be only spaces.</span>
                                                 </mat-error>
                                             </mat-form-field>
-
-                                            <div class="assementButton">
-                                                <button mat-flat-button color="primary" type="button" (click)="addAssesment(i,j)" class="schedule" [disabled]="!item.get('assement')?.valid">Add
-                                                    Assessment</button>
-                                                <button (click)="showAssement(i,j)" type="button" mat-icon-button><mat-icon>arrow_right_alt</mat-icon></button>
-                                                <button mat-icon-button color="warn" aria-label="Example icon button with a heart icon" type="button" (click)="removeAssesment(i,j)" *ngIf="lengthAssessment(i)>1 ">
-                                                    <mat-icon>delete</mat-icon>
-                                                </button>
-                                            </div>
+                                            <button mat-flat-button color="primary" type="button" (click)="addAssesment(i,j)" class="schedule" *ngIf="lengthAssessment(j)==(j+1)" [disabled]="!assmentValid(i,j)">Add Assessment</button>
                                         </div>
                                         <!-- type  -->
                                         <div class="sub-cat-row-3" *ngIf="showAssemntResult(i,j)">
@@ -158,14 +149,23 @@
                                                 </mat-form-field>
                                                 <mat-checkbox formControlName="compersion" color="primary" value="true">Yes</mat-checkbox>
 
-                                                <div class="range">
+                                                <div class="range" formGroupName="range">
                                                     <mat-form-field class="max-100" appearance="fill">
                                                         <mat-label>Range Min</mat-label>
                                                         <input matInput type="number" placeholder="Assement" min="10" max="998" formControlName="rangeMin">
+                                                        <mat-error *ngIf="item.get('range')?.get('rangeMin')?.invalid && (item.get('range')?.get('rangeMin')?.dirty || item.get('range')?.get('rangeMin')?.touched)">
+                                                            <span *ngIf="item.get('range')?.get('rangeMin')?.errors?.required">Minimum value is required.</span>
+                                                            <span *ngIf="item.get('range')?.get('rangeMin')?.errors?.min">Minimum value is 10</span>
+                                                        </mat-error>
                                                     </mat-form-field>
                                                     <mat-form-field class="max-100" appearance="fill">
                                                         <mat-label>Range Max</mat-label>
-                                                        <input matInput type="number" placeholder="Assement" max="999" min="11" formControlName="rangeMax">
+                                                        <input matInput type="number" placeholder="Assement" formControlName="rangeMax">
+                                                        <mat-error *ngIf="item.get('range')?.get('rangeMax')?.invalid && (item.get('range')?.get('rangeMax')?.dirty || item.get('range')?.get('rangeMax')?.touched)">
+                                                            <span *ngIf="item.get('range')?.get('rangeMax')?.errors?.required">Maximum value is required.</span>
+                                                            <!-- <span *ngIf="item.get('range')?.get('rangeMax')?.errors?.max">Maximum value is 999</span> -->
+                                                            <span *ngIf="item.get('range')?.errors?.invalidMinMax">??????????????????</span>
+                                                        </mat-error>
                                                     </mat-form-field>
                                                 </div>
 
@@ -281,6 +281,7 @@
                                                     </div>
                                                 </div>
                                             </div>
+
                                             <mat-form-field class="max-100" appearance="fill">
                                                 <mat-label>routine</mat-label>
                                                 <mat-select formControlName="routine" multiple>
@@ -318,6 +319,7 @@
             </div>
             <div class="button-add-form">
                 <button mat-flat-button color="primary" type="submit">Submit</button>
+                <!-- <button mat-flat-button color="primary" type="submit">Submit</button> -->
 
             </div>
         </form>
