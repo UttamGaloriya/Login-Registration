@@ -1,4 +1,4 @@
-<form [formGroup]="form">
+<!-- <form [formGroup]="form">
     <div>
         <label for="minValue">Minimum Value:</label>
         <input type="number" id="minValue" formControlName="minValue">
@@ -17,4 +17,8 @@
     </div>
 
     <button type="submit" [disabled]="form.invalid">Submit</button>
-</form>
+</form> -->
+<!-- <div>
+
+</div> -->
+<canvas baseChart class="chart" [data]="lineChartData" [options]="lineChartOptions" [type]="lineChartType"></canvas>

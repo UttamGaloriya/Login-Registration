@@ -13,6 +13,7 @@ import { PermisionComponent } from './dailogbox/permision/permision.component';
 import { SnakbarComponent } from './dailogbox/snakbar/snakbar.component';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { NgChartsModule } from 'ng2-charts';
 
 // import { MyCustomPipe } from './my-custom-pipe';
 // MyCustomPipe
@@ -26,7 +27,8 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
     BrowserAnimationsModule,
     ReactiveFormsModule,
     MatmodualsModule,
-    HttpClientModule
+    HttpClientModule,
+    NgChartsModule,
 
 
   ],

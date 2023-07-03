@@ -1,6 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { MatCheckboxChange } from '@angular/material/checkbox';
+import { Chart, ChartConfiguration, ChartData, ChartEvent, ChartType } from 'chart.js';
+import { BaseChartDirective } from 'ng2-charts';
 
 @Component({
   selector: 'app-select-all',
@@ -9,35 +11,86 @@ import { MatCheckboxChange } from '@angular/material/checkbox';
 })
 export class SelectAllComponent implements OnInit {
   form!: FormGroup;
-
+  @ViewChild(BaseChartDirective) chart: BaseChartDirective | undefined;
+  data: any
   constructor(private formBuilder: FormBuilder) { }
 
   ngOnInit() {
-    this.form = this.formBuilder.group({
-      minValue: ['', [Validators.required]],
-      maxValue: ['', [Validators.required]],
-    });
 
-    // Subscribe to value changes of minValue control
-    this.form.get('minValue')?.valueChanges.subscribe(() => {
-      this.form.get('maxValue')?.updateValueAndValidity();
-    });
+  }
+  public lineChartType: ChartType = 'line';
+  public lineChartData: ChartConfiguration['data'] = {
+    datasets: [
+      {
+        data: [1, 100],
+        label: 'Series A',
+        backgroundColor: 'rgba(148,159,177,0.2)',
+        borderColor: 'rgba(148,159,177,1)',
+        pointBackgroundColor: 'rgba(148,159,177,1)',
+        pointBorderColor: '#fff',
+        pointHoverBackgroundColor: '#fff',
+        pointHoverBorderColor: 'rgba(148,159,177,0.8)',
+        fill: 'origin',
+      },
+      {
+        data: [28, 48, 40, 19, 86, 27, 90],
+        label: 'Series B',
+        backgroundColor: 'rgba(77,83,96,0.2)',
+        borderColor: 'rgba(77,83,96,1)',
+        pointBackgroundColor: 'rgba(77,83,96,1)',
+        pointBorderColor: '#fff',
+        pointHoverBackgroundColor: '#fff',
+        pointHoverBorderColor: 'rgba(77,83,96,1)',
+        fill: 'origin',
+      },
+      {
+        data: [180, 480, 770, 90, 1000, 270, 400],
+        label: 'Series C',
+        yAxisID: 'y1',
+        backgroundColor: 'rgba(255,0,0,0.3)',
+        borderColor: 'red',
+        pointBackgroundColor: 'rgba(148,159,177,1)',
+        pointBorderColor: '#fff',
+        pointHoverBackgroundColor: '#fff',
+        pointHoverBorderColor: 'rgba(148,159,177,0.8)',
+        fill: 'origin',
+      }
+    ],
+    labels: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+  };
 
-    // Add custom validator to maxValue control
-    this.form.get('maxValue')?.setValidators([
-      Validators.required,
-      this.validateMaxValue.bind(this)
-    ]);
+  // @ViewChild(BaseChartDirective) chart?: BaseChartDirective;
+  // public chartClicked({ event, active }: { event?: ChartEvent, active?: {}[] }): void {
+  //   console.log(event, active);
+  // }
+
+  // public chartHovered({ event, active }: { event?: ChartEvent, active?: {}[] }): void {
+  //   console.log(event, active);
+  // }
+
+  public lineChartOptions: ChartConfiguration['options'] = {
+    elements: {
+      line: {
+        tension: 0.5
+      }
+    },
+    scales: {
+      // We use this empty structure as a placeholder for dynamic theming.
+      y:
+      {
+        position: 'left',
+      },
+      y1: {
+        position: 'right',
+        grid: {
+          color: 'rgba(255,0,0,0.3)',
+        },
+        ticks: {
+          color: 'red'
+        }
+      }
+    },
+
   }
 
-  validateMaxValue(control: AbstractControl): ValidationErrors | null {
-    const minValue = this.form.get('minValue')?.value;
-    const maxValue = control.value;
-
-    if (minValue !== '' && maxValue !== '' && maxValue <= minValue) {
-      return { invalidMaxValue: true };
-    }
-
-    return null;
-  }
 }

@@ -41,4 +41,36 @@ export class ValidationService {
     };
   }
 
+  //min -max validation
+
+  static min_maxValidation(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+
+      const rangeMin = control.get('range')?.get('rangeMin')?.value;
+      const rangeMax = control.get('range')?.get('rangeMax')?.value;
+      const simplevalue = control.get('goals')?.get('simple')?.get('value')?.value;
+      const errorvalue = control.get('goals')?.get('simple')?.get('value')?.value;
+      const difference = control.get('goals')?.get('simple')?.get('value')?.value;
+      const comparsion = control.get('goals')?.get('simple')?.get('value')?.value;
+
+      switch (rangeMin < rangeMax) {
+        case (simplevalue > rangeMax || rangeMin > simplevalue):
+          return { invadMin_Max: true }
+          break;
+        // case (errorvalue > rangeMax || rangeMin > errorvalue):
+        //   return { invadMin_Max: true }
+        //   break;
+        // case (difference > rangeMax || rangeMin > difference):
+        //   return { invadMin_Max: true }
+        //   break;
+        // case (comparsion > rangeMax || rangeMin > comparsion):
+        //   return { invadMin_Max: true }
+        //   break;
+        default:
+          return null
+          break;
+      }
+    }
+  }
+
 }

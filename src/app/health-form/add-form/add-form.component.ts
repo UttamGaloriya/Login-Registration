@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { selectData } from '../selectData';
 import { ValidationService } from '../services/validation.service';
+import { Chart, ChartConfiguration, ChartEvent, ChartType } from 'chart.js';
+import { BaseChartDirective } from 'ng2-charts';
 
 @Component({
   selector: 'app-add-form',
@@ -20,6 +22,7 @@ export class AddFormComponent implements OnInit {
   categoryIndex: number = 0
   defaultSelect: string[] = ['simple']
   simple = 'hi'
+  simpleErrorString: string = ''
   constructor(private fb: FormBuilder, private valid: ValidationService) { }
 
   ngOnInit(): void {
@@ -71,15 +74,16 @@ export class AddFormComponent implements OnInit {
         referenceRegion: ['', [Validators.required]],
         goals: this.fb.group(
           {
-            simple: this.fb.group({ key: [''], value: [''], }),
-            error: this.fb.group({ key: [''], value: [''], }),
-            difference: this.fb.group({ key: [''], value: [''], }),
-            comparsion: this.fb.group({ key: [''], value: [''], }),
+            simple: this.fb.group({ key: ['', [Validators.required]], value: ['', [Validators.required, ValidationService.numbersOnly]], }),
+            error: this.fb.group({ key: [{ value: '', disabled: true }, [Validators.required]], value: [{ value: '', disabled: true }, [Validators.required, ValidationService.numbersOnly, Validators.max(100), Validators.min(0)]] }),
+            difference: this.fb.group({ key: [{ value: '', disabled: true }, [Validators.required]], value: [{ value: '', disabled: true }, [Validators.required, ValidationService.numbersOnly, Validators.max(100), Validators.min(0)]], }),
+            comparsion: this.fb.group({ key: [{ value: '', disabled: true }, [Validators.required]], value: [{ value: '', disabled: true }, [Validators.required, ValidationService.numbersOnly, Validators.max(999), Validators.min(10)]], }),
           }
         ),
         routine: ['', [Validators.required]],
         times: ['', [Validators.required]]
-      },)
+      }, { validators: ValidationService.min_maxValidation() },
+    )
     return assement
   }
 
@@ -110,8 +114,10 @@ export class AddFormComponent implements OnInit {
 
     if (toggle == true) {
       this.getAssessment(index).at(sub_index).get('referenceRegion')?.enable()
+      // this.mesurementSelect(index, sub_index)
       return true
     } else {
+      // this.mesurementSelect(index, sub_index)
       this.getAssessment(index).at(sub_index).get('referenceRegion')?.disable()
       return false
     }
@@ -182,11 +188,22 @@ export class AddFormComponent implements OnInit {
   }
   goalsType(x: string, index: number, sub_index: number) {
     let getGoal: string[] = this.user.value.patient[index].category[sub_index].measurements
-    // this.getAssessment(index).at(sub_index).get('goals')?.get('simple')?.enable()
+    const toggle = this.user.value.patient[index].category[sub_index].compersion
+    if (!toggle) {
 
-    for (let item of getGoal) {
-      if (x === item) { return true }
+      for (let item of this.measurementsDataList.slice(2, 4)) {
+        this.getAssessment(index).at(sub_index).get('goals')?.get(item)?.get('key')?.disable()
+        this.getAssessment(index).at(sub_index).get('goals')?.get(item)?.get('value')?.disable()
+      }
+      for (let item of getGoal.slice(0, 2)) {
+        if (x === item) { return true }
+      }
+    } else {
+      for (let item of getGoal) {
+        if (x === item) { return true }
+      }
     }
+
     return false
   }
 
@@ -226,8 +243,32 @@ export class AddFormComponent implements OnInit {
   get lengthPatientTime() {
     return this.getPatientTime.length
   }
+
+  //selecetonchange
   mesurementSelect(index: number, sub_index: number) {
     let getGoal: string[] = this.user.value.patient[index].category[sub_index].measurements
+    console.log()
+    const toggle = this.user.value.patient[index].category[sub_index].compersion
+    if (toggle) {
+
+    } else {
+      for (let item of this.measurementsDataList.slice(2, 4)) {
+        this.getAssessment(index).at(sub_index).get('goals')?.get(item)?.get('key')?.disable()
+        this.getAssessment(index).at(sub_index).get('goals')?.get(item)?.get('value')?.disable()
+      }
+      getGoal.slice(0, 2)
+      console.log(getGoal)
+    }
+    for (let item of this.measurementsDataList) {
+      this.getAssessment(index).at(sub_index).get('goals')?.get(item)?.get('key')?.disable()
+      this.getAssessment(index).at(sub_index).get('goals')?.get(item)?.get('value')?.disable()
+    }
+
+    for (let item of getGoal) {
+      this.getAssessment(index).at(sub_index).get('goals')?.get(item)?.get('key')?.enable()
+      this.getAssessment(index).at(sub_index).get('goals')?.get(item)?.get('value')?.enable()
+    }
+    console.log(getGoal)
 
   }
 
@@ -245,7 +286,7 @@ export class AddFormComponent implements OnInit {
     if (asArr) {
       return true
     }
-    return false
+    return true
 
   }
   assmentValid(index: number, sub_index: number) {
@@ -266,27 +307,46 @@ export class AddFormComponent implements OnInit {
   }
   //submit button
   submit() {
-
     if (this.user.valid) {
       console.log('submit')
       console.log(this.user.value)
     }
     else {
     }
-
   }
+
   maxCheck() {
     let min = this.user.value.patient[0].category[0].range.rangeMin
     let max = this.user.value.patient[0].category[0].range.rangeMax
     this.getAssessment(0).at(0)?.get('range')?.get('rangeMax')?.errors
   }
+
   maxvalue(index: number, sub_index: number) {
     let min = this.user.value.patient[index].category[sub_index].range.rangeMin
     let max = this.user.value.patient[index].category[sub_index].range.rangeMax
-    if (min >= max) {
+    if (min != '' && max != '' && min >= max) {
       return true
     } else {
       return false
     }
   }
+
+  showSimpleError(goalName: string, index: number, sub_index: number) {
+    let min = this.user.value.patient[index].category[sub_index].range.rangeMin
+    let max = this.user.value.patient[index].category[sub_index].range.rangeMax
+    let simple = this.user.value.patient[index].category[sub_index].goals.simple.value
+    if (min > simple && min != '' && max != '') {
+      this.simpleErrorString = `enter bigger then ${min}`
+      return true
+    } else if (max < simple && min != '' && max != '') {
+      this.simpleErrorString = `enter smaller then ${max}`
+      return true
+    } else {
+      this.simpleErrorString = ''
+      return false
+    }
+  }
+
+  //chart data
+
 }

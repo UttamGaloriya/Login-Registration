@@ -17,6 +17,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 
 
@@ -36,7 +37,8 @@ const data = [
   MatPaginatorModule,
   MatSliderModule,
   MatCheckboxModule,
-  NgxMaterialTimepickerModule
+  NgxMaterialTimepickerModule,
+  MatSlideToggleModule
 
 ];
 

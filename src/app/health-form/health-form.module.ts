@@ -6,6 +6,7 @@ import { AddFormComponent } from './add-form/add-form.component';
 import { MatmodualsModule } from '../matmoduals/matmoduals.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SelectAllComponent } from './select-all/select-all.component';
+import { NgChartsModule } from 'ng2-charts';
 
 
 @NgModule({
@@ -17,7 +18,9 @@ import { SelectAllComponent } from './select-all/select-all.component';
     CommonModule,
     HealthFormRoutingModule,
     MatmodualsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgChartsModule,
+
   ]
 })
 export class HealthFormModule { }

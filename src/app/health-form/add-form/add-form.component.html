@@ -152,9 +152,11 @@
                                                         <span *ngIf="item.get('unite')?.errors?.required">unite Name is required.</span>
                                                     </mat-error>
                                                 </mat-form-field>
-                                                <mat-checkbox formControlName="compersion" color="primary" value="true">Yes</mat-checkbox>
+                                                <mat-slide-toggle formControlName="compersion" color="primary">comparsion</mat-slide-toggle>
+                                                <!-- <mat-checkbox formControlName="compersion" color="primary" value="true">Yes</mat-checkbox> -->
 
                                                 <div class="range" formGroupName="range">
+
                                                     <mat-form-field class="max-100" appearance="fill">
                                                         <mat-label>Range Min</mat-label>
                                                         <input matInput type="number" placeholder="Assement" min="10" max="998" formControlName="rangeMin">
@@ -163,18 +165,19 @@
                                                             <span *ngIf="item.get('range')?.get('rangeMin')?.errors?.min">Minimum value is 10</span>
                                                         </mat-error>
                                                     </mat-form-field>
+
                                                     <mat-form-field class="max-100" appearance="fill">
                                                         <mat-label>Range Max</mat-label>
-                                                        <input matInput type="number" placeholder="000" formControlName="rangeMax">
-                                                        <!-- <mat-error *ngIf="item.get('range')?.get('rangeMax')?.invalid && (item.get('range')?.get('rangeMax')?.dirty || item.get('range')?.get('rangeMax')?.touched)">
+                                                        <input matInput type="number" placeholder="000" formControlName="rangeMax" max="999">
+                                                        <mat-error *ngIf="item.get('range')?.get('rangeMax')?.invalid && (item.get('range')?.get('rangeMax')?.dirty || item.get('range')?.get('rangeMax')?.touched)">
                                                             <span *ngIf="item.get('range')?.get('rangeMax')?.errors?.required">Maximum value is required.</span>
                                                             <span *ngIf="item.get('range')?.get('rangeMax')?.errors?.max">Maximum value is 999</span>
-                                                            <span *ngIf="item.get('range')?.errors?.invalidRange">??????????????????</span>
-                                                        </mat-error> -->
+                                                            <span *ngIf="item.get('range')?.errors?.invalidRange">work</span>
+                                                        </mat-error>
                                                     </mat-form-field>
 
                                                 </div>
-                                                <mat-error *ngIf="maxvalue(i,j)">
+                                                <mat-error *ngIf="maxvalue(i,j)" class="max-error">
                                                     Please enter a valid value between min and max
                                                 </mat-error>
                                                 <mat-form-field class="max-100" appearance="fill">
@@ -210,7 +213,7 @@
                                                     <div formGroupName="goals" class="goals" *ngIf="mygoal(i,j)">
                                                         <!-- simple -->
                                                         <div class="goals-sub-row" formGroupName="simple" *ngIf="goalsType(measurementsDataList[0],i ,j)">
-                                                            <p>{{measurementsDataList[0]}} i = {{i}} j ={{j}} </p>
+                                                            <p class="goals-title">{{measurementsDataList[0]}} </p>
                                                             <mat-form-field class="max-100" appearance="fill">
                                                                 <mat-label>key</mat-label>
                                                                 <mat-select formControlName="key">
@@ -222,17 +225,20 @@
                                                             </mat-form-field>
                                                             <mat-form-field class="max-100" appearance="fill">
                                                                 <mat-label>value</mat-label>
-                                                                <input matInput type="number" placeholder="Assement" max="999" min="11" formControlName="value" [value]="20">
+                                                                <input matInput type="number" placeholder="Assement" max="999" min="11" formControlName="value">
+                                                                <mat-error *ngIf="item.get('simple')?.get('error')?.get('value')?.invalid && (item.get('simple')?.get('error')?.get('value')?.dirty || item.get('simple')?.get('error')?.get('value')?.touched)">
+                                                                    <span *ngIf="item.get('simple')?.get('error')?.get('value')?.errors?.required">Enter a number</span>
+                                                                </mat-error>
+                                                                <mat-error *ngIf="item.errors?.invadMin_Max">enter valid min max </mat-error>
                                                             </mat-form-field>
                                                         </div>
 
+                                                        <mat-error *ngIf="showSimpleError('simple',i ,j)"> {{this.simpleErrorString}} </mat-error>
+
                                                         <div class="goals-sub-row" formGroupName="error" *ngIf="goalsType(measurementsDataList[1],i ,j)">
-                                                            <p>{{measurementsDataList[1]}} i = {{i}} j ={{j}} </p>
+                                                            <p class="goals-title">{{measurementsDataList[1]}}</p>
                                                             <mat-form-field class="max-100" appearance="fill">
                                                                 <mat-label>key</mat-label>
-                                                                <mat-select formControlName="key">
-                                                                    <mat-option *ngFor="let key of compersionList" [value]="key">{{key}}</mat-option>
-                                                                </mat-select>
                                                                 <mat-select formControlName="key">
                                                                     <mat-option *ngFor="let key of compersionList" [value]="key">{{key}}</mat-option>
                                                                     <mat-error *ngIf="item.get('goals')?.get('error')?.get('key')?.invalid && (item.get('goals')?.get('error')?.get('key')?.dirty || item.get('goals')?.get('error')?.get('key')?.touched)">
@@ -242,12 +248,18 @@
                                                             </mat-form-field>
                                                             <mat-form-field class="max-100" appearance="fill">
                                                                 <mat-label>value</mat-label>
-                                                                <input matInput type="number" placeholder="Assement" max="999" min="11" formControlName="value" [value]="20">
+                                                                <input matInput type="number" placeholder="Assement" formControlName="value">
+                                                                <mat-error *ngIf="item.get('goals')?.get('error')?.get('value')?.invalid && (item.get('goals')?.get('error')?.get('value')?.dirty || item.get('goals')?.get('error')?.get('value')?.touched)">
+                                                                    <span *ngIf="item.get('goals')?.get('error')?.get('value')?.errors?.required">Select Value</span>
+                                                                    <span *ngIf="item.get('goals')?.get('error')?.get('value')?.errors?.max">Maximum 100%</span>
+                                                                    <span *ngIf="item.get('goals')?.get('error')?.get('value')?.errors?.min">Minimum 0</span>
+                                                                    <span *ngIf="item.get('goals')?.get('error')?.get('value')?.errors?.numbersOnly">Only 1 to 100</span>
+                                                                </mat-error>
                                                             </mat-form-field>
                                                         </div>
 
                                                         <div class="goals-sub-row" formGroupName="difference" *ngIf="goalsType(measurementsDataList[2],i ,j)">
-                                                            <p>{{measurementsDataList[2]}} i = {{i}} j ={{j}} </p>
+                                                            <p class="goals-title">{{measurementsDataList[2]}}</p>
                                                             <mat-form-field class="max-100" appearance="fill">
                                                                 <mat-label>key</mat-label>
                                                                 <mat-select formControlName="key">
@@ -262,12 +274,18 @@
                                                             </mat-form-field>
                                                             <mat-form-field class="max-100" appearance="fill">
                                                                 <mat-label>value</mat-label>
-                                                                <input matInput type="number" placeholder="Assement" max="999" min="11" formControlName="value" [value]="20">
+                                                                <input matInput type="number" placeholder="Assement" formControlName="value">
+                                                                <mat-error *ngIf="item.get('goals')?.get('error')?.get('value')?.invalid && (item.get('goals')?.get('error')?.get('value')?.dirty || item.get('goals')?.get('error')?.get('value')?.touched)">
+                                                                    <span *ngIf="item.get('goals')?.get('error')?.get('value')?.errors?.required">Select Value</span>
+                                                                    <span *ngIf="item.get('goals')?.get('error')?.get('value')?.errors?.max">Maximum 100%</span>
+                                                                    <span *ngIf="item.get('goals')?.get('error')?.get('value')?.errors?.min">Minimum 0</span>
+                                                                    <span *ngIf="item.get('goals')?.get('error')?.get('value')?.errors?.numbersOnly">Only 1 to 100</span>
+                                                                </mat-error>
                                                             </mat-form-field>
                                                         </div>
 
                                                         <div class="goals-sub-row" formGroupName="comparsion" *ngIf="goalsType(measurementsDataList[3],i ,j)">
-                                                            <p>{{measurementsDataList[3]}} i = {{i}} j ={{j}} </p>
+                                                            <p class="goals-title">{{measurementsDataList[3]}} </p>
                                                             <mat-form-field class="max-100" appearance="fill">
                                                                 <mat-label>key</mat-label>
                                                                 <mat-select formControlName="key">
@@ -282,10 +300,12 @@
                                                             </mat-form-field>
                                                             <mat-form-field class="max-100" appearance="fill">
                                                                 <mat-label>value</mat-label>
-                                                                <input matInput type="number" placeholder="Assement" max="999" min="11" formControlName="value" [value]="20">
+                                                                <input matInput type="number" placeholder="Assement" max="999" min="11" formControlName="value">
+                                                                <mat-error *ngIf="item.get('goals')?.get('comparsion')?.get('key')?.invalid && (item.get('goals')?.get('comparsion')?.get('key')?.dirty || item.get('goals')?.get('comparsion')?.get('key')?.touched)">
+                                                                    <span *ngIf="item.get('goals')?.get('comparsion')?.get('key')?.errors?.required">Select Value</span>
+                                                                </mat-error>
                                                             </mat-form-field>
                                                         </div>
-
                                                     </div>
                                                 </div>
                                             </div>
@@ -313,7 +333,6 @@
                                                 </mat-error>
                                             </mat-form-field>
 
-
                                         </div>
                                     </div>
                                 </ng-container>
@@ -331,5 +350,12 @@
 
             </div>
         </form>
+        <div class="chart-container">
+            <!-- <canvas baseChart class="chart" [data]="lineChartData" [options]="lineChartOptions" [type]="lineChartType" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)"></canvas> -->
+        </div>
+
+
+        <app-select-all></app-select-all>
     </mat-card>
+
 </div>
