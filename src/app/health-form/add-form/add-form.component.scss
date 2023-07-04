@@ -5,11 +5,11 @@
 .patientTime{display:flex;gap: 10px;align-items: center;padding: 0px 10%;}
 .schedule{margin-left: 10%;margin-bottom: 10px;}
 .category{display: flex;gap: 10;}
-.categoryName{width: 20%; border-right: 2px solid ;padding: 0px 10px;}
-.assessemnt{width: 80%;}
+// .categoryName{ border-right: 2px solid ;padding: 0px 10px;width: 20%;}
+.assessemnt{width: 100%;display: flex;}
 .assementDetails{display: flex;width: 100%;}
-.sub-cat-row-2{width: 20%;padding: 0px 16px;}
-.sub-cat-row-3{width: 80%;border: 1px solid red;margin-bottom: 16px;;}
+.sub-cat-row-2{padding: 0px 16px;}
+.sub-cat-row-3{border: 1px solid red;margin-bottom: 16px;;}
 .range{display: flex;gap: 10px;}
 .goals{display: flex;gap: 16;flex-direction: column;padding: 0px 24px;}
 .goals-sub-row{display: flex;gap: 20px;}
@@ -22,4 +22,7 @@
 .cat-disable{background: #00000057;}
 .max-error{text-align: end;}
 .goals-title{width: 30%;}
+.categoryDetails1{width: 30%;padding-right: 50px ;}
+.patient{display: flex;}
+.cat-list{width: 30%;}
 // .chart-container{width: 30%;}

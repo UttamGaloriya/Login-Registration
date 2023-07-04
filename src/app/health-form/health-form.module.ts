@@ -7,12 +7,18 @@ import { MatmodualsModule } from '../matmoduals/matmoduals.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SelectAllComponent } from './select-all/select-all.component';
 import { NgChartsModule } from 'ng2-charts';
+import { TableFormComponent } from './table-form/table-form.component';
+import { ViewFormComponent } from './view-form/view-form.component';
+import { NavbarComponent } from './navbar/navbar.component';
 
 
 @NgModule({
   declarations: [
     AddFormComponent,
-    SelectAllComponent
+    SelectAllComponent,
+    TableFormComponent,
+    ViewFormComponent,
+    NavbarComponent
   ],
   imports: [
     CommonModule,

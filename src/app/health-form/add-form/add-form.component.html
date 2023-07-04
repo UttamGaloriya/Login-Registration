@@ -1,10 +1,3 @@
-<mat-toolbar color="primary">
-    <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
-        <mat-icon>menu</mat-icon>
-    </button>
-    <span>My Health</span>
-    <span class="example-spacer"></span>
-</mat-toolbar>
 <div class="health-container">
     <mat-card>
         <form [formGroup]="user" (ngSubmit)="submit()">
@@ -81,35 +74,40 @@
                         Schedule</button>
                 </div>
             </div>
-            <div formArrayName="patient">
-                <div *ngFor="let item of getPatient.controls; let i = index">
-                    <!-- //category group -->
-                    <div [formGroupName]="i" class="category">
-                        <!-- categoryName -->
-                        <div class="categoryName">
-                            <mat-form-field class="max-100" appearance="fill">
-                                <mat-label>category</mat-label>
-                                <input matInput placeholder="categoryName" formControlName="categoryName">
-                                <button mat-icon-button type="button" matSuffix><mat-icon color="primary">edit</mat-icon></button>
-                                <button matSuffix type="button" (click)="categoryShow(i)" mat-icon-button><mat-icon>arrow_right_alt</mat-icon></button>
-                                <button matSuffix mat-icon-button color="warn" aria-label="Example icon button with a heart icon" type="button" (click)="removePatient(i)" *ngIf="lengthPatient >1 ">
-                                    <mat-icon>delete</mat-icon>
-                                </button>
-                                <mat-error *ngIf="item.get('categoryName')?.invalid && (item.get('categoryName')?.dirty || item.get('categoryName')?.touched)">
-                                    <span *ngIf="item.get('categoryName')?.errors?.required">Category is required.</span>
-                                    <span *ngIf="item.get('categoryName')?.errors?.noWhitespace">Category Name cannot be only spaces.</span>
-                                </mat-error>
-                            </mat-form-field>
+            <div class="patient">
+                <div formArrayName="patient" class="cat-list">
+                    <div *ngFor="let item of getPatient.controls; let i = index" [formGroupName]="i" class="category-1">
+                        <div>
+                            <div class="categoryName">
+                                <mat-form-field class="max-100" appearance="fill">
+                                    <mat-label>category</mat-label>
+                                    <input matInput placeholder="categoryName" formControlName="categoryName">
+                                    <button mat-icon-button type="button" matSuffix><mat-icon color="primary">edit</mat-icon></button>
+                                    <button matSuffix type="button" (click)="categoryShow(i)" mat-icon-button><mat-icon>arrow_right_alt</mat-icon></button>
+                                    <button matSuffix mat-icon-button color="warn" aria-label="Example icon button with a heart icon" type="button" (click)="removePatient(i)" *ngIf="lengthPatient >1 ">
+                                        <mat-icon>delete</mat-icon>
+                                    </button>
+                                    <mat-error *ngIf="item.get('categoryName')?.invalid && (item.get('categoryName')?.dirty || item.get('categoryName')?.touched)">
+                                        <span *ngIf="item.get('categoryName')?.errors?.required">Category is required.</span>
+                                        <span *ngIf="item.get('categoryName')?.errors?.noWhitespace">Category Name cannot be only spaces.</span>
+                                    </mat-error>
+                                </mat-form-field>
 
-                            <button mat-flat-button color="warn" type="button" (click)="addPatient()" class="schedule" [disabled]="!item.get('category')?.valid" *ngIf="lengthPatient==(i+1)">Add
-                                category</button>
+                                <button mat-flat-button color="warn" type="button" (click)="addPatient()" class="schedule" [disabled]="!item.get('category')?.valid" *ngIf="lengthPatient==(i+1)">Add
+                                    category</button>
+                            </div>
                         </div>
-                        <!-- //assement  -->
+
+                    </div>
+                </div>
+                <div formArrayName="patient" class="ass-list">
+                    <div *ngFor="let item of getPatient.controls; let i = index" [formGroupName]="i" class="category-2">
+
                         <div class="assessemnt" *ngIf="categoryValid(i)">
                             <!-- /assement name  -->
-                            <div formArrayName="category">
-                                <ng-container *ngFor="let item of getAssessment(i).controls; let j = index">
-                                    <div [formGroupName]="j" class="row-2" class="assementDetails" *ngIf="i==categoryIndex">
+                            <div formArrayName="category" class="categoryDetails categoryDetails1">
+                                <div *ngFor="let item of getAssessment(i).controls; let j = index">
+                                    <div [formGroupName]="j" class="row-2" class="assementDetails">
                                         <div class="sub-cat-row-2">
                                             <!-- assement name  -->
                                             <mat-form-field class="max-100" appearance="fill">
@@ -117,14 +115,22 @@
                                                 <input matInput placeholder="Assement" formControlName="assessmentName">
 
                                                 <button matSuffix type="button" (click)="showAssement(i,j)" mat-icon-button><mat-icon>arrow_right_alt</mat-icon></button>
-                                                <button matSuffix mat-icon-button color="warn" aria-label="Example icon button with a heart icon" type="button" (click)="removeAssesment(i,j)" *ngIf="lengthAssessment(i)>1 "><mat-icon>delete</mat-icon></button>
+                                                <button matSuffix mat-icon-button color="warn" aria-label="Example icon button with a heart icon" type="button" (click)="removeAssesment(i,j)"><mat-icon>delete</mat-icon></button>
                                                 <mat-error *ngIf="item.get('assessmentName')?.invalid && (item.get('assessmentName')?.dirty || item.get('assessmentName')?.touched)">
                                                     <span *ngIf="item.get('assessmentName')?.errors?.required">Assement Name isrequired.</span>
                                                     <span *ngIf="item.get('assessmentName')?.errors?.noWhitespace">Assement cannot be only spaces.</span>
                                                 </mat-error>
                                             </mat-form-field>
-                                            <button mat-flat-button color="primary" type="button" (click)="addAssesment(i,j)" class="schedule" *ngIf="lengthAssessment(j)==(j+1)" [disabled]="!assmentValid(i,j)">Add Assessment</button>
+                                            <button mat-flat-button color="primary" type="button" (click)="addAssesment(i,j)" class="schedule" [disabled]="!assmentValid(i,j)" *ngIf="lengthAssessment(i)==(j+1)">Add Assessment</button>
                                         </div>
+                                        <!-- type  -->
+                                    </div>
+                                </div>
+                            </div>
+                            <div formArrayName="category" class="categoryDetails">
+
+                                <div *ngFor="let item of getAssessment(i).controls; let j = index">
+                                    <div [formGroupName]="j" class="row-2" class="assementDetails">
                                         <!-- type  -->
                                         <div class="sub-cat-row-3" *ngIf="showAssemntResult(i,j)">
                                             <mat-form-field class="max-100" appearance="fill">
@@ -337,14 +343,15 @@
                                             <canvas id="MyChart">{{ chart }}</canvas>
                                         </div>
                                     </div>
-                                </ng-container>
+                                </div>
 
                             </div>
                         </div>
+
+
                     </div>
 
                 </div>
-
             </div>
             <div class="button-add-form">
                 <button mat-flat-button color="primary" type="submit" [disabled]="!user.valid">Submit</button>

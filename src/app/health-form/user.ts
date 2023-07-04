@@ -1,4 +1,5 @@
 export interface User {
+    id: number
     assement: string,
     bodyRegion: Array<[]>,
     description: string,
@@ -6,4 +7,15 @@ export interface User {
         scheduleName: string,
         scheduleTime: Date,
     }>
+    patient: Array<[
+        {
+            categoryName: string,
+            category: Array<[
+                {
+                    assessmentName: string
+                }
+            ]>
+
+        }
+    ]>
 }

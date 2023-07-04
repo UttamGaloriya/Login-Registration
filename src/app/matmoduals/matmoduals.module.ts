@@ -18,6 +18,7 @@ import { MatSliderModule } from '@angular/material/slider';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 
 
@@ -38,7 +39,8 @@ const data = [
   MatSliderModule,
   MatCheckboxModule,
   NgxMaterialTimepickerModule,
-  MatSlideToggleModule
+  MatSlideToggleModule,
+  MatExpansionModule
 
 ];
 

@@ -4,6 +4,7 @@ import { selectData } from '../selectData';
 import { ValidationService } from '../services/validation.service';
 import { Chart, ChartConfiguration, ChartEvent, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
+import { HealthService } from '../services/health.service';
 
 @Component({
   selector: 'app-add-form',
@@ -27,7 +28,7 @@ export class AddFormComponent implements OnInit {
   // @ViewChild(BaseChartDirective) chart: BaseChartDirective | undefined;
 
 
-  constructor(private fb: FormBuilder, private valid: ValidationService) { }
+  constructor(private fb: FormBuilder, private valid: ValidationService, private health: HealthService) { }
 
   ngOnInit(): void {
     this.user = this.fb.group({
@@ -152,9 +153,7 @@ export class AddFormComponent implements OnInit {
   }
 
   categoryShow(index: number) {
-    if (index != this.categoryIndex) {
-      this.categoryIndex = index;
-    }
+    this.assessmentToggle = { index: index, sub_index: 0 }
   }
 
   time() {
@@ -170,8 +169,10 @@ export class AddFormComponent implements OnInit {
 
   addPatient() {
     this.getPatient.push(this.Patient())
-    this.categoryShow(this.categoryIndex + 1)
-    this.showAssement(this.categoryIndex, 0)
+    length = this.lengthPatient
+    this.assessmentToggle = { index: length, sub_index: 0 }
+    this.categoryShow(length)
+    this.showAssement(length, 0)
   }
 
   removePatient(i: number) {
@@ -282,15 +283,16 @@ export class AddFormComponent implements OnInit {
     let pt = this.user.get('patientTime')?.valid;
     let ds = this.user.get('description')?.valid;
     let asArr = this.getPatient.at(index).get('categoryName')?.valid
+    let data: any = this.assessmentToggle
     if (as && br && pt && ds) {
       this.getPatient.at(index).get('categoryName')?.enable()
     } else {
       this.getPatient.at(index).get('categoryName')?.disable()
     }
-    if (asArr) {
+    if (asArr && data.index == index) {
       return true
     }
-    return true
+    return false
 
   }
   assmentValid(index: number, sub_index: number) {
@@ -314,6 +316,8 @@ export class AddFormComponent implements OnInit {
     if (this.user.valid) {
       console.log('submit')
       console.log(this.user.value)
+      this.health.healthFormAdd(this.user.value)
+
     }
     else {
     }
