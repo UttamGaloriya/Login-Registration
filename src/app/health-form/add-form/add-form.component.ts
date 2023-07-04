@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { selectData } from '../selectData';
 import { ValidationService } from '../services/validation.service';
@@ -23,6 +23,10 @@ export class AddFormComponent implements OnInit {
   defaultSelect: string[] = ['simple']
   simple = 'hi'
   simpleErrorString: string = ''
+  chart: any
+  // @ViewChild(BaseChartDirective) chart: BaseChartDirective | undefined;
+
+
   constructor(private fb: FormBuilder, private valid: ValidationService) { }
 
   ngOnInit(): void {
@@ -33,7 +37,7 @@ export class AddFormComponent implements OnInit {
       patientTime: this.fb.array([this.PatientTime()]),
       patient: this.fb.array([this.Patient()])
     },)
-
+    this.mychartData()
   }
   rangeValidation(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
@@ -347,6 +351,151 @@ export class AddFormComponent implements OnInit {
     }
   }
 
-  //chart data
+  chartrange: number = Math.round((100 - 1) / 4);
+  chatrangearr: number[] = []
+  mychartData() {
+    for (let i = 1; i <= 7; i++) {
+      const randomValue = Math.random() * (100 - 1) + 1;
+      this.chatrangearr.push(randomValue)
+    }
+    console.log(this.chatrangearr)
+    console.log(this.labale)
+  }
 
+  labale: any[] = []
+  showMyChart() {
+    const data: any = this.assessmentToggle
+    let index = data.index
+    let sub_index = data.sub_index
+    if (this.user.invalid) {
+
+    } else {
+      if (this.chart) {
+        this.chart.clear();
+        this.chart.destroy();
+      }
+      let min = this.user.value.patient[index].category[sub_index].range.rangeMin
+      let max = this.user.value.patient[index].category[sub_index].range.rangeMax
+      // let simple = this.user.value.patient[index].category[sub_index].goals.simple.value
+      // let error = this.user.value.patient[index].category[sub_index].goals.error.value
+      // let difference = this.user.value.patient[index].category[sub_index].goals.difference.value
+      // let comparsion = this.user.value.patient[index].category[sub_index].goals.comparsion.value
+      let measurements = this.user.value.patient[index].category[sub_index].measurements
+      const numOfDatasets = measurements.length;
+      const datasets = [];
+      const labels = this.user.value.patient[index].category[sub_index].routine
+      const labelsLength = labels.length;
+
+
+      for (let i = 0; i < numOfDatasets; i++) {
+        const label = measurements[i];
+
+        // Skip dataset generation if the label is undefined
+        if (typeof label === 'undefined') {
+          continue;
+        }
+
+        const data = this.generateRandomData(min, max, labelsLength);
+        const backgroundColor = i === numOfDatasets - 1 ? 'limegreen' : 'blue';
+        datasets.push({
+          label: label,
+          data: data,
+          backgroundColor: backgroundColor,
+        });
+      }
+
+      this.chart = new Chart("MyChart", {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: datasets
+        },
+        options: {
+          aspectRatio: 2.5
+        }
+      });
+
+    }
+
+  }
+  //chart data
+  // public lineChartType: ChartType = 'line';
+  // public lineChartData: ChartConfiguration['data'] = {
+
+  //   datasets: [
+  //     {
+  //       data: this.chatrangearr,
+  //       label: 'Series A',
+  //       backgroundColor: 'rgba(148,159,177,0.2)',
+  //       borderColor: 'rgba(148,159,177,1)',
+  //       pointBackgroundColor: 'rgba(148,159,177,1)',
+  //       pointBorderColor: '#fff',
+  //       pointHoverBackgroundColor: '#fff',
+  //       pointHoverBorderColor: 'rgba(148,159,177,0.8)',
+  //       fill: 'origin',
+  //     },
+  //     // {
+  //     //   data: [28, 48, 40, 19, 86, 27, 90],
+  //     //   label: 'Series B',
+  //     //   backgroundColor: 'rgba(77,83,96,0.2)',
+  //     //   borderColor: 'rgba(77,83,96,1)',
+  //     //   pointBackgroundColor: 'rgba(77,83,96,1)',
+  //     //   pointBorderColor: '#fff',
+  //     //   pointHoverBackgroundColor: '#fff',
+  //     //   pointHoverBorderColor: 'rgba(77,83,96,1)',
+  //     //   fill: 'origin',
+  //     // },
+  //     // {
+  //     //   data: [180, 480, 770, 90, 1000, 270, 400],
+  //     //   label: 'Series C',
+  //     //   yAxisID: 'y1',
+  //     //   backgroundColor: 'rgba(255,0,0,0.3)',
+  //     //   borderColor: 'red',
+  //     //   pointBackgroundColor: 'rgba(148,159,177,1)',
+  //     //   pointBorderColor: '#fff',
+  //     //   pointHoverBackgroundColor: '#fff',
+  //     //   pointHoverBorderColor: 'rgba(148,159,177,0.8)',
+  //     //   fill: 'origin',
+  //     // }
+  //   ],
+  //   labels: this.labale
+  // };
+  // public lineChartOptions: ChartConfiguration['options'] = {
+  //   elements: {
+  //     line: {
+  //       tension: 0.5
+  //     }
+  //   },
+  //   scales: {
+  //     // We use this empty structure as a placeholder for dynamic theming.
+  //     y:
+  //     {
+  //       position: 'left',
+  //     },
+  //     y1: {
+  //       position: 'right',
+  //       grid: {
+  //         color: 'rgba(255,0,0,0.3)',
+  //       },
+  //       ticks: {
+  //         color: 'red'
+  //       }
+  //     }
+  //   },
+
+  // }
+  // Generate a random number within a given range
+  generateRandomNumber(min: number, max: number): number {
+    return Math.random() * (max - min) + min;
+  }
+
+  // Generate random data within a given range
+  generateRandomData(min: number, max: number, count: number): number[] {
+    const data: number[] = [];
+    for (let i = 0; i < count; i++) {
+      const randomValue = this.generateRandomNumber(min, max);
+      data.push(randomValue);
+    }
+    return data;
+  }
 }

@@ -5,7 +5,7 @@
 .patientTime{display:flex;gap: 10px;align-items: center;padding: 0px 10%;}
 .schedule{margin-left: 10%;margin-bottom: 10px;}
 .category{display: flex;gap: 10;}
-.categoryName{width: 20%;}
+.categoryName{width: 20%; border-right: 2px solid ;padding: 0px 10px;}
 .assessemnt{width: 80%;}
 .assementDetails{display: flex;width: 100%;}
 .sub-cat-row-2{width: 20%;padding: 0px 16px;}
@@ -22,3 +22,4 @@
 .cat-disable{background: #00000057;}
 .max-error{text-align: end;}
 .goals-title{width: 30%;}
+// .chart-container{width: 30%;}

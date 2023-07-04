@@ -325,7 +325,7 @@
 
                                             <mat-form-field class="max-100" appearance="fill">
                                                 <mat-label>times</mat-label>
-                                                <mat-select formControlName="times" multiple>
+                                                <mat-select formControlName="times" multiple (selectionChange)="showMyChart()">
                                                     <mat-option *ngFor="let times of time()" [value]="times">{{times.scheduleName + '' +
                                                         times.scheduleTime}}</mat-option></mat-select>
                                                 <mat-error *ngIf="item.get('times')?.invalid && (item.get('times')?.dirty || item.get('times')?.touched)">
@@ -333,6 +333,8 @@
                                                 </mat-error>
                                             </mat-form-field>
 
+                                            <!-- <div *ngIf="showMyChart()"></div> -->
+                                            <canvas id="MyChart">{{ chart }}</canvas>
                                         </div>
                                     </div>
                                 </ng-container>
@@ -354,8 +356,6 @@
             <!-- <canvas baseChart class="chart" [data]="lineChartData" [options]="lineChartOptions" [type]="lineChartType" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)"></canvas> -->
         </div>
 
-
-        <app-select-all></app-select-all>
     </mat-card>
 
 </div>
