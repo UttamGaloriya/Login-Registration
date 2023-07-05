@@ -10,6 +10,9 @@ import { NgChartsModule } from 'ng2-charts';
 import { TableFormComponent } from './table-form/table-form.component';
 import { ViewFormComponent } from './view-form/view-form.component';
 import { NavbarComponent } from './navbar/navbar.component';
+import { MathsSymbolPipe } from './maths-symbol.pipe';
+import { ChartDailogComponent } from './chart-dailog/chart-dailog.component';
+import { EditFormComponent } from './edit-form/edit-form.component';
 
 
 @NgModule({
@@ -18,7 +21,10 @@ import { NavbarComponent } from './navbar/navbar.component';
     SelectAllComponent,
     TableFormComponent,
     ViewFormComponent,
-    NavbarComponent
+    NavbarComponent,
+    MathsSymbolPipe,
+    ChartDailogComponent,
+    EditFormComponent
   ],
   imports: [
     CommonModule,

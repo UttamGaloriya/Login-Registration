@@ -5,6 +5,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { TableComponent } from '../home/table/table.component';
 import { ViewFormComponent } from './view-form/view-form.component';
 import { TableFormComponent } from './table-form/table-form.component';
+import { EditFormComponent } from './edit-form/edit-form.component';
 
 const routes: Routes = [
   {
@@ -12,7 +13,8 @@ const routes: Routes = [
     , children: [
       { path: 'add', component: AddFormComponent },
       { path: 'table', component: TableFormComponent },
-      { path: 'view/:id', component: ViewFormComponent }
+      { path: 'view/:id', component: ViewFormComponent },
+      { path: 'edit/:id', component: EditFormComponent }
     ]
   }
 ];

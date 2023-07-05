@@ -422,73 +422,7 @@ export class AddFormComponent implements OnInit {
     }
 
   }
-  //chart data
-  // public lineChartType: ChartType = 'line';
-  // public lineChartData: ChartConfiguration['data'] = {
 
-  //   datasets: [
-  //     {
-  //       data: this.chatrangearr,
-  //       label: 'Series A',
-  //       backgroundColor: 'rgba(148,159,177,0.2)',
-  //       borderColor: 'rgba(148,159,177,1)',
-  //       pointBackgroundColor: 'rgba(148,159,177,1)',
-  //       pointBorderColor: '#fff',
-  //       pointHoverBackgroundColor: '#fff',
-  //       pointHoverBorderColor: 'rgba(148,159,177,0.8)',
-  //       fill: 'origin',
-  //     },
-  //     // {
-  //     //   data: [28, 48, 40, 19, 86, 27, 90],
-  //     //   label: 'Series B',
-  //     //   backgroundColor: 'rgba(77,83,96,0.2)',
-  //     //   borderColor: 'rgba(77,83,96,1)',
-  //     //   pointBackgroundColor: 'rgba(77,83,96,1)',
-  //     //   pointBorderColor: '#fff',
-  //     //   pointHoverBackgroundColor: '#fff',
-  //     //   pointHoverBorderColor: 'rgba(77,83,96,1)',
-  //     //   fill: 'origin',
-  //     // },
-  //     // {
-  //     //   data: [180, 480, 770, 90, 1000, 270, 400],
-  //     //   label: 'Series C',
-  //     //   yAxisID: 'y1',
-  //     //   backgroundColor: 'rgba(255,0,0,0.3)',
-  //     //   borderColor: 'red',
-  //     //   pointBackgroundColor: 'rgba(148,159,177,1)',
-  //     //   pointBorderColor: '#fff',
-  //     //   pointHoverBackgroundColor: '#fff',
-  //     //   pointHoverBorderColor: 'rgba(148,159,177,0.8)',
-  //     //   fill: 'origin',
-  //     // }
-  //   ],
-  //   labels: this.labale
-  // };
-  // public lineChartOptions: ChartConfiguration['options'] = {
-  //   elements: {
-  //     line: {
-  //       tension: 0.5
-  //     }
-  //   },
-  //   scales: {
-  //     // We use this empty structure as a placeholder for dynamic theming.
-  //     y:
-  //     {
-  //       position: 'left',
-  //     },
-  //     y1: {
-  //       position: 'right',
-  //       grid: {
-  //         color: 'rgba(255,0,0,0.3)',
-  //       },
-  //       ticks: {
-  //         color: 'red'
-  //       }
-  //     }
-  //   },
-
-  // }
-  // Generate a random number within a given range
   generateRandomNumber(min: number, max: number): number {
     return Math.random() * (max - min) + min;
   }

@@ -4,3 +4,9 @@ export const selectData = {
     "deg": ["ab", "cd", "ef"],
     "any": ["acds", "svf"],
 }
+export const compersionList: any = {
+    'equal': ['menu'],
+    'less': ['keyboard_arrow_left'],
+    'gretter': ['keyboard_arrow_right'],
+    'noteqval': ['keyboard_arrow_right']
+}

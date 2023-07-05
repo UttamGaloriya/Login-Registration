@@ -1,5 +1,6 @@
 <mat-card class="container">
-    <mat-card-header>HENB TESTBATTERIE</mat-card-header>
+
+    <mat-card-header><span>HENB TESTBATTERIE</span> <button type="button" mat-icon-button color="primary" [routerLink]="['/health/edit',id]"><mat-icon>edit</mat-icon></button></mat-card-header>
     <mat-card-content>
         <div class="details-row-1">
             <div class="description">
@@ -11,15 +12,15 @@
                 {{user?.bodyRegion}}
             </div>
         </div>
-        <div class="assement-acd">
-            <span class="ass-list">assessmentName</span>
+        <div class="assement-title">
+            <span class="ass-list">Name</span>
             <span class="ass-list">unite</span>
             <span class="ass-list">compersion</span>
-            <span class="ass-list">goals.simple?.key}}</span>
-            <span class="ass-list">goals.error?.key}}</span>
-            <span class="ass-list">goals.difference?.key}}</span>
-            <span class="ass-list">goals.comparsion?.key}}</span>
-            <span class="ass-list">status}}</span>
+            <span class="ass-list">simple</span>
+            <span class="ass-list">error</span>
+            <span class="ass-list">difference</span>
+            <span class="ass-list">comparsion</span>
+            <span class="ass-list">status</span>
 
         </div>
 
@@ -32,16 +33,20 @@
                         </mat-panel-title>
 
                     </mat-expansion-panel-header>
-                    <div *ngFor="let ass of item.category" class="assement-acd">
-                        <span class="ass-list">{{ass.assessmentName}}</span>
-                        <span class="ass-list">{{ass.unite}}</span>
-                        <span class="ass-list">{{ass.compersion=='' ?'one point':'Two point'}}</span>
-                        <span class="ass-list">{{ass.goals.simple?.key}}{{ass.goals.simple?.value}}</span>
-                        <span class="ass-list">{{ass.goals.error?.key}}{{ass.goals.error?.value}} </span>
-                        <span class="ass-list">{{ass.goals.difference?.key}}{{ass.goals.difference?.value}}</span>
-                        <span class="ass-list">{{ass.goals.comparsion?.key}}{{ass.goals.comparsion?.value}}</span>
-                        <span class="ass-list">{{ass.status}}</span>
 
+                    <div *ngFor="let ass of item.category let i=index">
+                        <div class="assement-acd">
+                            <span class="ass-list">{{ass.assessmentName}}</span>
+                            <span class="ass-list">{{ass.unite}}</span>
+                            <span class="ass-list">{{ass.compersion=='' ?'one point':'Two point'}}</span>
+                            <span class="ass-list"><mat-icon class="maths-icon">{{ass.goals.simple?.key | symbol}}</mat-icon>{{ass.goals.simple?.value}} {{ass.unite}}</span>
+                            <span class="ass-list"><mat-icon class="maths-icon">{{ass.goals.error?.key | symbol}}</mat-icon>{{ass.goals.error?.value}} % </span>
+                            <span class="ass-list"><mat-icon class="maths-icon">{{ass.goals.difference?.key | symbol}}</mat-icon>{{ass.goals.difference?.value}} %</span>
+                            <span class="ass-list"><mat-icon class="maths-icon">{{ass.goals.comparsion?.key | symbol}}</mat-icon>{{ass.goals.comparsion?.value}} {{ass.unite}}</span>
+                            <span class="ass-list"><mat-slide-toggle color="primary"></mat-slide-toggle></span>
+                            <span class="ass-list"><button type="button" mat-icon-button (click)=" openDialog(ass)"><mat-icon>stacked_line_chart</mat-icon></button></span>
+                        </div>
+                        <!-- <div class="chart-view"><canvas [id]="'MyChart'+i">{{ chart }}</canvas></div> -->
                     </div>
 
 
