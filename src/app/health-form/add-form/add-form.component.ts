@@ -5,6 +5,8 @@ import { ValidationService } from '../services/validation.service';
 import { Chart, ChartConfiguration, ChartEvent, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { HealthService } from '../services/health.service';
+import { BehaviorSubject, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-add-form',
@@ -25,12 +27,15 @@ export class AddFormComponent implements OnInit {
   simple = 'hi'
   simpleErrorString: string = ''
   chart: any
+  newData: any
   // @ViewChild(BaseChartDirective) chart: BaseChartDirective | undefined;
-
+  private citySubject: BehaviorSubject<string> = new BehaviorSubject<string>('Ahmedabad');
 
   constructor(private fb: FormBuilder, private valid: ValidationService, private health: HealthService) { }
 
   ngOnInit(): void {
+
+    // this.newData = this.health.getMydata(9)
     this.user = this.fb.group({
       assement: ['', [Validators.required, ValidationService.noWhitespace]],
       bodyRegion: ['', [Validators.required]],
@@ -39,6 +44,10 @@ export class AddFormComponent implements OnInit {
       patient: this.fb.array([this.Patient()])
     },)
     this.mychartData()
+    // this.editPage()
+  }
+  editPage() {
+    this.user.patchValue({ ...this.newData })
   }
   rangeValidation(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
@@ -81,8 +90,8 @@ export class AddFormComponent implements OnInit {
           {
             simple: this.fb.group({ key: ['', [Validators.required]], value: ['', [Validators.required, ValidationService.numbersOnly]], }),
             error: this.fb.group({ key: [{ value: '', disabled: true }, [Validators.required]], value: [{ value: '', disabled: true }, [Validators.required, ValidationService.numbersOnly, Validators.max(100), Validators.min(0)]] }),
-            difference: this.fb.group({ key: [{ value: '', disabled: true }, [Validators.required]], value: [{ value: '', disabled: true }, [Validators.required, ValidationService.numbersOnly, Validators.max(100), Validators.min(0)]], }),
-            comparsion: this.fb.group({ key: [{ value: '', disabled: true }, [Validators.required]], value: [{ value: '', disabled: true }, [Validators.required, ValidationService.numbersOnly, Validators.max(999), Validators.min(10)]], }),
+            // difference: this.fb.group({ key: [{ value: '', disabled: true }, [Validators.required]], value: [{ value: '', disabled: true }, [Validators.required, ValidationService.numbersOnly, Validators.max(100), Validators.min(0)]], }),
+            // comparsion: this.fb.group({ key: [{ value: '', disabled: true }, [Validators.required]], value: [{ value: '', disabled: true }, [Validators.required, ValidationService.numbersOnly, Validators.max(999), Validators.min(10)]], }),
           }
         ),
         routine: ['', [Validators.required]],
@@ -437,3 +446,7 @@ export class AddFormComponent implements OnInit {
     return data;
   }
 }
+function ajax(arg0: string) {
+  throw new Error('Function not implemented.');
+}
+

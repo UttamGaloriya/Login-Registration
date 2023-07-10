@@ -14,7 +14,7 @@ const routes: Routes = [
       { path: 'add', component: AddFormComponent },
       { path: 'table', component: TableFormComponent },
       { path: 'view/:id', component: ViewFormComponent },
-      { path: 'edit/:id', component: EditFormComponent }
+      { path: 'edit', component: EditFormComponent }
     ]
   }
 ];
